@@ -1,6 +1,6 @@
-﻿/*
- * HP Tube Project Original (2026)
- * HarshGuruJi (https://github.com/harshguruji01/HP-Tube)
+/*
+ * GuruTube Project Original (2026)
+ * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
 */
 package com.arslandaim.playtube.ui.screens.settings
@@ -43,8 +43,12 @@ import androidx.compose.material.icons.filled.PlayArrow
 import androidx.compose.material.icons.filled.TouchApp
 import androidx.compose.material.icons.filled.AutoAwesome
 import androidx.compose.material.icons.filled.Recommend
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.material.icons.filled.SystemUpdate
 import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -60,6 +64,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -107,6 +112,12 @@ fun SettingsScreen(
     val isAutoUpdateEnabled by updateViewModel.isAutoUpdateEnabled.collectAsStateWithLifecycle()
     val updateInfo by updateViewModel.updateInfo.collectAsStateWithLifecycle()
 
+    LaunchedEffect(Unit) {
+        if (isAutoUpdateEnabled) {
+            updateViewModel.checkForUpdates()
+        }
+    }
+
     SettingsContent(
         isSearchHistoryPaused = isSearchHistoryPaused,
         isPipEnabled = isPipEnabled,
@@ -131,6 +142,7 @@ fun SettingsScreen(
         onSetAppLanguage = viewModel::setAppLanguage,
         onClearLearnedInterests = viewModel::clearLearnedInterests,
         onSetAutoUpdateEnabled = updateViewModel::setAutoUpdateEnabled,
+        onCheckForUpdates = updateViewModel::checkForUpdates,
         onClearAllDownloads = viewModel::clearAllDownloads,
         onViewHistory = onViewHistory,
         onDataManagement = onDataManagement,
@@ -164,6 +176,7 @@ private fun SettingsContent(
     onSetAppLanguage: (String?) -> Unit,
     onClearLearnedInterests: () -> Unit,
     onSetAutoUpdateEnabled: (Boolean) -> Unit,
+    onCheckForUpdates: () -> Unit,
     onClearAllDownloads: () -> Unit,
     onViewHistory: () -> Unit,
     onDataManagement: () -> Unit,
@@ -263,36 +276,115 @@ private fun SettingsContent(
                     SettingsSwitchItem(
                         title = stringResource(R.string.settings_auto_update),
                         subtitle = stringResource(R.string.settings_auto_update_desc),
-                        icon = Icons.Default.Info,
+                        icon = Icons.Default.SystemUpdate,
                         checked = isAutoUpdateEnabled,
-                        onCheckedChange = onSetAutoUpdateEnabled
+                        onCheckedChange = onSetAutoUpdateEnabled,
+                        trailingContent = {
+                            if (isAutoUpdateEnabled) {
+                                if (updateInfo.isChecking) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(24.dp),
+                                        strokeWidth = 2.dp,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                } else if (updateInfo.hasUpdate) {
+                                    Button(
+                                        onClick = {
+                                            val url = if (updateInfo.downloadUrl.isNotBlank()) {
+                                                updateInfo.downloadUrl
+                                            } else if (updateInfo.updateUrl.isNotBlank()) {
+                                                updateInfo.updateUrl
+                                            } else {
+                                                "https://github.com/harshguruji01/GuruTube/releases/latest"
+                                            }
+                                            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
+                                            context.startActivity(intent)
+                                        },
+                                        colors = ButtonDefaults.buttonColors(
+                                            containerColor = MaterialTheme.colorScheme.error,
+                                            contentColor = MaterialTheme.colorScheme.onError
+                                        ),
+                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
+                                        shape = RoundedCornerShape(10.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.SystemUpdate,
+                                            contentDescription = "Update",
+                                            modifier = Modifier.size(16.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(4.dp))
+                                        Text(
+                                            text = "Update",
+                                            style = MaterialTheme.typography.labelSmall,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                } else {
+                                    IconButton(
+                                        onClick = onCheckForUpdates,
+                                        modifier = Modifier.size(36.dp)
+                                    ) {
+                                        Icon(
+                                            imageVector = Icons.Default.Refresh,
+                                            contentDescription = "Check for updates",
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                    }
+                                }
+                            }
+                        }
                     )
                     if (isAutoUpdateEnabled && updateInfo.hasUpdate) {
                         HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = MaterialTheme.colorScheme.outlineVariant)
-                        Column(modifier = Modifier.padding(16.dp)) {
-                            Text(
-                                text = stringResource(R.string.update_available, updateInfo.latestVersion),
-                                style = MaterialTheme.typography.titleSmall,
-                                color = MaterialTheme.colorScheme.primary,
-                                fontWeight = FontWeight.Bold
-                            )
-                            Spacer(modifier = Modifier.height(8.dp))
-                            Text(
-                                text = updateInfo.releaseNotes,
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant
-                            )
+                        Column(
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f))
+                                .padding(16.dp)
+                        ) {
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Icon(
+                                    imageVector = Icons.Default.SystemUpdate,
+                                    contentDescription = null,
+                                    tint = MaterialTheme.colorScheme.primary,
+                                    modifier = Modifier.size(20.dp)
+                                )
+                                Spacer(modifier = Modifier.width(8.dp))
+                                Text(
+                                    text = stringResource(R.string.update_available, updateInfo.latestVersion),
+                                    style = MaterialTheme.typography.titleSmall,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                            if (updateInfo.releaseNotes.isNotBlank()) {
+                                Spacer(modifier = Modifier.height(8.dp))
+                                Text(
+                                    text = updateInfo.releaseNotes,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
                             Spacer(modifier = Modifier.height(12.dp))
-                            TextButton(
+                            Button(
                                 onClick = {
-                                    val intent = Intent(Intent.ACTION_VIEW, updateInfo.updateUrl.toUri())
+                                    val url = if (updateInfo.downloadUrl.isNotBlank()) {
+                                        updateInfo.downloadUrl
+                                    } else if (updateInfo.updateUrl.isNotBlank()) {
+                                        updateInfo.updateUrl
+                                    } else {
+                                        "https://github.com/harshguruji01/GuruTube/releases/latest"
+                                    }
+                                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
                                     context.startActivity(intent)
                                 },
-                                contentPadding = PaddingValues(0.dp)
+                                shape = RoundedCornerShape(12.dp),
+                                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
                             ) {
+                                Icon(Icons.Default.SystemUpdate, contentDescription = null, modifier = Modifier.size(16.dp))
+                                Spacer(modifier = Modifier.width(6.dp))
                                 Text(stringResource(R.string.download_from_github), fontWeight = FontWeight.Bold)
-                                Spacer(modifier = Modifier.width(4.dp))
-                                Icon(Icons.AutoMirrored.Filled.OpenInNew, contentDescription = null, modifier = Modifier.size(16.dp))
                             }
                         }
                     }
@@ -480,7 +572,7 @@ private fun SettingsContent(
                         subtitle = stringResource(R.string.settings_view_source_desc),
                         icon = Icons.Default.Code,
                         onClick = {
-                            val intent = Intent(Intent.ACTION_VIEW, "https://github.com/harshguruji01/HP-Tube".toUri())
+                            val intent = Intent(Intent.ACTION_VIEW, "https://github.com/harshguruji01/GuruTube".toUri())
                             context.startActivity(intent)
                         },
                         trailingIcon = Icons.AutoMirrored.Filled.OpenInNew
@@ -602,7 +694,8 @@ fun SettingsSwitchItem(
     subtitle: String? = null,
     icon: ImageVector,
     checked: Boolean,
-    onCheckedChange: (Boolean) -> Unit
+    onCheckedChange: (Boolean) -> Unit,
+    trailingContent: (@Composable () -> Unit)? = null
 ) {
     Row(
         modifier = Modifier
@@ -641,6 +734,11 @@ fun SettingsSwitchItem(
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
             }
+        }
+
+        if (trailingContent != null) {
+            trailingContent()
+            Spacer(modifier = Modifier.width(8.dp))
         }
         
         Switch(

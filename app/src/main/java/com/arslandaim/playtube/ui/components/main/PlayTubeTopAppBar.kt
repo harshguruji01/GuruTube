@@ -45,7 +45,7 @@ fun PlayTubeTopAppBar(
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Image(
                     painter = painterResource(R.drawable.logo),
-                    contentDescription = "HP Tube",
+                    contentDescription = "GuruTube",
                     modifier = Modifier
                         .size(28.dp)
                         .clip(RoundedCornerShape(8.dp))
@@ -54,7 +54,7 @@ fun PlayTubeTopAppBar(
                 Text(
                     text = buildAnnotatedString {
                         withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                            append("HP ")
+                            append("Guru")
                         }
                         append("Tube")
                     },

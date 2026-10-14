@@ -1,47 +1,47 @@
 <div align="center">
 
-<img src="fastlane/metadata/android/en-US/images/icon.png" alt="HP Tube Icon" width="120">
+<img src="fastlane/metadata/android/en-US/images/icon.png" alt="GuruTube Icon" width="120">
 
-# HP Tube
+# GuruTube
 
 ### A fast, private, and feature-rich YouTube client for Android
 
 **No ads · No tracking · No data collection**
 
-<img src="fastlane/metadata/android/en-US/images/HPTubefeatureGraphic.png" alt="HP Tube Feature Graphic" width="100%">
+<img src="fastlane/metadata/android/en-US/images/featureGraphic.png" alt="GuruTube Feature Graphic" width="100%">
 
 <br>
 
 <p>
-  <a href="https://github.com/harshguruji01/HP-Tube/releases/latest">
-    <img src="https://img.shields.io/github/v/release/harshguruji01/HP-Tube?style=flat-square&color=10b981" alt="Latest Release">
+  <a href="https://github.com/harshguruji01/GuruTube/releases/latest">
+    <img src="https://img.shields.io/github/v/release/harshguruji01/GuruTube?style=flat-square&color=10b981" alt="Latest Release">
   </a>
-  <a href="https://github.com/harshguruji01/HP-Tube/stargazers">
-    <img src="https://img.shields.io/github/stars/harshguruji01/HP-Tube?style=flat-square&color=fbbf24" alt="GitHub Stars">
+  <a href="https://github.com/harshguruji01/GuruTube/stargazers">
+    <img src="https://img.shields.io/github/stars/harshguruji01/GuruTube?style=flat-square&color=fbbf24" alt="GitHub Stars">
   </a>
-  <a href="https://github.com/harshguruji01/HP-Tube/network/members">
-    <img src="https://img.shields.io/github/forks/harshguruji01/HP-Tube?style=flat-square&color=fbbf24" alt="GitHub Forks">
+  <a href="https://github.com/harshguruji01/GuruTube/network/members">
+    <img src="https://img.shields.io/github/forks/harshguruji01/GuruTube?style=flat-square&color=fbbf24" alt="GitHub Forks">
   </a>
-  <a href="https://github.com/harshguruji01/HP-Tube/blob/main/LICENSE">
-    <img src="https://img.shields.io/github/license/harshguruji01/HP-Tube?style=flat-square&color=3b82f6" alt="License">
+  <a href="https://github.com/harshguruji01/GuruTube/blob/main/LICENSE">
+    <img src="https://img.shields.io/github/license/harshguruji01/GuruTube?style=flat-square&color=3b82f6" alt="License">
   </a>
   <img src="https://img.shields.io/badge/Android-API%2024%2B-3DDC84?style=flat-square&logo=android&logoColor=white" alt="Android API 24+">
   <img src="https://img.shields.io/badge/Kotlin-100%25-B125EA?style=flat-square&logo=kotlin&logoColor=white" alt="Kotlin">
 </p>
 
 <p>
-  <img src="https://img.shields.io/github/downloads/harshguruji01/HP-Tube/total?style=flat-square&color=3b82f6&logo=github" alt="Total Downloads">
+  <img src="https://img.shields.io/github/downloads/harshguruji01/GuruTube/total?style=flat-square&color=3b82f6&logo=github" alt="Total Downloads">
 </p>
 
 <br>
 
-<a href="https://github.com/harshguruji01/HP-Tube/releases/latest">
+<a href="https://github.com/harshguruji01/GuruTube/releases/latest">
   <img src="https://img.shields.io/badge/GET%20IT%20ON-GitHub-000000?style=for-the-badge&logo=github&logoColor=white" height="50" alt="Get it on GitHub">
 </a>
 
 <br><br>
 
-<sub>Use <b>Obtainium</b> to receive updates directly from HP-Tube's GitHub releases.</sub>
+<sub>Use <b>Obtainium</b> to receive updates directly from GuruTube's GitHub releases.</sub>
 
 </div>
 
@@ -63,7 +63,7 @@
 
 ### Personalized Recommendations
 
-HP-Tube includes a lightweight recommendation system that learns from user activity to provide more relevant video suggestions.
+GuruTube includes a lightweight recommendation system that learns from user activity to provide more relevant video suggestions.
 
 Recommendation learning can be paused, and learned data can be cleared at any time from the app settings.
 
@@ -114,7 +114,7 @@ Recommendation learning can be paused, and learned data can be cleared at any ti
 
 ## Acknowledgements
 
-HP-Tube would not have been possible without the work of the open-source community.
+GuruTube would not have been possible without the work of the open-source community.
 Special thanks to:
 * NewPipe
 * NewPipe Extractor
@@ -132,7 +132,7 @@ Special thanks to:
 
 ## License and Code Usage
 
-HP-Tube is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
+GuruTube is licensed under the **GNU General Public License v3.0 (GPL-3.0)**.
 
 You are free to:
 
@@ -142,9 +142,9 @@ You are free to:
 * Fork the project.
 * Redistribute copies of the project.
 
-### If You Modify or Redistribute HP-Tube
+### If You Modify or Redistribute GuruTube
 
-When distributing a modified or derivative version of HP-Tube, you must comply with the GPL-3.0 license.
+When distributing a modified or derivative version of GuruTube, you must comply with the GPL-3.0 license.
 
 This includes:
 * Keeping GPL-covered code under the GPL-3.0 license.
@@ -157,9 +157,9 @@ For the complete license terms, see the [LICENSE](LICENSE) file.
 
 ---
 
-## Support HP-Tube
+## Support GuruTube
 
-If you enjoy using HP-Tube and would like to support its continued development, consider becoming a patron.
+If you enjoy using GuruTube and would like to support its continued development, consider becoming a patron.
 
 Your support helps with continued development, maintenance, bug fixes, and future improvements.
 
@@ -167,7 +167,7 @@ Your support helps with continued development, maintenance, bug fixes, and futur
 
 <div align="center">
 
-### If you enjoy HP-Tube, consider giving the project a star
+### If you enjoy GuruTube, consider giving the project a star
 
 It helps more people discover the project and supports its continued development.
 

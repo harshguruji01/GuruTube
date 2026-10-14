@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HP Tube</string>
+    <string name="app_name">GuruTube</string>
 
     <!-- General -->
     <string name="retry">Retry</string>
@@ -69,7 +69,7 @@
     <string name="delete_download_desc">Are you sure you want to delete this downloaded video?</string>
 
     <!-- Search -->
-    <string name="search_placeholder">Search HP Tube</string>
+    <string name="search_placeholder">Search GuruTube</string>
     <string name="discover_new">Discover something new</string>
     <string name="recent_searches">Recent searches</string>
     <string name="clear_all">Clear all</string>
@@ -108,7 +108,7 @@
     <string name="duration">Duration</string>
     <string name="apply">Apply</string>
     <string name="close_app_on_finish">Close app on finish</string>
-    <string name="close_app_desc">Conserve battery by closing HP Tube</string>
+    <string name="close_app_desc">Conserve battery by closing GuruTube</string>
     <string name="timer_minutes_placeholder">%d minutes</string>
     <string name="subtitles">Subtitles</string>
     <string name="off">Off</string>
