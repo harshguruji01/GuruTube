@@ -1,9 +1,9 @@
 {
-  "versionCode": 22,
+  "versionCode": 23,
   "versionName": "1.0.1",
-  "commitSha": "0432b95",
-  "releaseNotes": "• feat(web): redesign GuruTube download page with ASCII particle background, scroll-triggered autoplay video, and tabular features breakdown\n• Auto-built from GitHub commit 0432b95",
+  "commitSha": "4cb2253",
+  "releaseNotes": "• feat(web): make audit comparison responsive, add ambient nature sound, and enable unmuted video autoplay\n• Auto-built from GitHub commit 4cb2253",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342781,
-  "sha256": "f74da2372301d662330569689c57f4b6db86c9f124b3031276455e01bc245cd5"
+  "apkSize": 8342783,
+  "sha256": "4b83b744e48b0470b428441640796f9468ea9debfe4727529e5a8e6766174e9d"
 }
