@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -45,11 +45,6 @@ class YouTubeHttpDataSource(
             .url(dataSpec.uri.toString())
             .header("User-Agent", userAgent)
 
-        // Attach PoToken and VisitorData
-        val visitorData = poTokenProvider.getVisitorData()
-        if (visitorData.isNotBlank()) {
-            requestBuilder.header("X-Goog-Visitor-Id", visitorData)
-        }
 
         // Handle Range Requests
         val rangeHeader = buildRangeHeader(dataSpec.position, dataSpec.length)

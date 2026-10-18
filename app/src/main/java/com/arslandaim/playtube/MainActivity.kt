@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -148,7 +148,6 @@ class MainActivity : AppCompatActivity() {
         }
 
         setContent {
-            val darkTheme = isSystemInDarkTheme()
             val isBackgroundPlayEnabled by mainViewModel.isBackgroundPlayEnabled.collectAsStateWithLifecycle()
             val isOnboardingCompleted by mainViewModel.isOnboardingCompleted.collectAsStateWithLifecycle()
 
@@ -181,7 +180,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             PlayTubeTheme(
-                darkTheme = darkTheme,
+                darkTheme = true,
                 isDynamicColorEnabled = mainViewModel.isDynamicColorEnabled.collectAsStateWithLifecycle().value
             ) {
                 val navController = rememberNavController()

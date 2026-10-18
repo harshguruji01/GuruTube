@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -466,6 +466,7 @@ class PlayerViewModel @Inject constructor(
                 
                 val preferred = preferredQuality.value
                 val stream = selectBestMatchingQuality(bundle.videoStreams, preferred)
+                    ?: bundle.videoStreams.firstOrNull()
 
                 stream?.let {
                     if (!isSameVideo || playbackManager.player.playbackState == Player.STATE_IDLE) {
@@ -659,6 +660,7 @@ class PlayerViewModel @Inject constructor(
                 
                 val preferred = preferredQuality.value
                 val stream = selectBestMatchingQuality(bundle.videoStreams, preferred)
+                    ?: bundle.videoStreams.firstOrNull()
 
                 stream?.let {
                     // Phase 3: Seamless Hot-Swap Recovery

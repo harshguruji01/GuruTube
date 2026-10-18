@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -67,9 +67,7 @@ object PlayerModule {
         return OkHttpDataSource.Factory(okHttpClient)
             .setUserAgent(userAgent)
             .setDefaultRequestProperties(mapOf(
-                "Accept-Language" to "en-US,en;q=0.9",
-                "Referer" to "${Constants.YouTube.BASE_URL}/",
-                "Cookie" to Constants.YouTube.CONSENT_COOKIE
+                "Accept-Language" to "en-US,en;q=0.9"
             ))
     }
 

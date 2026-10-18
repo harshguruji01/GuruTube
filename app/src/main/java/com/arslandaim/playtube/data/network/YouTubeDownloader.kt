@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -26,20 +26,28 @@ class YouTubeDownloader(private val client: OkHttpClient) : Downloader() {
         val okHttpRequestBuilder = OkHttpRequest.Builder()
             .url(url)
             .method(method, data?.toRequestBody())
-            .addHeader("Accept-Language", "en-US,en;q=0.9")
-            .addHeader("User-Agent", Constants.DEFAULT_USER_AGENT)
 
-        val mergedHeaders = headers.toMutableMap()
+        val mergedHeaders = mutableMapOf<String, MutableList<String>>()
+        headers.forEach { (key, values) ->
+            mergedHeaders[key] = values.toMutableList()
+        }
 
-        // Bypass YouTube Consent/GDPR redirection in Europe
-        // Merge with existing cookies if present
-        if (url.contains("youtube.com") || url.contains("googlevideo.com")) {
-            val existingCookies = mergedHeaders["Cookie"] ?: emptyList()
-            if (existingCookies.none { it.contains("CONSENT=YES") }) {
-                val newCookies = existingCookies.toMutableList().apply { 
-                    add(Constants.YouTube.CONSENT_COOKIE) 
-                }
-                mergedHeaders["Cookie"] = newCookies
+        // Set default Accept-Language if missing
+        if (!mergedHeaders.containsKey("Accept-Language")) {
+            mergedHeaders["Accept-Language"] = mutableListOf("en-US,en;q=0.9")
+        }
+
+        // Only set default User-Agent if NewPipeExtractor did not specify one
+        if (!mergedHeaders.containsKey("User-Agent")) {
+            mergedHeaders["User-Agent"] = mutableListOf(Constants.DEFAULT_USER_AGENT)
+        }
+
+        // Bypass YouTube Consent/GDPR redirection only on youtube.com web pages, NEVER on googlevideo CDN
+        if (url.contains("youtube.com") && !url.contains("googlevideo.com")) {
+            val existingCookies = mergedHeaders["Cookie"] ?: mutableListOf()
+            if (existingCookies.none { it.contains("CONSENT=YES") || it.contains("SOCS=") }) {
+                existingCookies.add(Constants.YouTube.CONSENT_COOKIE)
+                mergedHeaders["Cookie"] = existingCookies
             }
         }
 

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -71,14 +71,12 @@ object NetworkModule {
             .connectionPool(pool)
             .dispatcher(dispatcher)
             .addInterceptor { chain ->
-                val requestBuilder = chain.request().newBuilder()
-                    .header("User-Agent", Constants.DEFAULT_USER_AGENT)
+                val originalRequest = chain.request()
+                val requestBuilder = originalRequest.newBuilder()
                 
-                // Phase 3: PoToken Integration for streaming requests
-                if (chain.request().url.host.contains("googlevideo.com")) {
-                    val videoId = chain.request().url.queryParameter("id") 
-                        ?: chain.request().url.queryParameter("v")
-                    requestBuilder.header("X-Goog-Po-Token", poTokenProvider.generatePoToken(videoId))
+                // Only provide default User-Agent if request does not already have one
+                if (originalRequest.header("User-Agent").isNullOrBlank()) {
+                    requestBuilder.header("User-Agent", Constants.DEFAULT_USER_AGENT)
                 }
 
                 chain.proceed(requestBuilder.build())
