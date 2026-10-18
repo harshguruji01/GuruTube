@@ -182,10 +182,17 @@
                     </a>
                 </nav>
 
-                <!-- Download CTA in Nav -->
-                <div class="flex items-center gap-3">
+                <!-- Nav Actions: Ambient Nature Sound & Download CTA -->
+                <div class="flex items-center gap-2 sm:gap-3">
+                    <button id="ambient-sound-toggle"
+                        title="Toggle Background Nature Sound"
+                        class="inline-flex items-center gap-1.5 px-3 py-2 rounded-full text-xs font-mono border border-emerald-400/20 bg-emerald-500/10 text-emerald-400 hover:bg-emerald-500/20 transition-all">
+                        <iconify-icon id="ambient-icon" icon="solar:soundwave-bold" class="text-sm animate-pulse text-emerald-400"></iconify-icon>
+                        <span id="ambient-text" class="hidden sm:inline">Nature Sound</span>
+                    </button>
+
                     <a href="GuruTube.apk" download="GuruTube.apk"
-                        class="btn-glow inline-flex items-center gap-2 bg-[#60A5FA] text-[#030509] px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide hover:bg-blue-300 transition-all">
+                        class="btn-glow inline-flex items-center gap-2 bg-[#60A5FA] text-[#030509] px-4 sm:px-5 py-2.5 rounded-full text-xs font-semibold tracking-wide hover:bg-blue-300 transition-all">
                         <iconify-icon icon="solar:download-square-bold" class="text-base"></iconify-icon>
                         <span>Download APK</span>
                         <span class="text-[10px] opacity-75 font-mono hidden sm:inline">(8.3 MB)</span>
@@ -194,6 +201,9 @@
             </div>
         </div>
     </header>
+
+    <!-- Background Natural Audio (Forest Ambience with Birds & Soft Breeze) -->
+    <audio id="bg-natural-sound" src="nature.mp3" loop preload="auto"></audio>
 
     <!-- Main Content Flow Container -->
     <main class="relative z-20">
@@ -405,22 +415,22 @@
                     <!-- Interactive Tab Switchers -->
                     <div class="pt-4 flex flex-wrap items-center justify-center gap-2 sm:gap-3">
                         <button onclick="switchTab('tab-features')" id="btn-tab-features"
-                            class="tab-btn active px-5 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-blue-400/30 transition-all flex items-center gap-2">
+                            class="tab-btn active px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-blue-400/30 transition-all flex items-center gap-1.5 sm:gap-2">
                             <iconify-icon icon="solar:star-ring-bold" class="text-blue-400"></iconify-icon>
                             <span>Key Features</span>
                         </button>
                         <button onclick="switchTab('tab-advantages')" id="btn-tab-advantages"
-                            class="tab-btn px-5 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-emerald-400/30 transition-all flex items-center gap-2">
+                            class="tab-btn px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-emerald-400/30 transition-all flex items-center gap-1.5 sm:gap-2">
                             <iconify-icon icon="solar:like-bold" class="text-emerald-400"></iconify-icon>
                             <span>Advantages (Pros)</span>
                         </button>
                         <button onclick="switchTab('tab-disadvantages')" id="btn-tab-disadvantages"
-                            class="tab-btn px-5 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-rose-400/30 transition-all flex items-center gap-2">
+                            class="tab-btn px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-rose-400/30 transition-all flex items-center gap-1.5 sm:gap-2">
                             <iconify-icon icon="solar:shield-warning-bold" class="text-rose-400"></iconify-icon>
                             <span>Disadvantages (Cons)</span>
                         </button>
                         <button onclick="switchTab('tab-comparison')" id="btn-tab-comparison"
-                            class="tab-btn px-5 py-2.5 rounded-full text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-purple-400/30 transition-all flex items-center gap-2">
+                            class="tab-btn px-3.5 sm:px-5 py-2 sm:py-2.5 rounded-full text-[11px] sm:text-xs font-mono uppercase tracking-wider border border-white/10 hover:border-purple-400/30 transition-all flex items-center gap-1.5 sm:gap-2">
                             <iconify-icon icon="solar:scale-bold" class="text-purple-400"></iconify-icon>
                             <span>Direct Comparison</span>
                         </button>
@@ -429,9 +439,143 @@
 
                 <!-- TAB 1: FEATURES TABLE -->
                 <div id="tab-features" class="tab-content transition-opacity duration-300">
-                    <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
+                    <!-- Mobile Card View (md:hidden) -->
+                    <div class="block md:hidden space-y-3">
+                        <!-- Card 1 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-blue-500/10 border border-blue-400/20 text-blue-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:music-note-slider-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Background Audio Playback</h4>
+                                        <span class="text-[11px] font-mono text-gray-400 block mt-0.5">AndroidX Media3 Service</span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Active
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-1.5">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Listen to podcasts, music, and debates with the screen locked or while multitasking.
+                                </p>
+                                <div class="text-[10px] font-mono text-blue-400/80 bg-blue-500/5 px-2.5 py-1 rounded-lg border border-blue-400/10">
+                                    Arch: Notification MediaSession + Foreground Service
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:pip-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Picture-in-Picture (PiP)</h4>
+                                        <span class="text-[11px] font-mono text-gray-400 block mt-0.5">Native Android PiP API</span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Active
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-1.5">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Floating resizable mini-player across WhatsApp, gaming, and web browsers.
+                                </p>
+                                <div class="text-[10px] font-mono text-cyan-400/80 bg-cyan-500/5 px-2.5 py-1 rounded-lg border border-cyan-400/10">
+                                    Arch: PictureInPictureParams + AutoEnterPiP
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-rose-500/10 border border-rose-400/20 text-rose-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:shield-cross-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Zero Ads & Distraction Filter</h4>
+                                        <span class="text-[11px] font-mono text-gray-400 block mt-0.5">NewPipe Stream Extraction</span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Active
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-1.5">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Zero banner ads, zero pre-rolls, zero mid-rolls, and no promotional popups.
+                                </p>
+                                <div class="text-[10px] font-mono text-rose-400/80 bg-rose-500/5 px-2.5 py-1 rounded-lg border border-rose-400/10">
+                                    Arch: Direct YouTube Stream Demuxing Engine
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-purple-500/10 border border-purple-400/20 text-purple-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:download-square-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Offline Media Downloader</h4>
+                                        <span class="text-[11px] font-mono text-gray-400 block mt-0.5">Android WorkManager + Muxer</span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Active
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-1.5">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Save unencrypted MP4 videos up to 4K or extract high-fidelity MP3/M4A audio.
+                                </p>
+                                <div class="text-[10px] font-mono text-purple-400/80 bg-purple-500/5 px-2.5 py-1 rounded-lg border border-purple-400/10">
+                                    Arch: Multi-thread Stream Muxing & MediaStore API
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 5 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-400/20 text-amber-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:users-group-rounded-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Sovereign Subscriptions</h4>
+                                        <span class="text-[11px] font-mono text-gray-400 block mt-0.5">Local SQLite Room DB</span>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    <iconify-icon icon="solar:check-circle-bold"></iconify-icon> Active
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-1.5">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Follow any YouTube creator without logging into a Google Account.
+                                </p>
+                                <div class="text-[10px] font-mono text-amber-400/80 bg-amber-500/5 px-2.5 py-1 rounded-lg border border-amber-400/10">
+                                    Arch: Local Room DB + Zero-Cloud JSON Export/Import
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop / Tablet Table View (hidden md:block) -->
+                    <div class="hidden md:block glass-panel rounded-3xl overflow-hidden border border-white/10">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
+                            <table class="w-full min-w-[700px] text-left border-collapse">
                                 <thead>
                                     <tr class="border-b border-white/10 bg-white/[0.02] text-xs font-mono uppercase tracking-wider text-gray-400">
                                         <th class="py-4 px-6">Core Feature</th>
@@ -524,9 +668,117 @@
 
                 <!-- TAB 2: ADVANTAGES (PROS) TABLE -->
                 <div id="tab-advantages" class="tab-content hidden transition-opacity duration-300">
-                    <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
+                    <!-- Mobile Card View (md:hidden) -->
+                    <div class="block md:hidden space-y-3">
+                        <!-- Card 1 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:shield-check-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Zero Telemetry & Absolute Privacy</h4>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full shrink-0 font-bold">
+                                    10/10
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-2">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Your search queries, watch time, and IP history are not logged or fed to ad brokers.
+                                </p>
+                                <div class="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15 text-[11px] font-mono text-emerald-400">
+                                    <span class="text-gray-400 block text-[9px] uppercase tracking-wider mb-0.5">Vs Official App:</span>
+                                    Official app tracks 40+ biometric & behavioral data points.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:battery-charge-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Lightweight & High Efficiency</h4>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full shrink-0 font-bold">
+                                    9.8/10
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-2">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Only 8.3 MB APK payload. Consumes 60% less RAM and preserves battery during audio play.
+                                </p>
+                                <div class="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15 text-[11px] font-mono text-emerald-400">
+                                    <span class="text-gray-400 block text-[9px] uppercase tracking-wider mb-0.5">Vs Official App:</span>
+                                    Official app is 150MB+ with continuous background sync.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:wallet-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">100% Free Forever</h4>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full shrink-0 font-bold">
+                                    10/10
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-2">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Background play and offline downloads are completely free forever without hidden paywalls.
+                                </p>
+                                <div class="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15 text-[11px] font-mono text-emerald-400">
+                                    <span class="text-gray-400 block text-[9px] uppercase tracking-wider mb-0.5">Vs Official App:</span>
+                                    Official app charges $13.99/mo for YouTube Premium.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:folder-with-files-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Direct Device Storage Downloads</h4>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[11px] font-mono text-emerald-300 bg-emerald-500/15 border border-emerald-500/30 px-2.5 py-0.5 rounded-full shrink-0 font-bold">
+                                    10/10
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-2">
+                                <p class="text-xs text-gray-300 leading-relaxed">
+                                    Downloaded MP4 and MP3 files can be transferred, shared, or played in any external player.
+                                </p>
+                                <div class="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15 text-[11px] font-mono text-emerald-400">
+                                    <span class="text-gray-400 block text-[9px] uppercase tracking-wider mb-0.5">Vs Official App:</span>
+                                    Official app locks files inside DRM encrypted cache.
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop / Tablet Table View (hidden md:block) -->
+                    <div class="hidden md:block glass-panel rounded-3xl overflow-hidden border border-white/10">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
+                            <table class="w-full min-w-[700px] text-left border-collapse">
                                 <thead>
                                     <tr class="border-b border-white/10 bg-emerald-500/[0.03] text-xs font-mono uppercase tracking-wider text-emerald-400">
                                         <th class="py-4 px-6">Advantage (Pro)</th>
@@ -580,9 +832,100 @@
 
                 <!-- TAB 3: DISADVANTAGES (CONS) TABLE -->
                 <div id="tab-disadvantages" class="tab-content hidden transition-opacity duration-300">
-                    <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
+                    <!-- Mobile Card View (md:hidden) -->
+                    <div class="block md:hidden space-y-3">
+                        <!-- Card 1 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-rose-500/10 border border-rose-400/20 text-rose-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:danger-triangle-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">No Google Account Sign-In</h4>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    Moderate
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-2">
+                                <div class="p-2.5 rounded-xl bg-rose-500/[0.04] border border-rose-500/15 text-[11px] font-mono text-gray-300">
+                                    <span class="text-rose-400 font-bold block text-[9px] uppercase tracking-wider mb-0.5">Why it exists:</span>
+                                    Google OAuth libraries track user identity and are prohibited in GPL-3.0 privacy clients.
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15 text-xs text-gray-300">
+                                    <span class="text-emerald-400 font-mono font-bold flex items-center gap-1 text-[9px] uppercase tracking-wider mb-0.5">
+                                        <iconify-icon icon="solar:check-circle-bold"></iconify-icon> GuruTube Workaround:
+                                    </span>
+                                    Import/export subscriptions and playlists directly via local SQLite backup files.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-rose-500/10 border border-rose-400/20 text-rose-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:danger-triangle-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Cannot Upload or Studio Comment</h4>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    Low
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-2">
+                                <div class="p-2.5 rounded-xl bg-rose-500/[0.04] border border-rose-500/15 text-[11px] font-mono text-gray-300">
+                                    <span class="text-rose-400 font-bold block text-[9px] uppercase tracking-wider mb-0.5">Why it exists:</span>
+                                    App is engineered strictly as a high-performance, lightweight consumer video player.
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15 text-xs text-gray-300">
+                                    <span class="text-emerald-400 font-mono font-bold flex items-center gap-1 text-[9px] uppercase tracking-wider mb-0.5">
+                                        <iconify-icon icon="solar:check-circle-bold"></iconify-icon> GuruTube Workaround:
+                                    </span>
+                                    View public comments and replies seamlessly. Creator studio tasks remain on official web/app.
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3 -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-start justify-between gap-3">
+                                <div class="flex items-center gap-3">
+                                    <div class="w-9 h-9 rounded-xl bg-rose-500/10 border border-rose-400/20 text-rose-400 flex items-center justify-center shrink-0 text-lg">
+                                        <iconify-icon icon="solar:danger-triangle-bold"></iconify-icon>
+                                    </div>
+                                    <div>
+                                        <h4 class="text-sm font-semibold text-white">Sideload / Manual APK Install</h4>
+                                    </div>
+                                </div>
+                                <span class="inline-flex items-center gap-1 text-[10px] font-mono text-blue-400 bg-blue-500/10 border border-blue-500/20 px-2 py-0.5 rounded-full shrink-0">
+                                    Easy Fix
+                                </span>
+                            </div>
+                            <div class="pl-12 space-y-2">
+                                <div class="p-2.5 rounded-xl bg-rose-500/[0.04] border border-rose-500/15 text-[11px] font-mono text-gray-300">
+                                    <span class="text-rose-400 font-bold block text-[9px] uppercase tracking-wider mb-0.5">Why it exists:</span>
+                                    Ad-blocking video clients violate Google Play Store monetization policies.
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-emerald-500/[0.04] border border-emerald-500/15 text-xs text-gray-300">
+                                    <span class="text-emerald-400 font-mono font-bold flex items-center gap-1 text-[9px] uppercase tracking-wider mb-0.5">
+                                        <iconify-icon icon="solar:check-circle-bold"></iconify-icon> GuruTube Workaround:
+                                    </span>
+                                    Built-in automated In-App Update Engine notifies & downloads new releases directly!
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop / Tablet Table View (hidden md:block) -->
+                    <div class="hidden md:block glass-panel rounded-3xl overflow-hidden border border-white/10">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
+                            <table class="w-full min-w-[700px] text-left border-collapse">
                                 <thead>
                                     <tr class="border-b border-white/10 bg-rose-500/[0.03] text-xs font-mono uppercase tracking-wider text-rose-400">
                                         <th class="py-4 px-6">Disadvantage (Con)</th>
@@ -633,9 +976,187 @@
 
                 <!-- TAB 4: DIRECT COMPARISON MATRIX -->
                 <div id="tab-comparison" class="tab-content hidden transition-opacity duration-300">
-                    <div class="glass-panel rounded-3xl overflow-hidden border border-white/10">
+                    <!-- Mobile Card View (md:hidden) -->
+                    <div class="block md:hidden space-y-3.5">
+                        <!-- Card 1: Advertisements -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-white/5">
+                                <span class="text-[10px] font-mono uppercase tracking-wider text-gray-400">Comparison Criterion</span>
+                                <span class="text-sm font-semibold text-white flex items-center gap-1.5">
+                                    <iconify-icon icon="solar:shield-cross-bold" class="text-rose-400"></iconify-icon> Advertisements
+                                </span>
+                            </div>
+                            <!-- GuruTube (Winner) -->
+                            <div class="p-3 rounded-xl bg-gradient-to-r from-blue-500/15 via-emerald-500/10 to-transparent border border-blue-400/30 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-bold text-blue-300">GuruTube Android</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400 font-mono">Zero Ads (100% Clean)</span>
+                            </div>
+                            <!-- Alternatives Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-gray-400 block">Official YouTube</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">Heavy (Pre & Mid-rolls)</span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-purple-500/5 border border-purple-400/15 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-purple-400/80 block">YT Premium ($14/mo)</span>
+                                    <span class="text-emerald-400 font-medium text-xs block leading-tight">Ad-Free (Paid)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2: Background Audio Playback -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-white/5">
+                                <span class="text-[10px] font-mono uppercase tracking-wider text-gray-400">Comparison Criterion</span>
+                                <span class="text-sm font-semibold text-white flex items-center gap-1.5">
+                                    <iconify-icon icon="solar:music-note-slider-bold" class="text-blue-400"></iconify-icon> Background Audio Playback
+                                </span>
+                            </div>
+                            <!-- GuruTube (Winner) -->
+                            <div class="p-3 rounded-xl bg-gradient-to-r from-blue-500/15 via-emerald-500/10 to-transparent border border-blue-400/30 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-bold text-blue-300">GuruTube Android</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400 font-mono">Free & Unlimited</span>
+                            </div>
+                            <!-- Alternatives Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-gray-400 block">Official YouTube</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">Blocked (Screen Off)</span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-purple-500/5 border border-purple-400/15 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-purple-400/80 block">YT Premium ($14/mo)</span>
+                                    <span class="text-emerald-400 font-medium text-xs block leading-tight">Enabled (Paid)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 3: Media Downloads -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-white/5">
+                                <span class="text-[10px] font-mono uppercase tracking-wider text-gray-400">Comparison Criterion</span>
+                                <span class="text-sm font-semibold text-white flex items-center gap-1.5">
+                                    <iconify-icon icon="solar:download-square-bold" class="text-purple-400"></iconify-icon> Media Downloads (MP4/MP3)
+                                </span>
+                            </div>
+                            <!-- GuruTube (Winner) -->
+                            <div class="p-3 rounded-xl bg-gradient-to-r from-blue-500/15 via-emerald-500/10 to-transparent border border-blue-400/30 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-bold text-blue-300">GuruTube Android</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400 font-mono">Direct Unencrypted Files</span>
+                            </div>
+                            <!-- Alternatives Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-gray-400 block">Official YouTube</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">DRM Encrypted Only</span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-purple-500/5 border border-purple-400/15 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-purple-400/80 block">YT Premium ($14/mo)</span>
+                                    <span class="text-amber-400 font-medium text-xs block leading-tight">DRM Locked Inside App</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 4: User Data Privacy -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-white/5">
+                                <span class="text-[10px] font-mono uppercase tracking-wider text-gray-400">Comparison Criterion</span>
+                                <span class="text-sm font-semibold text-white flex items-center gap-1.5">
+                                    <iconify-icon icon="solar:shield-check-bold" class="text-emerald-400"></iconify-icon> User Data Privacy
+                                </span>
+                            </div>
+                            <!-- GuruTube (Winner) -->
+                            <div class="p-3 rounded-xl bg-gradient-to-r from-blue-500/15 via-emerald-500/10 to-transparent border border-blue-400/30 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-bold text-blue-300">GuruTube Android</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400 font-mono">Zero Logs / Zero Tracking</span>
+                            </div>
+                            <!-- Alternatives Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-gray-400 block">Official YouTube</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">Extensive Tracking</span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-purple-500/5 border border-purple-400/15 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-purple-400/80 block">YT Premium ($14/mo)</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">Extensive Tracking</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 5: App Size & RAM Consumption -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-white/5">
+                                <span class="text-[10px] font-mono uppercase tracking-wider text-gray-400">Comparison Criterion</span>
+                                <span class="text-sm font-semibold text-white flex items-center gap-1.5">
+                                    <iconify-icon icon="solar:cpu-bolt-bold" class="text-cyan-400"></iconify-icon> App Size & RAM
+                                </span>
+                            </div>
+                            <!-- GuruTube (Winner) -->
+                            <div class="p-3 rounded-xl bg-gradient-to-r from-blue-500/15 via-emerald-500/10 to-transparent border border-blue-400/30 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-bold text-blue-300">GuruTube Android</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400 font-mono">~8.3 MB (Ultralight)</span>
+                            </div>
+                            <!-- Alternatives Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-gray-400 block">Official YouTube</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">150 MB+ (Heavy)</span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-purple-500/5 border border-purple-400/15 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-purple-400/80 block">YT Premium ($14/mo)</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">150 MB+ (Heavy)</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 6: Subscription Cost -->
+                        <div class="glass-card rounded-2xl p-4 sm:p-5 border border-white/10 space-y-3">
+                            <div class="flex items-center justify-between pb-2.5 border-b border-white/5">
+                                <span class="text-[10px] font-mono uppercase tracking-wider text-gray-400">Comparison Criterion</span>
+                                <span class="text-sm font-semibold text-white flex items-center gap-1.5">
+                                    <iconify-icon icon="solar:wallet-bold" class="text-emerald-400"></iconify-icon> Subscription Cost
+                                </span>
+                            </div>
+                            <!-- GuruTube (Winner) -->
+                            <div class="p-3 rounded-xl bg-gradient-to-r from-blue-500/15 via-emerald-500/10 to-transparent border border-blue-400/30 flex items-center justify-between">
+                                <div class="flex items-center gap-2">
+                                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                                    <span class="text-xs font-bold text-blue-300">GuruTube Android</span>
+                                </div>
+                                <span class="text-xs font-bold text-emerald-400 font-mono">100% Free Forever</span>
+                            </div>
+                            <!-- Alternatives Grid -->
+                            <div class="grid grid-cols-2 gap-2 text-xs">
+                                <div class="p-2.5 rounded-xl bg-white/[0.02] border border-white/5 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-gray-400 block">Official YouTube</span>
+                                    <span class="text-gray-400 font-medium text-xs block leading-tight">Free with Ads</span>
+                                </div>
+                                <div class="p-2.5 rounded-xl bg-purple-500/5 border border-purple-400/15 space-y-1">
+                                    <span class="text-[10px] uppercase font-mono text-purple-400/80 block">YT Premium ($14/mo)</span>
+                                    <span class="text-rose-400 font-medium text-xs block leading-tight">$13.99 / month</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Desktop / Tablet Table View (hidden md:block) -->
+                    <div class="hidden md:block glass-panel rounded-3xl overflow-hidden border border-white/10">
                         <div class="overflow-x-auto">
-                            <table class="w-full text-left border-collapse">
+                            <table class="w-full min-w-[700px] text-left border-collapse">
                                 <thead>
                                     <tr class="border-b border-white/10 bg-white/[0.02] text-xs font-mono uppercase tracking-wider">
                                         <th class="py-4 px-6 text-gray-400">Criteria</th>
@@ -713,11 +1234,10 @@
                 <div class="relative rounded-[32px] p-2 sm:p-4 bg-gradient-to-b from-blue-500/20 via-white/5 to-white/10 border border-white/20 shadow-[0_30px_90px_rgba(0,0,0,0.8)]">
                     <div class="relative rounded-[24px] overflow-hidden bg-black aspect-video flex items-center justify-center group">
                         
-                        <!-- Video Element -->
+                        <!-- Video Element (Sound 50%, Auto-starts on scroll) -->
                         <video id="preview-video"
                             class="w-full h-full object-cover rounded-[24px]"
                             src="videos.mp4"
-                            muted
                             playsinline
                             loop
                             preload="metadata">
@@ -731,10 +1251,10 @@
                                     <iconify-icon id="play-icon" icon="solar:pause-bold" class="text-lg"></iconify-icon>
                                 </button>
                                 <button id="video-toggle-mute" class="w-9 h-9 rounded-full bg-white/10 text-white flex items-center justify-center hover:bg-white/20 transition-all">
-                                    <iconify-icon id="mute-icon" icon="solar:volume-cross-bold" class="text-lg text-blue-400"></iconify-icon>
+                                    <iconify-icon id="mute-icon" icon="solar:volume-loud-bold" class="text-lg text-emerald-400"></iconify-icon>
                                 </button>
                                 <div class="hidden sm:block text-xs font-mono text-gray-300">
-                                    <span id="video-status-text" class="text-blue-400">● Auto-playing on scroll</span>
+                                    <span id="video-status-text" class="text-emerald-400">● Auto-playing (Sound 50%)</span>
                                 </div>
                             </div>
 
@@ -1253,8 +1773,13 @@
             draw();
         })();
 
-        // --- 2. Scroll-triggered Autoplay for videos.mp4 ---
-        (function initVideoAutoplayOnScroll() {
+        // --- 2. Ambient Natural Sound & Video Scroll Sync ---
+        (function initAudioAndVideoSync() {
+            const bgAudio = document.getElementById('bg-natural-sound');
+            const ambientBtn = document.getElementById('ambient-sound-toggle');
+            const ambientIcon = document.getElementById('ambient-icon');
+            const ambientText = document.getElementById('ambient-text');
+
             const video = document.getElementById('preview-video');
             const playBtn = document.getElementById('video-toggle-play');
             const playIcon = document.getElementById('play-icon');
@@ -1263,24 +1788,134 @@
             const statusText = document.getElementById('video-status-text');
             const fullScreenBtn = document.getElementById('video-toggle-fullscreen');
 
+            let bgAudioManualPaused = false;
+            let userHasInteracted = false;
+            let isVideoInView = false;
+
+            // Set natural ambient sound initial volume (soothing, gentle background)
+            if (bgAudio) {
+                bgAudio.volume = 0.25;
+            }
+
+            function updateAmbientUI(isPlaying) {
+                if (!ambientIcon || !ambientText) return;
+                if (isPlaying) {
+                    ambientIcon.setAttribute('icon', 'solar:soundwave-bold');
+                    ambientIcon.classList.add('text-emerald-400', 'animate-pulse');
+                    ambientIcon.classList.remove('text-gray-400');
+                    if (ambientBtn) ambientBtn.classList.replace('border-white/10', 'border-emerald-400/30');
+                    ambientText.textContent = 'Nature Sound';
+                } else {
+                    ambientIcon.setAttribute('icon', 'solar:volume-cross-bold');
+                    ambientIcon.classList.remove('text-emerald-400', 'animate-pulse');
+                    ambientIcon.classList.add('text-gray-400');
+                    if (ambientBtn) ambientBtn.classList.replace('border-emerald-400/30', 'border-white/10');
+                    ambientText.textContent = 'Sound Off';
+                }
+            }
+
+            function playNaturalSound() {
+                if (!bgAudio || bgAudioManualPaused || isVideoInView) return;
+                bgAudio.play().then(() => {
+                    updateAmbientUI(true);
+                }).catch(() => {
+                    // Handled on first user interaction
+                });
+            }
+
+            // Start natural ambient sound on first user gesture (scroll, click, touch, key)
+            function onFirstUserGesture() {
+                if (userHasInteracted) return;
+                userHasInteracted = true;
+                if (!isVideoInView && !bgAudioManualPaused) {
+                    playNaturalSound();
+                }
+                window.removeEventListener('scroll', onFirstUserGesture);
+                window.removeEventListener('click', onFirstUserGesture);
+                window.removeEventListener('touchstart', onFirstUserGesture);
+                window.removeEventListener('keydown', onFirstUserGesture);
+            }
+            window.addEventListener('scroll', onFirstUserGesture, { passive: true });
+            window.addEventListener('click', onFirstUserGesture, { passive: true });
+            window.addEventListener('touchstart', onFirstUserGesture, { passive: true });
+            window.addEventListener('keydown', onFirstUserGesture, { passive: true });
+
+            // Ambient sound manual toggle button
+            if (ambientBtn && bgAudio) {
+                ambientBtn.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    userHasInteracted = true;
+                    if (bgAudio.paused) {
+                        bgAudioManualPaused = false;
+                        bgAudio.play().then(() => updateAmbientUI(true)).catch(()=>{});
+                    } else {
+                        bgAudioManualPaused = true;
+                        bgAudio.pause();
+                        updateAmbientUI(false);
+                    }
+                });
+            }
+
+            // --- Video in view controller ---
             if (!video) return;
+
+            // Target settings: unmuted, 50% volume (0.5)
+            video.muted = false;
+            video.volume = 0.5;
 
             // IntersectionObserver triggers video playback when scrolled into view
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        // User scrolled down to video -> play automatically
+                        isVideoInView = true;
+
+                        // Temporarily pause background natural sound so video audio plays clearly
+                        if (bgAudio && !bgAudio.paused) {
+                            bgAudio.pause();
+                        }
+
+                        // Play video with 50% volume and unmuted
+                        video.muted = false;
+                        video.volume = 0.5;
+
                         video.play().then(() => {
                             if (playIcon) playIcon.setAttribute('icon', 'solar:pause-bold');
-                            if (statusText) statusText.textContent = '● Playing automatically';
+                            if (muteIcon) muteIcon.setAttribute('icon', 'solar:volume-loud-bold');
+                            if (statusText) statusText.textContent = '● Playing with audio (50%)';
                         }).catch(err => {
-                            console.log('Autoplay deferred by browser policy:', err);
+                            // If browser blocks unmuted autoplay without prior direct user interaction,
+                            // start playing and immediately unmute on the next user interaction:
+                            console.log('Unmuted autoplay deferred, attempting fallback:', err);
+                            video.muted = true;
+                            video.play().then(() => {
+                                if (playIcon) playIcon.setAttribute('icon', 'solar:pause-bold');
+                                if (statusText) statusText.textContent = '● Tap anywhere for sound (50%)';
+                            }).catch(() => {});
+
+                            const unmuteOnInteraction = () => {
+                                video.muted = false;
+                                video.volume = 0.5;
+                                if (muteIcon) muteIcon.setAttribute('icon', 'solar:volume-loud-bold');
+                                if (statusText) statusText.textContent = '● Playing with audio (50%)';
+                                window.removeEventListener('click', unmuteOnInteraction);
+                                window.removeEventListener('touchstart', unmuteOnInteraction);
+                                window.removeEventListener('scroll', unmuteOnInteraction);
+                            };
+                            window.addEventListener('click', unmuteOnInteraction, { once: true });
+                            window.addEventListener('touchstart', unmuteOnInteraction, { once: true });
+                            window.addEventListener('scroll', unmuteOnInteraction, { once: true });
                         });
                     } else {
+                        isVideoInView = false;
                         // User scrolled away -> pause video to save battery and performance
                         video.pause();
                         if (playIcon) playIcon.setAttribute('icon', 'solar:play-bold');
                         if (statusText) statusText.textContent = '○ Paused (Out of view)';
+
+                        // Resume background natural sound smoothly if it was active
+                        if (bgAudio && !bgAudioManualPaused && userHasInteracted) {
+                            bgAudio.play().then(() => updateAmbientUI(true)).catch(()=>{});
+                        }
                     }
                 });
             }, {
@@ -1294,11 +1929,11 @@
                 playBtn.addEventListener('click', () => {
                     if (video.paused) {
                         video.play();
-                        playIcon.setAttribute('icon', 'solar:pause-bold');
-                        if (statusText) statusText.textContent = '● Playing';
+                        if (playIcon) playIcon.setAttribute('icon', 'solar:pause-bold');
+                        if (statusText) statusText.textContent = '● Playing (50% Sound)';
                     } else {
                         video.pause();
-                        playIcon.setAttribute('icon', 'solar:play-bold');
+                        if (playIcon) playIcon.setAttribute('icon', 'solar:play-bold');
                         if (statusText) statusText.textContent = '○ Paused';
                     }
                 });
@@ -1310,8 +1945,13 @@
                     video.muted = !video.muted;
                     if (video.muted) {
                         muteIcon.setAttribute('icon', 'solar:volume-cross-bold');
+                        muteIcon.classList.replace('text-emerald-400', 'text-gray-400');
+                        if (statusText) statusText.textContent = '○ Muted';
                     } else {
+                        video.volume = 0.5;
                         muteIcon.setAttribute('icon', 'solar:volume-loud-bold');
+                        muteIcon.classList.replace('text-gray-400', 'text-emerald-400');
+                        if (statusText) statusText.textContent = '● Sound 50%';
                     }
                 });
             }
