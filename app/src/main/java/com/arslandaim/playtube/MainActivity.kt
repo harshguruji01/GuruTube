@@ -160,7 +160,7 @@ class MainActivity : AppCompatActivity() {
 
             GuruTubeTheme(
                 darkTheme = true,
-                isDynamicColorEnabled = mainViewModel.isDynamicColorEnabled.collectAsStateWithLifecycle().value
+                isDynamicColorEnabled = false
             ) {
                 val navController = rememberNavController()
                 val uiState by mainViewModel.uiState.collectAsStateWithLifecycle()

@@ -27,29 +27,23 @@ private val DarkColorScheme = darkColorScheme(
     tertiary = DarkOnSurfaceVariant,
     background = DarkBackground,
     surface = DarkBackground,
-    onPrimary = DarkOnSurface,
-    onSecondary = DarkOnSurface,
+    surfaceVariant = DarkSurface,
+    surfaceContainer = DarkSurface,
+    surfaceContainerHigh = Color(0xFF252525),
+    surfaceContainerHighest = Color(0xFF303030),
+    surfaceContainerLow = Color(0xFF151515),
+    surfaceContainerLowest = Color(0xFF0A0A0A),
+    onPrimary = Color.White,
+    onSecondary = Color.White,
     onTertiary = DarkOnSurface,
     onBackground = DarkOnSurface,
     onSurface = DarkOnSurface,
-    surfaceVariant = DarkSurface,
-    onSurfaceVariant = DarkOnSurfaceVariant
+    onSurfaceVariant = DarkOnSurfaceVariant,
+    outline = Color(0xFF383838),
+    outlineVariant = Color(0xFF282828)
 )
 
-private val LightColorScheme = lightColorScheme(
-    primary = YoutubeRed,
-    onPrimary = Color.White,
-    secondary = DarkRed,
-    onSecondary = Color.White,
-    tertiary = LightOnSurfaceVariant,
-    onTertiary = Color.White,
-    background = LightBackground,
-    onBackground = LightOnSurface,
-    surface = LightBackground,
-    onSurface = LightOnSurface,
-    surfaceVariant = LightSurface,
-    onSurfaceVariant = LightOnSurfaceVariant
-)
+private val LightColorScheme = DarkColorScheme
 
 @Composable
 fun GuruTubeTheme(
@@ -57,14 +51,8 @@ fun GuruTubeTheme(
     isDynamicColorEnabled: Boolean = false,
     content: @Composable () -> Unit
 ) {
-    // Dark mode is permanently activated
-    val colorScheme = when {
-        isDynamicColorEnabled && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
-            val context = LocalContext.current
-            dynamicDarkColorScheme(context)
-        }
-        else -> DarkColorScheme
-    }
+    // Full UI is permanently locked to Dark Mode
+    val colorScheme = DarkColorScheme
 
     val view = LocalView.current
     if (!view.isInEditMode) {
