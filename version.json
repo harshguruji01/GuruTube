@@ -1,0 +1,8 @@
+{
+  "versionCode": 19,
+  "versionName": "1.0.1",
+  "releaseNotes": "• Live GitHub auto-update with realtime speed indicator\n• Automatic app close & relaunch on update installation\n• Direct Downloads tab in bottom navigation bar\n• Enhanced Subscriptions feed stability and modern UI\n• Complete branding update to GuruTube across all modules\n• Security optimizations - removed unneeded permissions",
+  "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
+  "apkSize": 8366765,
+  "sha256": "7E2C692F57D3ED8F71FF7E6A11E0174D07DB0E5129E3031E329F204F17329D3C"
+}

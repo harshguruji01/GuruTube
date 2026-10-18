@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -40,7 +40,7 @@ import com.arslandaim.playtube.ui.components.DownloadSelectionSheet
 import com.arslandaim.playtube.ui.components.SubscriptionFeedSkeleton
 import com.arslandaim.playtube.ui.components.VideoList
 import com.arslandaim.playtube.ui.components.EmptyState
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.rememberScrollVisibilityConnection
 import androidx.compose.material.icons.filled.ErrorOutline
 import androidx.lifecycle.Lifecycle
@@ -190,7 +190,7 @@ private fun SubscriptionFeedContent(
                         }
                     }
                 } else if (activeFeed.error != null && activeFeed.videos.isEmpty()) {
-                    val isNetworkError = activeFeed.error is PlayTubeError.Network
+                    val isNetworkError = activeFeed.error is GuruTubeError.Network
                     
                     EmptyState(
                         icon = if (isNetworkError) Icons.Default.WifiOff else Icons.Default.ErrorOutline,
@@ -204,13 +204,23 @@ private fun SubscriptionFeedContent(
                 } else {
                     Column(modifier = Modifier.fillMaxSize()) {
                         if (activeFeed.videos.isEmpty() && !activeFeed.isLoading && !state.isThoroughSearching && activeFeed.error == null) {
-                            EmptyState(
-                                icon = Icons.Default.ErrorOutline,
-                                title = stringResource(R.string.no_subscriptions_videos),
-                                description = if (state.subscriptions.isEmpty()) "Subscribe to channels to see their latest videos here." else "No new videos from your subscriptions yet.",
-                                actionText = if (state.subscriptions.isEmpty()) "Explore Content" else stringResource(R.string.retry),
-                                onActionClick = onRefresh
-                            )
+                            if (state.subscriptions.isEmpty()) {
+                                EmptyState(
+                                    icon = Icons.Default.Subscriptions,
+                                    title = stringResource(R.string.no_subscriptions),
+                                    description = stringResource(R.string.no_subscriptions_desc),
+                                    actionText = stringResource(R.string.discover_videos),
+                                    onActionClick = onRefresh
+                                )
+                            } else {
+                                EmptyState(
+                                    icon = Icons.Default.Subscriptions,
+                                    title = stringResource(R.string.no_subscriptions_videos),
+                                    description = "No new videos from your subscriptions yet.",
+                                    actionText = stringResource(R.string.retry),
+                                    onActionClick = onRefresh
+                                )
+                            }
                         } else if (isReady || state.isThoroughSearching || activeFeed.videos.isNotEmpty()) {
                             VideoList(
                                 videos = activeFeed.videos,

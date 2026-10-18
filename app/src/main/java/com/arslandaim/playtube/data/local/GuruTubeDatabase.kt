@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -28,7 +28,7 @@ import androidx.room.TypeConverters
     version = 15
 )
 @TypeConverters(Converters::class)
-abstract class PlayTubeDatabase : RoomDatabase() {
+abstract class GuruTubeDatabase : RoomDatabase() {
     abstract fun downloadDao(): DownloadDao
     abstract fun missionDao(): MissionDao
     abstract fun historyDao(): HistoryDao
@@ -41,3 +41,6 @@ abstract class PlayTubeDatabase : RoomDatabase() {
     abstract fun localPlaylistDao(): LocalPlaylistDao
     abstract fun feedCacheDao(): FeedCacheDao
 }
+
+// Backward-compatibility alias if referenced anywhere
+typealias PlayTubeDatabase = GuruTubeDatabase

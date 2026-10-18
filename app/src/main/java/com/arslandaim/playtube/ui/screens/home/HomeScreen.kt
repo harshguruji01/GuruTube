@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -54,7 +54,7 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.draw.clip
 import com.arslandaim.playtube.ui.theme.GlassAlpha
 import com.arslandaim.playtube.R
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import kotlin.math.roundToInt
 
 @Composable
@@ -297,7 +297,7 @@ private fun HomeContent(
                 if (loading) {
                     VideoListSkeleton()
                 } else if (state.error != null && videos.isEmpty()) {
-                    val isNetworkError = state.error is PlayTubeError.Network
+                    val isNetworkError = state.error is GuruTubeError.Network
                     
                     EmptyState(
                         icon = if (isNetworkError) Icons.Default.WifiOff else Icons.Default.ErrorOutline,

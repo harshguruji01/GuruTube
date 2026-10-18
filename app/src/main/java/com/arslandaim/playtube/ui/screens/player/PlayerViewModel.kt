@@ -379,7 +379,7 @@ class PlayerViewModel @Inject constructor(
                     uploaderId?.let { id -> launch { isSubscribedUseCase(id).collectLatest { _isSubscribed.value = it } } }
                     launch { isSavedUseCase(videoId).collectLatest { _isSaved.value = it } }
                 }
-                .onFailure { _uiState.value = PlayerUiState.Error(PlayTubeError.fromThrowable(it)) }
+                .onFailure { _uiState.value = PlayerUiState.Error(GuruTubeError.fromThrowable(it)) }
         }
     }
 
@@ -478,7 +478,7 @@ class PlayerViewModel @Inject constructor(
                 val uploaderId = VideoUtils.extractChannelId(bundle.uploaderUrl) ?: bundle.uploaderUrl
                 uploaderId?.let { id -> launch { isSubscribedUseCase(id).collectLatest { _isSubscribed.value = it } } }
                 launch { if (preferencesManager.isHistoryEnabled.first()) addToHistoryUseCase(HistoryEntity(videoId = videoId, title = bundle.title, thumbnailUrl = bundle.thumbnailUrl ?: "", uploaderName = bundle.uploaderName)) }
-            }.onFailure { _uiState.value = PlayerUiState.Error(PlayTubeError.fromThrowable(it)) }
+            }.onFailure { _uiState.value = PlayerUiState.Error(GuruTubeError.fromThrowable(it)) }
         }
     }
 
@@ -592,11 +592,11 @@ class PlayerViewModel @Inject constructor(
             lastFailedPosition = playbackManager.player.currentPosition
             isStalledDueToNetwork = playbackManager.player.playWhenReady
             _isRecovering.value = isStalledDueToNetwork
-            if (_uiState.value !is PlayerUiState.Success) _uiState.value = PlayerUiState.Error(PlayTubeError.Network)
+            if (_uiState.value !is PlayerUiState.Success) _uiState.value = PlayerUiState.Error(GuruTubeError.Network)
             else viewModelScope.launch { _snackbarMessage.emit(context.getString(R.string.connection_lost_waiting)) }
             scheduleRetry()
         } else {
-            _uiState.value = PlayerUiState.Error(PlayTubeError.fromThrowable(error))
+            _uiState.value = PlayerUiState.Error(GuruTubeError.fromThrowable(error))
         }
     }
 
@@ -670,7 +670,7 @@ class PlayerViewModel @Inject constructor(
                     _isRecovering.value = false
                 }
             }.onFailure {
-                _uiState.value = PlayerUiState.Error(PlayTubeError.Unknown("Failed to recover stream"))
+                _uiState.value = PlayerUiState.Error(GuruTubeError.Unknown("Failed to recover stream"))
                 _isRecovering.value = false
             }
         }
@@ -1191,5 +1191,5 @@ sealed interface PlayerUiState {
     data object Loading : PlayerUiState
     data class Success(val title: String, val uploader: String, val bundle: StreamBundle) : PlayerUiState
     data class Upcoming(val title: String, val uploader: String, val scheduledTime: String?, val thumbnailUrl: String?) : PlayerUiState
-    data class Error(val error: PlayTubeError) : PlayerUiState
+    data class Error(val error: GuruTubeError) : PlayerUiState
 }

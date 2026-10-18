@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -28,7 +28,7 @@ import com.arslandaim.playtube.domain.usecase.SearchVideosUseCase
 import com.arslandaim.playtube.domain.usecase.ToggleFavoriteUseCase
 import com.arslandaim.playtube.domain.usecase.ToggleSubscriptionUseCase
 import com.arslandaim.playtube.ui.components.DownloadDialogState
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.VideoUtils
 import com.arslandaim.playtube.utils.HistoryUtils.applyHistory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -223,7 +223,7 @@ class SearchViewModel @Inject constructor(
                         _isSortingNewest.value = false
                     }
                     .onFailure { exception ->
-                        _internalUiState.value = SearchUiState.Error(PlayTubeError.fromThrowable(exception))
+                        _internalUiState.value = SearchUiState.Error(GuruTubeError.fromThrowable(exception))
                         _isSortingNewest.value = false
                     }
             }
@@ -270,7 +270,7 @@ class SearchViewModel @Inject constructor(
             if (allItems.isNotEmpty()) {
                 _internalUiState.value = SearchUiState.Success(allItems.toList())
             } else {
-                _internalUiState.value = SearchUiState.Error(PlayTubeError.fromThrowable(e))
+                _internalUiState.value = SearchUiState.Error(GuruTubeError.fromThrowable(e))
             }
             _isSortingNewest.value = false
         }
@@ -418,5 +418,5 @@ sealed interface SearchUiState {
     object Initial : SearchUiState
     object Loading : SearchUiState
     data class Success(val items: List<SearchItem>, val isLoadingMore: Boolean = false) : SearchUiState
-    data class Error(val error: PlayTubeError) : SearchUiState
+    data class Error(val error: GuruTubeError) : SearchUiState
 }

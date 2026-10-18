@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -120,12 +120,12 @@ fun DataManagementScreen(
 
             // Native Backup Section
             item {
-                SettingsGroup(title = "PlayTube Native Backup") {
+                SettingsGroup(title = "GuruTube Native Backup") {
                     SettingsItem(
                         title = "Create Backup",
-                        subtitle = "Save all your PlayTube data to a file",
+                        subtitle = "Save all your GuruTube data to a file",
                         icon = Icons.Default.Backup,
-                        onClick = { backupCreator.launch("PlayTubeBackup_${System.currentTimeMillis()}.zip") }
+                        onClick = { backupCreator.launch("GuruTubeBackup_${System.currentTimeMillis()}.zip") }
                     )
                     HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp)
                     SettingsItem(

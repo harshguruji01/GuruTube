@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -17,7 +17,7 @@ import com.arslandaim.playtube.domain.repository.VideoRepository
 import com.arslandaim.playtube.domain.repository.LibraryRepository
 import com.arslandaim.playtube.domain.usecase.*
 import com.arslandaim.playtube.ui.components.DownloadDialogState
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.HistoryUtils.applyHistory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
@@ -92,7 +92,7 @@ class PlaylistViewModel @Inject constructor(
                     _internalUiState.value = PlaylistUiState.Success(details)
                 }
                 .onFailure { exception ->
-                    _internalUiState.value = PlaylistUiState.Error(PlayTubeError.fromThrowable(exception))
+                    _internalUiState.value = PlaylistUiState.Error(GuruTubeError.fromThrowable(exception))
                 }
         }
     }
@@ -115,7 +115,7 @@ class PlaylistViewModel @Inject constructor(
                         _internalUiState.value = PlaylistUiState.Success(details)
                     }
                 } else {
-                    _internalUiState.value = PlaylistUiState.Error(PlayTubeError.Unknown("Playlist not found"))
+                    _internalUiState.value = PlaylistUiState.Error(GuruTubeError.Unknown("Playlist not found"))
                 }
             }
         }
@@ -286,5 +286,5 @@ class PlaylistViewModel @Inject constructor(
 sealed interface PlaylistUiState {
     object Loading : PlaylistUiState
     data class Success(val details: PlaylistDetails) : PlaylistUiState
-    data class Error(val error: PlayTubeError) : PlaylistUiState
+    data class Error(val error: GuruTubeError) : PlaylistUiState
 }

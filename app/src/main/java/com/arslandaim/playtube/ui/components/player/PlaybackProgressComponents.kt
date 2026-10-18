@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -116,7 +116,7 @@ fun PersistentProgressBar(
                     .padding(top = 4.dp, bottom = 12.dp)
             ) {
                 Text(
-                    text = "• $currentChapterTitle",
+                    text = "� $currentChapterTitle",
                     style = MaterialTheme.typography.labelSmall,
                     color = Color.White,
                     fontWeight = FontWeight.Bold,

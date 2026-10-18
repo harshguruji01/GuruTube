@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -17,8 +17,8 @@ class BackupRestoreTest {
     private val gson = Gson()
 
     @Test
-    fun testPlayTubeBackupSerialization() {
-        val backup = PlayTubeBackup(
+    fun testGuruTubeBackupSerialization() {
+        val backup = GuruTubeBackup(
             version = 2,
             timestamp = 123456789L,
             history = listOf(
@@ -30,7 +30,7 @@ class BackupRestoreTest {
             localPlaylistVideos = listOf(
                 LocalPlaylistVideoEntity(1, 1, "v1", "Test Video", "https://img", "Test Channel", 180L)
             ),
-            preferences = PlayTubePreferences(
+            preferences = GuruTubePreferences(
                 isHistoryEnabled = true,
                 isPlayerGesturesEnabled = false
             )
@@ -39,7 +39,7 @@ class BackupRestoreTest {
         val json = gson.toJson(backup)
         assertNotNull(json)
 
-        val deserialized = gson.fromJson(json, PlayTubeBackup::class.java)
+        val deserialized = gson.fromJson(json, GuruTubeBackup::class.java)
         assertNotNull(deserialized)
         assertEquals(2, deserialized.version)
         assertEquals(1, deserialized.history?.size)

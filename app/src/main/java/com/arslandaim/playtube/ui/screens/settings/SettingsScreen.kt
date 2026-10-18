@@ -83,10 +83,18 @@ import androidx.compose.material3.Slider
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.material.icons.filled.ClosedCaption
+import androidx.compose.material.icons.filled.CheckCircle
+import androidx.compose.material.icons.filled.Download
+import androidx.compose.material.icons.filled.Speed
+import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import com.arslandaim.playtube.R
 import androidx.core.net.toUri
 import com.arslandaim.playtube.BuildConfig
+import com.arslandaim.playtube.domain.repository.CheckStatus
+import com.arslandaim.playtube.utils.VideoUtils
 import com.arslandaim.playtube.ui.components.GlassSurface
 import com.arslandaim.playtube.ui.components.LanguageSelectionSheet
 import com.arslandaim.playtube.ui.screens.library.GlobalGlassAlpha
@@ -111,6 +119,9 @@ fun SettingsScreen(
     val availableLocales = viewModel.availableLocales
     val isAutoUpdateEnabled by updateViewModel.isAutoUpdateEnabled.collectAsStateWithLifecycle()
     val updateInfo by updateViewModel.updateInfo.collectAsStateWithLifecycle()
+    val downloadState by updateViewModel.downloadState.collectAsStateWithLifecycle()
+    val showInstallDialog by updateViewModel.showInstallDialog.collectAsStateWithLifecycle()
+    val context = LocalContext.current
 
     LaunchedEffect(Unit) {
         if (isAutoUpdateEnabled) {
@@ -131,6 +142,8 @@ fun SettingsScreen(
         availableLocales = availableLocales,
         isAutoUpdateEnabled = isAutoUpdateEnabled,
         updateInfo = updateInfo,
+        downloadState = downloadState,
+        showInstallDialog = showInstallDialog,
         onSetSearchHistoryPaused = viewModel::setSearchHistoryPaused,
         onSetPipEnabled = viewModel::setPipEnabled,
         onSetBackgroundPlayEnabled = viewModel::setBackgroundPlayEnabled,
@@ -143,6 +156,10 @@ fun SettingsScreen(
         onClearLearnedInterests = viewModel::clearLearnedInterests,
         onSetAutoUpdateEnabled = updateViewModel::setAutoUpdateEnabled,
         onCheckForUpdates = updateViewModel::checkForUpdates,
+        onStartDownload = { updateViewModel.startDownload(context) },
+        onCancelDownload = updateViewModel::cancelDownload,
+        onInstallUpdate = { updateViewModel.installDownloadedUpdate(context) },
+        onDismissInstallDialog = updateViewModel::dismissInstallDialog,
         onClearAllDownloads = viewModel::clearAllDownloads,
         onViewHistory = onViewHistory,
         onDataManagement = onDataManagement,
@@ -165,6 +182,8 @@ private fun SettingsContent(
     availableLocales: List<java.util.Locale>,
     isAutoUpdateEnabled: Boolean,
     updateInfo: com.arslandaim.playtube.domain.repository.UpdateInfo,
+    downloadState: UpdateDownloadState,
+    showInstallDialog: Boolean,
     onSetSearchHistoryPaused: (Boolean) -> Unit,
     onSetPipEnabled: (Boolean) -> Unit,
     onSetBackgroundPlayEnabled: (Boolean) -> Unit,
@@ -177,6 +196,10 @@ private fun SettingsContent(
     onClearLearnedInterests: () -> Unit,
     onSetAutoUpdateEnabled: (Boolean) -> Unit,
     onCheckForUpdates: () -> Unit,
+    onStartDownload: () -> Unit,
+    onCancelDownload: () -> Unit,
+    onInstallUpdate: () -> Unit,
+    onDismissInstallDialog: () -> Unit,
     onClearAllDownloads: () -> Unit,
     onViewHistory: () -> Unit,
     onDataManagement: () -> Unit,
@@ -243,6 +266,47 @@ private fun SettingsContent(
         )
     }
 
+    if (showInstallDialog) {
+        AlertDialog(
+            onDismissRequest = onDismissInstallDialog,
+            icon = {
+                Icon(
+                    imageVector = Icons.Default.SystemUpdate,
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(32.dp)
+                )
+            },
+            title = {
+                Text(
+                    text = "Install Latest Update?",
+                    fontWeight = FontWeight.Bold,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            text = {
+                Text(
+                    text = "GuruTube v${updateInfo.latestVersion} has been downloaded.\n\nDo you agree to install the latest update? The app will close to apply the update and automatically reopen once complete.",
+                    style = MaterialTheme.typography.bodyMedium
+                )
+            },
+            confirmButton = {
+                Button(
+                    onClick = onInstallUpdate,
+                    colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                ) {
+                    Text("Install Now", fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = onDismissInstallDialog) {
+                    Text("Later")
+                }
+            }
+        )
+    }
+
     Scaffold(
         modifier = Modifier.nestedScroll(scrollBehavior.nestedScrollConnection),
         topBar = {
@@ -283,42 +347,10 @@ private fun SettingsContent(
                             if (isAutoUpdateEnabled) {
                                 if (updateInfo.isChecking) {
                                     CircularProgressIndicator(
-                                        modifier = Modifier.size(24.dp),
+                                        modifier = Modifier.size(20.dp),
                                         strokeWidth = 2.dp,
                                         color = MaterialTheme.colorScheme.primary
                                     )
-                                } else if (updateInfo.hasUpdate) {
-                                    Button(
-                                        onClick = {
-                                            val url = if (updateInfo.downloadUrl.isNotBlank()) {
-                                                updateInfo.downloadUrl
-                                            } else if (updateInfo.updateUrl.isNotBlank()) {
-                                                updateInfo.updateUrl
-                                            } else {
-                                                "https://github.com/harshguruji01/GuruTube/releases/latest"
-                                            }
-                                            val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                                            context.startActivity(intent)
-                                        },
-                                        colors = ButtonDefaults.buttonColors(
-                                            containerColor = MaterialTheme.colorScheme.error,
-                                            contentColor = MaterialTheme.colorScheme.onError
-                                        ),
-                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 6.dp),
-                                        shape = RoundedCornerShape(10.dp)
-                                    ) {
-                                        Icon(
-                                            imageVector = Icons.Default.SystemUpdate,
-                                            contentDescription = "Update",
-                                            modifier = Modifier.size(16.dp)
-                                        )
-                                        Spacer(modifier = Modifier.width(4.dp))
-                                        Text(
-                                            text = "Update",
-                                            style = MaterialTheme.typography.labelSmall,
-                                            fontWeight = FontWeight.Bold
-                                        )
-                                    }
                                 } else {
                                     IconButton(
                                         onClick = onCheckForUpdates,
@@ -335,56 +367,261 @@ private fun SettingsContent(
                             }
                         }
                     )
-                    if (isAutoUpdateEnabled && updateInfo.hasUpdate) {
-                        HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = MaterialTheme.colorScheme.outlineVariant)
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .background(MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f))
-                                .padding(16.dp)
-                        ) {
-                            Row(verticalAlignment = Alignment.CenterVertically) {
-                                Icon(
-                                    imageVector = Icons.Default.SystemUpdate,
-                                    contentDescription = null,
-                                    tint = MaterialTheme.colorScheme.primary,
-                                    modifier = Modifier.size(20.dp)
-                                )
-                                Spacer(modifier = Modifier.width(8.dp))
-                                Text(
-                                    text = stringResource(R.string.update_available, updateInfo.latestVersion),
-                                    style = MaterialTheme.typography.titleSmall,
-                                    color = MaterialTheme.colorScheme.primary,
-                                    fontWeight = FontWeight.Bold
-                                )
+                    HorizontalDivider(modifier = Modifier.padding(horizontal = 16.dp), thickness = 0.5.dp, color = MaterialTheme.colorScheme.outlineVariant)
+
+                    // Dynamic Updater Status & Live Progress
+                    Column(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(16.dp)
+                    ) {
+                        when {
+                            updateInfo.isChecking -> {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    CircularProgressIndicator(
+                                        modifier = Modifier.size(18.dp),
+                                        strokeWidth = 2.dp,
+                                        color = MaterialTheme.colorScheme.primary
+                                    )
+                                    Spacer(modifier = Modifier.width(12.dp))
+                                    Text(
+                                        text = "Checking GitHub repository for updates...",
+                                        style = MaterialTheme.typography.bodyMedium,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                }
                             }
-                            if (updateInfo.releaseNotes.isNotBlank()) {
-                                Spacer(modifier = Modifier.height(8.dp))
-                                Text(
-                                    text = updateInfo.releaseNotes,
-                                    style = MaterialTheme.typography.bodySmall,
-                                    color = MaterialTheme.colorScheme.onSurfaceVariant
-                                )
-                            }
-                            Spacer(modifier = Modifier.height(12.dp))
-                            Button(
-                                onClick = {
-                                    val url = if (updateInfo.downloadUrl.isNotBlank()) {
-                                        updateInfo.downloadUrl
-                                    } else if (updateInfo.updateUrl.isNotBlank()) {
-                                        updateInfo.updateUrl
-                                    } else {
-                                        "https://github.com/harshguruji01/GuruTube/releases/latest"
+                            downloadState is UpdateDownloadState.Downloading -> {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f),
+                                            RoundedCornerShape(12.dp)
+                                        )
+                                        .padding(14.dp)
+                                ) {
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Text(
+                                            text = "Downloading Update v${updateInfo.latestVersion}",
+                                            style = MaterialTheme.typography.titleSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                        Text(
+                                            text = "${(downloadState.progress * 100).toInt()}%",
+                                            style = MaterialTheme.typography.labelLarge,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
                                     }
-                                    val intent = Intent(Intent.ACTION_VIEW, url.toUri())
-                                    context.startActivity(intent)
-                                },
-                                shape = RoundedCornerShape(12.dp),
-                                contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
-                            ) {
-                                Icon(Icons.Default.SystemUpdate, contentDescription = null, modifier = Modifier.size(16.dp))
-                                Spacer(modifier = Modifier.width(6.dp))
-                                Text(stringResource(R.string.download_from_github), fontWeight = FontWeight.Bold)
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    LinearProgressIndicator(
+                                        progress = { downloadState.progress },
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .height(8.dp)
+                                            .clip(RoundedCornerShape(4.dp)),
+                                        color = MaterialTheme.colorScheme.primary,
+                                        trackColor = MaterialTheme.colorScheme.surfaceVariant
+                                    )
+                                    Spacer(modifier = Modifier.height(8.dp))
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.SpaceBetween,
+                                        modifier = Modifier.fillMaxWidth()
+                                    ) {
+                                        Row(verticalAlignment = Alignment.CenterVertically) {
+                                            Icon(
+                                                imageVector = Icons.Default.Speed,
+                                                contentDescription = null,
+                                                modifier = Modifier.size(14.dp),
+                                                tint = MaterialTheme.colorScheme.primary
+                                            )
+                                            Spacer(modifier = Modifier.width(4.dp))
+                                            Text(
+                                                text = downloadState.speedText,
+                                                style = MaterialTheme.typography.labelMedium,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = MaterialTheme.colorScheme.primary
+                                            )
+                                        }
+                                        if (downloadState.totalBytes > 0) {
+                                            Text(
+                                                text = "${VideoUtils.formatSize(downloadState.downloadedBytes)} / ${VideoUtils.formatSize(downloadState.totalBytes)}",
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        }
+                                    }
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                    OutlinedButton(
+                                        onClick = onCancelDownload,
+                                        modifier = Modifier.align(Alignment.End),
+                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp),
+                                        shape = RoundedCornerShape(8.dp)
+                                    ) {
+                                        Text("Cancel", style = MaterialTheme.typography.labelSmall)
+                                    }
+                                }
+                            }
+                            downloadState is UpdateDownloadState.DownloadCompleted -> {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.2f),
+                                            RoundedCornerShape(12.dp)
+                                        )
+                                        .padding(14.dp)
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            imageVector = Icons.Default.CheckCircle,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = "Update downloaded & verified!",
+                                            style = MaterialTheme.typography.titleSmall,
+                                            fontWeight = FontWeight.Bold,
+                                            color = MaterialTheme.colorScheme.primary
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(4.dp))
+                                    Text(
+                                        text = "GuruTube v${updateInfo.latestVersion} is ready to install.",
+                                        style = MaterialTheme.typography.bodySmall,
+                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                    )
+                                    Spacer(modifier = Modifier.height(10.dp))
+                                    Button(
+                                        onClick = onInstallUpdate,
+                                        shape = RoundedCornerShape(10.dp),
+                                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                                    ) {
+                                        Icon(Icons.Default.SystemUpdate, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text("Install Update Now", fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            }
+                            updateInfo.hasUpdate -> {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .background(
+                                            MaterialTheme.colorScheme.primaryContainer.copy(alpha = 0.15f),
+                                            RoundedCornerShape(12.dp)
+                                        )
+                                        .padding(14.dp)
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            imageVector = Icons.Default.SystemUpdate,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(8.dp))
+                                        Text(
+                                            text = stringResource(R.string.update_available, updateInfo.latestVersion),
+                                            style = MaterialTheme.typography.titleSmall,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            fontWeight = FontWeight.Bold
+                                        )
+                                    }
+                                    if (updateInfo.releaseNotes.isNotBlank()) {
+                                        Spacer(modifier = Modifier.height(6.dp))
+                                        Text(
+                                            text = updateInfo.releaseNotes,
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                    }
+                                    Spacer(modifier = Modifier.height(12.dp))
+                                    Button(
+                                        onClick = onStartDownload,
+                                        shape = RoundedCornerShape(10.dp),
+                                        contentPadding = PaddingValues(horizontal = 16.dp, vertical = 8.dp)
+                                    ) {
+                                        Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text("Download & Update", fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            }
+                            updateInfo.checkStatus == CheckStatus.ERROR -> {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Column(modifier = Modifier.weight(1f)) {
+                                        Text(
+                                            text = "Could not check for updates",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            fontWeight = FontWeight.Medium,
+                                            color = MaterialTheme.colorScheme.error
+                                        )
+                                        if (updateInfo.errorMessage.isNotBlank()) {
+                                            Text(
+                                                text = updateInfo.errorMessage,
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        }
+                                    }
+                                    TextButton(onClick = onCheckForUpdates) {
+                                        Text("Retry")
+                                    }
+                                }
+                            }
+                            else -> {
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.SpaceBetween,
+                                    modifier = Modifier.fillMaxWidth()
+                                ) {
+                                    Row(verticalAlignment = Alignment.CenterVertically) {
+                                        Icon(
+                                            imageVector = Icons.Default.CheckCircle,
+                                            contentDescription = null,
+                                            tint = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.size(20.dp)
+                                        )
+                                        Spacer(modifier = Modifier.width(10.dp))
+                                        Column {
+                                            Text(
+                                                text = "No update available",
+                                                style = MaterialTheme.typography.bodyMedium,
+                                                fontWeight = FontWeight.SemiBold,
+                                                color = MaterialTheme.colorScheme.onSurface
+                                            )
+                                            Text(
+                                                text = "GuruTube v${BuildConfig.VERSION_NAME} is up to date",
+                                                style = MaterialTheme.typography.bodySmall,
+                                                color = MaterialTheme.colorScheme.onSurfaceVariant
+                                            )
+                                        }
+                                    }
+                                    OutlinedButton(
+                                        onClick = onCheckForUpdates,
+                                        shape = RoundedCornerShape(8.dp),
+                                        contentPadding = PaddingValues(horizontal = 12.dp, vertical = 4.dp)
+                                    ) {
+                                        Text("Check", style = MaterialTheme.typography.labelSmall)
+                                    }
+                                }
                             }
                         }
                     }

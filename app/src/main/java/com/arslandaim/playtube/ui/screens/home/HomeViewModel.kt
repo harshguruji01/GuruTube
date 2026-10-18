@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -18,7 +18,7 @@ import com.arslandaim.playtube.domain.usecase.DownloadVideoUseCase
 import com.arslandaim.playtube.domain.usecase.GetVideoStreamsUseCase
 import com.arslandaim.playtube.domain.usecase.ToggleFavoriteUseCase
 import com.arslandaim.playtube.ui.components.DownloadDialogState
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.HistoryUtils.applyHistory
 import com.arslandaim.playtube.utils.HistoryUtils.getContinuePlaying
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -127,7 +127,7 @@ class HomeViewModel @Inject constructor(
             libraryRepository.updateCachedFeed("home_trending", combinedVideos)
             
         } catch (e: Exception) {
-            _internalState.update { it.copy(error = PlayTubeError.fromThrowable(e)) }
+            _internalState.update { it.copy(error = GuruTubeError.fromThrowable(e)) }
         }
     }
 
@@ -281,5 +281,5 @@ data class HomeState(
     val isTrendingLoading: Boolean = true,
     val isLoadingMore: Boolean = false,
     val isPersonalized: Boolean = false,
-    val error: PlayTubeError? = null
+    val error: GuruTubeError? = null
 )

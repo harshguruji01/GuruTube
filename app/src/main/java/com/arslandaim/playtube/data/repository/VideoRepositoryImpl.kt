@@ -205,7 +205,13 @@ class VideoRepositoryImpl @Inject constructor(
         ensureInit()
         return withContext(Dispatchers.IO) {
             try {
-                val finalUrl = if (channelUrl.startsWith("UC") && !channelUrl.contains("/")) Constants.YouTube.CHANNEL_URL_PREFIX + channelUrl else channelUrl
+                val finalUrl = when {
+                    channelUrl.startsWith("http://") || channelUrl.startsWith("https://") -> channelUrl
+                    channelUrl.startsWith("@") -> "https://www.youtube.com/$channelUrl"
+                    channelUrl.startsWith("UC") && !channelUrl.contains("/") -> Constants.YouTube.CHANNEL_URL_PREFIX + channelUrl
+                    channelUrl.contains("/") -> "https://www.youtube.com/" + channelUrl.trimStart('/')
+                    else -> Constants.YouTube.CHANNEL_URL_PREFIX + channelUrl
+                }
                 val info = ChannelInfo.getInfo(ServiceList.YouTube, finalUrl)
                 val avatar = info.avatars?.find { it.width in 150..300 }?.url ?: info.avatars?.firstOrNull()?.url
                 
@@ -243,7 +249,14 @@ class VideoRepositoryImpl @Inject constructor(
         ensureInit()
         return withContext(Dispatchers.IO) {
             try {
-                val handler = ServiceList.YouTube.channelTabLHFactory.fromUrl(channelUrl + "/videos")
+                val finalUrl = when {
+                    channelUrl.startsWith("http://") || channelUrl.startsWith("https://") -> channelUrl
+                    channelUrl.startsWith("@") -> "https://www.youtube.com/$channelUrl"
+                    channelUrl.startsWith("UC") && !channelUrl.contains("/") -> Constants.YouTube.CHANNEL_URL_PREFIX + channelUrl
+                    channelUrl.contains("/") -> "https://www.youtube.com/" + channelUrl.trimStart('/')
+                    else -> Constants.YouTube.CHANNEL_URL_PREFIX + channelUrl
+                }
+                val handler = ServiceList.YouTube.channelTabLHFactory.fromUrl(finalUrl + "/videos")
                 val nextPage = ServiceList.YouTube.getChannelTabExtractor(handler).getPage(page)
                 PaginatedList(nextPage.items.filterIsInstance<StreamInfoItem>().map { mapToVideoItem(it) }, if (nextPage.hasNextPage()) nextPage.nextPage else null)
             } catch (e: Exception) { PTLog.e("VideoRepository", "Error fetching next channel page", e); PaginatedList(emptyList(), null) }

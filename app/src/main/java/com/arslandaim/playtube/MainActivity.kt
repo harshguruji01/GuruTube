@@ -59,7 +59,7 @@ import com.arslandaim.playtube.domain.model.VideoItem
 import com.arslandaim.playtube.services.PlaybackService
 import com.arslandaim.playtube.ui.components.GlassSurface
 import com.arslandaim.playtube.ui.components.main.OfflineBottomBanner
-import com.arslandaim.playtube.ui.components.main.PlayTubeTopAppBar
+import com.arslandaim.playtube.ui.components.main.GuruTubeTopAppBar
 import com.arslandaim.playtube.ui.components.main.RestorationBanner
 import com.arslandaim.playtube.ui.navigation.NavGraph
 import com.arslandaim.playtube.ui.navigation.Destination
@@ -68,7 +68,7 @@ import com.arslandaim.playtube.ui.screens.player.MiniPlayerManager
 import com.arslandaim.playtube.ui.screens.player.PlayerOverlay
 import com.arslandaim.playtube.ui.screens.settings.UpdateViewModel
 import com.arslandaim.playtube.ui.theme.IncognitoPurple
-import com.arslandaim.playtube.ui.theme.PlayTubeTheme
+import com.arslandaim.playtube.ui.theme.GuruTubeTheme
 import com.arslandaim.playtube.utils.ConnectivityObserver
 import com.arslandaim.playtube.utils.PTLog
 import com.google.common.util.concurrent.MoreExecutors
@@ -116,27 +116,6 @@ class MainActivity : AppCompatActivity() {
             !statusKnown && elapsed < 3000
         }
 
-        // Local Network Protection check (Android 16+ / API 36+)
-        if (Build.VERSION.SDK_INT >= 36) {
-            val permission = if (Build.VERSION.SDK_INT >= 37) {
-                "android.permission.ACCESS_LOCAL_NETWORK"
-            } else {
-                Manifest.permission.NEARBY_WIFI_DEVICES
-            }
-
-            try {
-                if (ContextCompat.checkSelfPermission(this, permission) != PackageManager.PERMISSION_GRANTED) {
-                    // Only request if not previously denied in this session or check rationale
-                    if (shouldShowRequestPermissionRationale(permission)) {
-                        PTLog.d("MainActivity", "Local Network permission rationale needed.")
-                        // For simplicity in startup, we just launch, but a dialog would be better
-                    }
-                    requestPermissionLauncher.launch(permission)
-                }
-            } catch (e: Exception) {
-                PTLog.e("MainActivity", "Failed to request local network permission", e)
-            }
-        }
 
         // Observe critical events
         lifecycleScope.launch {
@@ -179,7 +158,7 @@ class MainActivity : AppCompatActivity() {
                 }
             }
 
-            PlayTubeTheme(
+            GuruTubeTheme(
                 darkTheme = true,
                 isDynamicColorEnabled = mainViewModel.isDynamicColorEnabled.collectAsStateWithLifecycle().value
             ) {
@@ -317,7 +296,7 @@ class MainActivity : AppCompatActivity() {
                                                 .fillMaxWidth()
                                                 .height(BOTTOM_BAR_HEIGHT)
                                             ) {
-                                                PlayTubeTopAppBar(
+                                                GuruTubeTopAppBar(
                                                     isIncognitoMode = isIncognitoMode,
                                                     currentRoute = currentRoute,
                                                     navController = navController,
@@ -374,7 +353,7 @@ class MainActivity : AppCompatActivity() {
                                     shadowElevation = 16.dp,
                                     containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.85f)
                                 ) {
-                                    PlayTubeBottomBar(navController = navController)
+                                    GuruTubeBottomBar(navController = navController)
                                 }
                             }
                         }
@@ -567,10 +546,11 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-fun PlayTubeBottomBar(navController: androidx.navigation.NavHostController) {
+fun GuruTubeBottomBar(navController: androidx.navigation.NavHostController) {
     val items = listOf(
         Triple(Destination.Home, Icons.Default.Home, stringResource(R.string.tab_for_you)),
         Triple(Destination.Subscriptions, Icons.Default.Subscriptions, stringResource(R.string.subscriptions)),
+        Triple(Destination.Downloads, Icons.Default.Download, stringResource(R.string.downloads)),
         Triple(Destination.Search(""), Icons.Default.Search, stringResource(R.string.search)),
         Triple(Destination.Library, Icons.Default.LibraryMusic, stringResource(R.string.library))
     )
@@ -627,3 +607,8 @@ fun PlayTubeBottomBar(navController: androidx.navigation.NavHostController) {
         }
     }
 }
+
+@Composable
+fun PlayTubeBottomBar(navController: androidx.navigation.NavHostController) =
+    GuruTubeBottomBar(navController)
+

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -27,6 +27,7 @@ import kotlinx.coroutines.*
 import java.io.InputStreamReader
 import java.io.OutputStreamWriter
 import java.util.zip.ZipEntry
+import com.arslandaim.playtube.data.local.GuruTubeDatabase
 import java.util.zip.ZipInputStream
 import java.util.zip.ZipOutputStream
 import javax.inject.Inject
@@ -35,7 +36,7 @@ import javax.inject.Singleton
 @Singleton
 class DataManagerRepositoryImpl @Inject constructor(
     @ApplicationContext private val context: Context,
-    private val database: PlayTubeDatabase,
+    private val database: GuruTubeDatabase,
     private val preferencesManager: PreferencesManager,
     private val gson: Gson
 ) : DataManagerRepository {
@@ -171,7 +172,7 @@ class DataManagerRepositoryImpl @Inject constructor(
             val localPlaylists = database.localPlaylistDao().getAllLocalPlaylistsStatic()
             val localPlaylistVideos = database.localPlaylistDao().getAllLocalPlaylistVideosStatic()
             
-            val prefs = PlayTubePreferences(
+            val prefs = GuruTubePreferences(
                 isHistoryEnabled = preferencesManager.isHistoryEnabled.first(),
                 isSearchHistoryPaused = preferencesManager.isSearchHistoryPaused.first(),
                 isPipEnabled = preferencesManager.isPipEnabled.first(),
@@ -184,7 +185,7 @@ class DataManagerRepositoryImpl @Inject constructor(
                 isPlayerGesturesEnabled = preferencesManager.isPlayerGesturesEnabled.first()
             )
 
-            val backup = PlayTubeBackup(
+            val backup = GuruTubeBackup(
                 version = 2,
                 timestamp = System.currentTimeMillis(),
                 history = history,
@@ -220,7 +221,7 @@ class DataManagerRepositoryImpl @Inject constructor(
 
     override suspend fun restoreBackup(uri: Uri): Result<Unit> = withContext(Dispatchers.IO) {
         try {
-            var backup: PlayTubeBackup? = null
+            var backup: GuruTubeBackup? = null
 
             // 1. Try reading as ZIP file first
             try {
@@ -231,7 +232,7 @@ class DataManagerRepositoryImpl @Inject constructor(
                             val name = entry.name
                             if (!entry.isDirectory && (name.endsWith("backup.json", ignoreCase = true) || name.endsWith(".json", ignoreCase = true)) && !name.contains("__MACOSX")) {
                                 val reader = InputStreamReader(zis)
-                                backup = gson.fromJson(reader, PlayTubeBackup::class.java)
+                                backup = gson.fromJson(reader, GuruTubeBackup::class.java)
                                 if (backup != null) break
                             }
                             zis.closeEntry()
@@ -247,7 +248,7 @@ class DataManagerRepositoryImpl @Inject constructor(
             if (backup == null) {
                 context.contentResolver.openInputStream(uri)?.use { inputStream ->
                     val reader = InputStreamReader(inputStream)
-                    backup = gson.fromJson(reader, PlayTubeBackup::class.java)
+                    backup = gson.fromJson(reader, GuruTubeBackup::class.java)
                 }
             }
 
@@ -340,7 +341,7 @@ data class TakeoutSubtitle(
     @SerializedName("name") val name: String?
 )
 
-data class PlayTubeBackup(
+data class GuruTubeBackup(
     @SerializedName("version") val version: Int = 2,
     @SerializedName("timestamp") val timestamp: Long = System.currentTimeMillis(),
     @SerializedName("history") val history: List<HistoryEntity>? = emptyList(),
@@ -352,10 +353,10 @@ data class PlayTubeBackup(
     @SerializedName("blacklist") val blacklist: List<BlacklistEntity>? = emptyList(),
     @SerializedName("localPlaylists") val localPlaylists: List<LocalPlaylistEntity>? = emptyList(),
     @SerializedName("localPlaylistVideos") val localPlaylistVideos: List<LocalPlaylistVideoEntity>? = emptyList(),
-    @SerializedName("preferences") val preferences: PlayTubePreferences? = null
+    @SerializedName("preferences") val preferences: GuruTubePreferences? = null
 )
 
-data class PlayTubePreferences(
+data class GuruTubePreferences(
     @SerializedName("isHistoryEnabled") val isHistoryEnabled: Boolean = true,
     @SerializedName("isSearchHistoryPaused") val isSearchHistoryPaused: Boolean = false,
     @SerializedName("isPipEnabled") val isPipEnabled: Boolean = false,
@@ -367,3 +368,6 @@ data class PlayTubePreferences(
     @SerializedName("isRecommendationsPaused") val isRecommendationsPaused: Boolean = false,
     @SerializedName("isPlayerGesturesEnabled") val isPlayerGesturesEnabled: Boolean? = true
 )
+
+typealias PlayTubeBackup = GuruTubeBackup
+typealias PlayTubePreferences = GuruTubePreferences

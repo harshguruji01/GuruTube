@@ -52,7 +52,7 @@ private val LightColorScheme = lightColorScheme(
 )
 
 @Composable
-fun PlayTubeTheme(
+fun GuruTubeTheme(
     darkTheme: Boolean = true,
     isDynamicColorEnabled: Boolean = false,
     content: @Composable () -> Unit
@@ -85,3 +85,11 @@ fun PlayTubeTheme(
         content = content
     )
 }
+
+@Composable
+fun PlayTubeTheme(
+    darkTheme: Boolean = true,
+    isDynamicColorEnabled: Boolean = false,
+    content: @Composable () -> Unit
+) = GuruTubeTheme(darkTheme, isDynamicColorEnabled, content)
+

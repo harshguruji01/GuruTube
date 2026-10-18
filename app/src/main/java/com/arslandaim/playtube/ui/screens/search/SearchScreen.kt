@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -45,7 +45,7 @@ import com.arslandaim.playtube.domain.model.*
 import com.arslandaim.playtube.ui.components.InfiniteScrollEffect
 import com.arslandaim.playtube.ui.components.InfiniteScrollGridEffect
 import com.arslandaim.playtube.ui.components.*
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.Constants
 import com.arslandaim.playtube.MainViewModel
 import com.arslandaim.playtube.domain.repository.UpdateInfo
@@ -527,7 +527,7 @@ private fun SearchContent(
                                 }
                             }
                             is SearchUiState.Error -> {
-                                val isNetworkError = state.error is PlayTubeError.Network
+                                val isNetworkError = state.error is GuruTubeError.Network
                                 Box(modifier = Modifier.fillMaxSize().padding(top = topPadding)) {
                                     EmptyState(
                                         icon = if (isNetworkError) Icons.Default.WifiOff else Icons.Default.ErrorOutline,

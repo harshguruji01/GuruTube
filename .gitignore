@@ -12,4 +12,5 @@
 
 # Built artifacts
 *.apk
+!GuruTube.apk
 *.aab

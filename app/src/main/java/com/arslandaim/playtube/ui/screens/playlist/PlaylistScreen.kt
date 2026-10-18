@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -43,7 +43,7 @@ import com.arslandaim.playtube.ui.components.GlassSurface
 import com.arslandaim.playtube.ui.components.EmptyState
 import com.arslandaim.playtube.domain.model.VideoItem
 import com.arslandaim.playtube.ui.screens.library.VideoRow
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.lifecycle.Lifecycle
@@ -426,7 +426,7 @@ private fun PlaylistContent(
                     }
                 }
                 is PlaylistUiState.Error -> {
-                    val isNetworkError = uiState.error is PlayTubeError.Network
+                    val isNetworkError = uiState.error is GuruTubeError.Network
                     EmptyState(
                         icon = if (isNetworkError) Icons.Default.WifiOff else Icons.Default.ErrorOutline,
                         title = if (isNetworkError) stringResource(R.string.no_internet) else "Something went wrong",

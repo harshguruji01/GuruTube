@@ -13,10 +13,10 @@ android {
     defaultConfig {
         applicationId = "com.harshguruji.play"
         minSdk = 24
-        targetSdk = 36
+        targetSdk = 35
 
-        versionCode = 18
-        versionName = "com.harshguruji.play"
+        versionCode = 19
+        versionName = "1.0.1"
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -27,6 +27,8 @@ android {
             storePassword = "hptubepass"
             keyAlias = "hptube"
             keyPassword = "hptubepass"
+            enableV1Signing = true
+            enableV2Signing = true
         }
     }
 

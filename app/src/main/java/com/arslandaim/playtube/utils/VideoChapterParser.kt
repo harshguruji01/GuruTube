@@ -1,4 +1,4 @@
-ï»¿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -41,8 +41,8 @@ object VideoChapterParser {
 
             // Extract the title text around or after the timestamp
             var title = line.replace(timeStr, "").trim()
-            // Clean up leading/trailing punctuation like "-", ":", "â€¢", "â€“"
-            title = title.replace(Regex("""^[â€”â€“\-:â€¢\s]+|[â€”â€“\-:â€¢\s]+$"""), "").trim()
+            // Clean up leading/trailing punctuation like "-", ":", "•", "–"
+            title = title.replace(Regex("""^[—–\-:•\s]+|[—–\-:•\s]+$"""), "").trim()
 
             if (title.isBlank()) {
                 title = "Chapter at $timeStr"

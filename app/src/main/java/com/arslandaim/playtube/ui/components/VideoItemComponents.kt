@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -364,7 +364,7 @@ fun PremiumPlaylistCard(
                 Spacer(modifier = Modifier.height(4.dp))
                 
                 Text(
-                    text = "${playlist.uploaderName} • Playlist",
+                    text = "${playlist.uploaderName} � Playlist",
                     style = MaterialTheme.typography.bodySmall,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )

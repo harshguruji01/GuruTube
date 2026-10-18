@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -18,7 +18,7 @@ import com.arslandaim.playtube.domain.usecase.DownloadVideoUseCase
 import com.arslandaim.playtube.domain.usecase.GetVideoStreamsUseCase
 import com.arslandaim.playtube.domain.usecase.ToggleFavoriteUseCase
 import com.arslandaim.playtube.ui.components.DownloadDialogState
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.HistoryUtils.applyHistory
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.*
@@ -166,6 +166,10 @@ class SubscriptionsFeedViewModel @Inject constructor(
         if (_isRefreshing.value) return
         viewModelScope.launch {
             _isRefreshing.value = true
+            _allFeedState.update { it.copy(error = null) }
+            _selectedChannelId.value?.let { channelId ->
+                _channelFeedsCache[channelId]?.update { it.copy(error = null) }
+            }
             
             val currentSubs = _subscriptions.value
             val selectedId = _selectedChannelId.value
@@ -261,8 +265,8 @@ class SubscriptionsFeedViewModel @Inject constructor(
                 throw e
             } catch (e: Exception) {
                 _isThoroughSearching.value = false
-                _snackbarMessage.emit("Failed to sync subscriptions: ${PlayTubeError.fromThrowable(e).getMessage()}")
-                _allFeedState.update { it.copy(error = PlayTubeError.fromThrowable(e)) }
+                _snackbarMessage.emit("Failed to sync subscriptions: ${GuruTubeError.fromThrowable(e).getMessage()}")
+                _allFeedState.update { it.copy(error = GuruTubeError.fromThrowable(e)) }
             }
         }
     }
@@ -362,7 +366,7 @@ class SubscriptionsFeedViewModel @Inject constructor(
             libraryRepository.updateCachedFeed(cacheKey, stateFlow.value.videos)
             
         } catch (e: Exception) {
-            stateFlow.update { it.copy(error = PlayTubeError.fromThrowable(e)) }
+            stateFlow.update { it.copy(error = GuruTubeError.fromThrowable(e)) }
         }
     }
 
@@ -451,7 +455,7 @@ data class FeedState(
     val videos: List<VideoItem> = emptyList(),
     val isLoading: Boolean = false,
     val isLoadingMore: Boolean = false,
-    val error: PlayTubeError? = null,
+    val error: GuruTubeError? = null,
     val nextPage: Page? = null
 )
 

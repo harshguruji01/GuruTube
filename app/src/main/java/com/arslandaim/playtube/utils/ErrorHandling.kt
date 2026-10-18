@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -8,14 +8,14 @@ package com.arslandaim.playtube.utils
 import java.io.IOException
 import java.net.UnknownHostException
 
-sealed class PlayTubeError {
-    object Network : PlayTubeError()
-    data class Extraction(val errorMessage: String) : PlayTubeError()
-    data class Unknown(val errorMessage: String) : PlayTubeError()
-    object AuthError : PlayTubeError()
-    object ApiThrottled : PlayTubeError()
-    object StorageFull : PlayTubeError()
-    data class UnsupportedFormat(val format: String) : PlayTubeError()
+sealed class GuruTubeError {
+    object Network : GuruTubeError()
+    data class Extraction(val errorMessage: String) : GuruTubeError()
+    data class Unknown(val errorMessage: String) : GuruTubeError()
+    object AuthError : GuruTubeError()
+    object ApiThrottled : GuruTubeError()
+    object StorageFull : GuruTubeError()
+    data class UnsupportedFormat(val format: String) : GuruTubeError()
 
     fun getMessage(): String {
         return when (this) {
@@ -30,7 +30,7 @@ sealed class PlayTubeError {
     }
 
     companion object {
-        fun fromThrowable(t: Throwable): PlayTubeError {
+        fun fromThrowable(t: Throwable): GuruTubeError {
             return when (t) {
                 is UnknownHostException, is IOException -> Network
                 is java.lang.SecurityException -> AuthError

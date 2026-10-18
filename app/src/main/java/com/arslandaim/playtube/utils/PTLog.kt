@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -9,7 +9,7 @@ import android.util.Log
 import com.arslandaim.playtube.BuildConfig
 
 /**
- * PlayTube Centralized Logger.
+ * GuruTube Centralized Logger.
  * Ensures logs are only emitted in Debug builds for security and performance.
  */
 object PTLog {

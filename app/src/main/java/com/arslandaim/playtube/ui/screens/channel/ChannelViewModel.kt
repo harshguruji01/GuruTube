@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -15,7 +15,7 @@ import com.arslandaim.playtube.domain.model.StreamBundle
 import com.arslandaim.playtube.domain.repository.LibraryRepository
 import com.arslandaim.playtube.domain.usecase.*
 import com.arslandaim.playtube.ui.components.DownloadDialogState
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.VideoUtils
 import com.arslandaim.playtube.utils.HistoryUtils.applyHistory
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -93,7 +93,7 @@ class ChannelViewModel @Inject constructor(
                     }
                 }
                 .onFailure { exception ->
-                    _internalUiState.value = ChannelUiState.Error(PlayTubeError.fromThrowable(exception))
+                    _internalUiState.value = ChannelUiState.Error(GuruTubeError.fromThrowable(exception))
                 }
         }
     }
@@ -239,5 +239,5 @@ sealed interface ChannelUiState {
         val details: ChannelDetails,
         val isFetchingNextPage: Boolean = false
     ) : ChannelUiState
-    data class Error(val error: PlayTubeError) : ChannelUiState
+    data class Error(val error: GuruTubeError) : ChannelUiState
 }

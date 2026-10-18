@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -14,25 +14,25 @@ class ErrorHandlingTest {
 
     @Test
     fun `fromThrowable maps Network errors correctly`() {
-        assertTrue(PlayTubeError.fromThrowable(UnknownHostException()) is PlayTubeError.Network)
-        assertTrue(PlayTubeError.fromThrowable(IOException()) is PlayTubeError.Network)
+        assertTrue(GuruTubeError.fromThrowable(UnknownHostException()) is GuruTubeError.Network)
+        assertTrue(GuruTubeError.fromThrowable(IOException()) is GuruTubeError.Network)
     }
 
     @Test
     fun `fromThrowable maps AuthError correctly`() {
-        assertTrue(PlayTubeError.fromThrowable(SecurityException()) is PlayTubeError.AuthError)
+        assertTrue(GuruTubeError.fromThrowable(SecurityException()) is GuruTubeError.AuthError)
     }
 
     @Test
     fun `fromThrowable maps ApiThrottled correctly`() {
         val throttledException = Exception("HTTP 429 Too Many Requests")
-        assertTrue(PlayTubeError.fromThrowable(throttledException) is PlayTubeError.ApiThrottled)
+        assertTrue(GuruTubeError.fromThrowable(throttledException) is GuruTubeError.ApiThrottled)
     }
 
     @Test
     fun `getMessage returns human readable strings`() {
-        assertEquals("No internet connection", PlayTubeError.Network.getMessage())
-        assertEquals("Authentication required", PlayTubeError.AuthError.getMessage())
-        assertEquals("Custom Error", PlayTubeError.Unknown("Custom Error").getMessage())
+        assertEquals("No internet connection", GuruTubeError.Network.getMessage())
+        assertEquals("Authentication required", GuruTubeError.AuthError.getMessage())
+        assertEquals("Custom Error", GuruTubeError.Unknown("Custom Error").getMessage())
     }
 }

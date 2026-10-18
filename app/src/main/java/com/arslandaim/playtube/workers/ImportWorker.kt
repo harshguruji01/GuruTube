@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -16,7 +16,7 @@ import androidx.work.ForegroundInfo
 import androidx.work.WorkerParameters
 import androidx.work.Data
 import com.arslandaim.playtube.data.local.HistoryEntity
-import com.arslandaim.playtube.data.local.PlayTubeDatabase
+import com.arslandaim.playtube.data.local.GuruTubeDatabase
 import com.arslandaim.playtube.data.local.SubscriptionEntity
 import com.arslandaim.playtube.domain.repository.VideoRepository
 import com.arslandaim.playtube.domain.usecase.UpdateUserInterestsUseCase
@@ -38,7 +38,7 @@ import java.util.zip.ZipInputStream
 class ImportWorker @AssistedInject constructor(
     @Assisted private val context: Context,
     @Assisted params: WorkerParameters,
-    private val database: PlayTubeDatabase,
+    private val database: GuruTubeDatabase,
     private val videoRepository: VideoRepository,
     private val updateUserInterestsUseCase: UpdateUserInterestsUseCase,
     private val gson: Gson

@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -41,7 +41,9 @@ sealed interface Destination {
     @Serializable data object Settings : Destination
     @Serializable data object History : Destination
     @Serializable data object SubscriptionsList : Destination
-    @Serializable data object Downloads : Destination
+    @Serializable data object Downloads : Destination {
+        override val isTopLevel: Boolean get() = true
+    }
     @Serializable data class Channel(val channelUrl: String) : Destination
     @Serializable data class Player(
         val videoId: String,

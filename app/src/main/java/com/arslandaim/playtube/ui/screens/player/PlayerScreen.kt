@@ -1,4 +1,4 @@
-﻿/*
+/*
  * GuruTube Project Original (2026)
  * HarshGuruJi (https://github.com/harshguruji01/GuruTube)
  * Licenced Under GPL-3.0+
@@ -93,7 +93,7 @@ import com.arslandaim.playtube.ui.components.rememberSyncShimmerTransition
 import com.arslandaim.playtube.ui.components.EmptyState
 import com.arslandaim.playtube.ui.components.EmptyState
 import com.arslandaim.playtube.ui.components.player.VideoPlayerView
-import com.arslandaim.playtube.utils.PlayTubeError
+import com.arslandaim.playtube.utils.GuruTubeError
 import com.arslandaim.playtube.utils.VideoUtils
 import androidx.compose.material.icons.filled.WifiOff
 import androidx.compose.material.icons.filled.ErrorOutline
@@ -864,7 +864,7 @@ private fun PlayerContent(
                                     }
                                 }
                             } else if (uiState is PlayerUiState.Error) {
-                                val isNetworkError = uiState.error is PlayTubeError.Network
+                                val isNetworkError = uiState.error is GuruTubeError.Network
                                 Box(
                                     modifier = Modifier
                                         .fillMaxSize()
