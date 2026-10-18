@@ -43,7 +43,8 @@ class UpdateRepositoryImpl @Inject constructor(
             val latestVersion = versionConfig.versionName.ifBlank { "v${versionConfig.versionCode}" }.removePrefix("v").trim()
             val currentVersion = BuildConfig.VERSION_NAME
 
-            val hasUpdate = (versionConfig.versionCode > BuildConfig.VERSION_CODE) || isVersionNewer(currentVersion, latestVersion)
+            val isCommitDifferent = versionConfig.commitSha.isNotBlank() && !versionConfig.commitSha.equals(BuildConfig.GIT_COMMIT_SHA, ignoreCase = true)
+            val hasUpdate = (versionConfig.versionCode > BuildConfig.VERSION_CODE) || isVersionNewer(currentVersion, latestVersion) || isCommitDifferent
             val downloadUrl = versionConfig.downloadUrl.ifBlank {
                 "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk"
             }
@@ -58,7 +59,7 @@ class UpdateRepositoryImpl @Inject constructor(
                 checkStatus = if (hasUpdate) CheckStatus.UPDATE_AVAILABLE else CheckStatus.UP_TO_DATE,
                 apkSize = versionConfig.apkSize
             )
-            return
+            if (hasUpdate) return
         } catch (e: Exception) {
             PTLog.w("UpdateRepository", "Failed to check version.json, falling back to releases: ${e.message}")
         }
@@ -75,34 +76,37 @@ class UpdateRepositoryImpl @Inject constructor(
                 "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk"
             } ?: "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk"
 
-            _updateInfo.value = UpdateInfo(
-                hasUpdate = hasUpdate,
-                latestVersion = latestVersion,
-                releaseNotes = response.body ?: "",
-                updateUrl = response.htmlUrl,
-                downloadUrl = downloadUrl,
-                isChecking = false,
-                checkStatus = if (hasUpdate) CheckStatus.UPDATE_AVAILABLE else CheckStatus.UP_TO_DATE,
-                apkSize = apkAsset?.size ?: 0L
-            )
-            return
+            if (hasUpdate) {
+                _updateInfo.value = UpdateInfo(
+                    hasUpdate = true,
+                    latestVersion = latestVersion,
+                    releaseNotes = response.body ?: "",
+                    updateUrl = response.htmlUrl,
+                    downloadUrl = downloadUrl,
+                    isChecking = false,
+                    checkStatus = CheckStatus.UPDATE_AVAILABLE,
+                    apkSize = apkAsset?.size ?: 0L
+                )
+                return
+            }
         } catch (e: Exception) {
             PTLog.w("UpdateRepository", "Failed to check GitHub releases, falling back to commit info: ${e.message}")
         }
 
-        // 3. Fallback to latest commit check
+        // 3. Fallback to latest commit check (Immediate detection for any code push)
         try {
             val commit: GitHubCommit = client.get("https://api.github.com/repos/harshguruji01/GuruTube/commits/main").body()
             val commitMsg = commit.commitDetail?.message ?: "GuruTube repository update"
+            val isCommitNewer = commit.sha.isNotBlank() && !commit.sha.startsWith(BuildConfig.GIT_COMMIT_SHA, ignoreCase = true)
 
             _updateInfo.value = UpdateInfo(
-                hasUpdate = false,
-                latestVersion = BuildConfig.VERSION_NAME,
+                hasUpdate = isCommitNewer,
+                latestVersion = if (isCommitNewer) "Latest Build" else BuildConfig.VERSION_NAME,
                 releaseNotes = commitMsg,
                 updateUrl = commit.htmlUrl,
                 downloadUrl = "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
                 isChecking = false,
-                checkStatus = CheckStatus.UP_TO_DATE
+                checkStatus = if (isCommitNewer) CheckStatus.UPDATE_AVAILABLE else CheckStatus.UP_TO_DATE
             )
         } catch (e: Exception) {
             PTLog.e("UpdateRepository", "All update checks failed", e)

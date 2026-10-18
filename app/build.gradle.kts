@@ -10,6 +10,19 @@ android {
     namespace = "com.arslandaim.playtube"
     compileSdk = 37
 
+    val gitCommitSha: String = try {
+        ProcessBuilder("git", "rev-parse", "--short", "HEAD")
+            .directory(rootDir)
+            .start()
+            .inputStream
+            .bufferedReader()
+            .readText()
+            .trim()
+            .ifBlank { "d010f54" }
+    } catch (_: Throwable) {
+        "d010f54"
+    }
+
     defaultConfig {
         applicationId = "com.harshguruji.play"
         minSdk = 24
@@ -17,6 +30,8 @@ android {
 
         versionCode = 19
         versionName = "1.0.1"
+
+        buildConfigField("String", "GIT_COMMIT_SHA", "\"$gitCommitSha\"")
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }

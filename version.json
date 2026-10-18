@@ -1,8 +1,9 @@
 {
-  "versionCode": 19,
+  "versionCode": 20,
   "versionName": "1.0.1",
-  "releaseNotes": "• Permanent Full UI Dark Mode with AMOLED deep dark aesthetics\n• Live GitHub auto-update with realtime speed indicator\n• Automatic app close & relaunch on update installation\n• Direct Downloads tab in bottom navigation bar\n• Enhanced Subscriptions feed stability and modern UI\n• Complete branding update to GuruTube across all modules\n• Security optimizations - removed unneeded permissions",
+  "commitSha": "d010f54",
+  "releaseNotes": "• Real-time automated GitHub CI/CD releases\n• Instant startup update check & interactive in-app dialog\n• Live download progress with speed indicator\n• Automatic app close & relaunch on update installation\n• Permanent AMOLED Dark UI across all screens\n• New direct Downloads tab in bottom navigation\n• Stable Subscriptions feed and GuruTube rebranding\n• Complete online Web Player (index.html) integration",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342787,
-  "sha256": "65381BAEC8C33A5D775FDFBE3F18B1D10548CEDB2F6E221EFC272066811F6B8F"
+  "apkSize": 8342794,
+  "sha256": "76140BDD4DECC1BA2B1E2E4A022C32E859A83F7A020FBCD11A17A8E891B2D5DD"
 }

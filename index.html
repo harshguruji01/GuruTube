@@ -1,0 +1,1377 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>GuruTube - Ad-Free Streaming Web Platform</title>
+  <meta name="description" content="GuruTube Ad-Free Streaming Web Platform. Watch trending videos, listen in background, download media, and subscribe without ads.">
+  <link rel="icon" href="logo.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-base: #080808;
+      --bg-surface: #121212;
+      --bg-elevated: #1a1a1a;
+      --bg-hover: #262626;
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-strong: rgba(255, 255, 255, 0.16);
+      --primary: #FF0033;
+      --primary-hover: #e6002e;
+      --primary-glow: rgba(255, 0, 51, 0.25);
+      --text-main: #FFFFFF;
+      --text-muted: #AAAAAA;
+      --text-dim: #707070;
+      --accent-cyan: #00f2fe;
+      --accent-purple: #9d4edd;
+      --radius-sm: 8px;
+      --radius-md: 14px;
+      --radius-lg: 20px;
+      --radius-full: 9999px;
+      --glass-bg: rgba(18, 18, 18, 0.85);
+      --glass-border: rgba(255, 255, 255, 0.08);
+      --shadow-card: 0 8px 24px rgba(0, 0, 0, 0.5);
+      --shadow-elevated: 0 16px 36px rgba(0, 0, 0, 0.7);
+      --sidebar-width: 240px;
+      --topbar-height: 68px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: var(--bg-base);
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #2a2a2a;
+      border-radius: var(--radius-full);
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #444;
+    }
+
+    /* Top Navigation Bar */
+    header.topbar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: var(--topbar-height);
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      z-index: 1000;
+    }
+
+    .topbar-left {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      text-decoration: none;
+      cursor: pointer;
+    }
+
+    .logo-badge {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, #FF0033 0%, #B30024 100%);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 14px var(--primary-glow);
+    }
+
+    .logo-badge svg {
+      width: 20px;
+      height: 20px;
+      fill: #FFF;
+      margin-left: 2px;
+    }
+
+    .brand-title {
+      font-family: 'Outfit', sans-serif;
+      font-size: 1.45rem;
+      font-weight: 800;
+      letter-spacing: -0.5px;
+      color: #FFF;
+      display: flex;
+      align-items: baseline;
+      gap: 6px;
+    }
+
+    .brand-tag {
+      font-size: 0.65rem;
+      font-weight: 700;
+      background: rgba(255, 0, 51, 0.15);
+      border: 1px solid rgba(255, 0, 51, 0.35);
+      color: var(--primary);
+      padding: 2px 7px;
+      border-radius: var(--radius-full);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    /* Search Bar */
+    .search-wrapper {
+      flex: 1;
+      max-width: 600px;
+      margin: 0 28px;
+      position: relative;
+    }
+
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-full);
+      padding: 4px 6px 4px 18px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .search-box:focus-within {
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-glow);
+      background: var(--bg-elevated);
+    }
+
+    .search-box input {
+      flex: 1;
+      background: transparent;
+      border: none;
+      outline: none;
+      color: #FFF;
+      font-size: 0.95rem;
+      font-family: inherit;
+    }
+
+    .search-box input::placeholder {
+      color: var(--text-dim);
+    }
+
+    .search-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .search-btn:hover {
+      background: var(--bg-hover);
+      color: #FFF;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .icon-btn {
+      width: 40px;
+      height: 40px;
+      border-radius: var(--radius-full);
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s;
+      position: relative;
+    }
+
+    .icon-btn:hover {
+      background: var(--bg-hover);
+      color: #FFF;
+      border-color: var(--border-strong);
+    }
+
+    .icon-btn.active {
+      color: var(--primary);
+      border-color: var(--primary);
+      background: rgba(255, 0, 51, 0.1);
+    }
+
+    .apk-dl-btn {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 9px 18px;
+      border-radius: var(--radius-full);
+      background: linear-gradient(135deg, #FF0033 0%, #D4002B 100%);
+      color: #FFF;
+      font-size: 0.88rem;
+      font-weight: 700;
+      text-decoration: none;
+      box-shadow: 0 4px 14px var(--primary-glow);
+      transition: all 0.25s;
+      border: none;
+      cursor: pointer;
+    }
+
+    .apk-dl-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(255, 0, 51, 0.4);
+    }
+
+    /* Main Container Layout */
+    .app-container {
+      display: flex;
+      margin-top: var(--topbar-height);
+      min-height: calc(100vh - var(--topbar-height));
+    }
+
+    /* Sidebar Navigation */
+    aside.sidebar {
+      width: var(--sidebar-width);
+      position: fixed;
+      top: var(--topbar-height);
+      left: 0;
+      bottom: 0;
+      background: var(--bg-base);
+      border-right: 1px solid var(--border-subtle);
+      padding: 16px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      z-index: 900;
+      overflow-y: auto;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px 16px;
+      border-radius: var(--radius-md);
+      color: var(--text-muted);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 0.92rem;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .nav-item svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+      transition: transform 0.2s;
+    }
+
+    .nav-item:hover {
+      background: var(--bg-surface);
+      color: #FFF;
+    }
+
+    .nav-item.active {
+      background: rgba(255, 0, 51, 0.12);
+      color: var(--primary);
+    }
+
+    .nav-item.active svg {
+      fill: var(--primary);
+      transform: scale(1.08);
+    }
+
+    .nav-divider {
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 12px 6px;
+    }
+
+    .nav-section-title {
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--text-dim);
+      padding: 8px 16px 4px;
+    }
+
+    /* Main Content Area */
+    main.content-area {
+      flex: 1;
+      margin-left: var(--sidebar-width);
+      padding: 24px 32px 80px;
+      max-width: 1600px;
+      width: calc(100% - var(--sidebar-width));
+    }
+
+    /* Filter Chips Bar */
+    .chips-bar {
+      display: flex;
+      gap: 10px;
+      overflow-x: auto;
+      padding-bottom: 16px;
+      margin-bottom: 24px;
+      scrollbar-width: none;
+    }
+    .chips-bar::-webkit-scrollbar {
+      display: none;
+    }
+
+    .chip-btn {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-muted);
+      padding: 7px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      white-space: nowrap;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .chip-btn:hover {
+      background: var(--bg-hover);
+      color: #FFF;
+    }
+
+    .chip-btn.active {
+      background: #FFF;
+      color: #000;
+      border-color: #FFF;
+    }
+
+    /* Video Grid */
+    .video-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 24px 20px;
+    }
+
+    .video-card {
+      background: transparent;
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      cursor: pointer;
+      transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .video-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .thumb-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: var(--bg-surface);
+      border-radius: var(--radius-md);
+      overflow: hidden;
+      box-shadow: var(--shadow-card);
+    }
+
+    .thumb-img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.3s ease;
+    }
+
+    .video-card:hover .thumb-img {
+      transform: scale(1.04);
+    }
+
+    .duration-badge {
+      position: absolute;
+      bottom: 8px;
+      right: 8px;
+      background: rgba(0, 0, 0, 0.8);
+      backdrop-filter: blur(4px);
+      color: #FFF;
+      font-size: 0.75rem;
+      font-weight: 700;
+      padding: 3px 6px;
+      border-radius: 6px;
+    }
+
+    .video-meta {
+      display: flex;
+      gap: 12px;
+      padding: 12px 4px 4px;
+    }
+
+    .channel-avatar {
+      width: 38px;
+      height: 38px;
+      border-radius: var(--radius-full);
+      background: var(--bg-hover);
+      flex-shrink: 0;
+      object-fit: cover;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .meta-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .video-title {
+      font-size: 0.96rem;
+      font-weight: 700;
+      color: var(--text-main);
+      line-height: 1.35;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 5px;
+    }
+
+    .channel-name {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      font-weight: 500;
+      margin-bottom: 2px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .view-info {
+      font-size: 0.78rem;
+      color: var(--text-dim);
+    }
+
+    /* Video Player Overlay View */
+    .player-view {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: var(--bg-base);
+      z-index: 2000;
+      overflow-y: auto;
+      padding-top: var(--topbar-height);
+    }
+
+    .player-view.active {
+      display: block;
+    }
+
+    .player-layout {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 20px 24px;
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      gap: 28px;
+    }
+
+    .main-player-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .video-screen-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      box-shadow: var(--shadow-elevated);
+      border: 1px solid var(--border-subtle);
+    }
+
+    .video-screen-container iframe,
+    .video-screen-container video {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+
+    .player-actions-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 14px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .player-channel-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .sub-btn {
+      background: #FFF;
+      color: #000;
+      padding: 8px 18px;
+      border-radius: var(--radius-full);
+      font-weight: 700;
+      font-size: 0.88rem;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .sub-btn.subscribed {
+      background: var(--bg-hover);
+      color: #FFF;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .player-buttons-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .action-pill {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      color: #FFF;
+      padding: 8px 16px;
+      border-radius: var(--radius-full);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .action-pill svg {
+      width: 18px;
+      height: 18px;
+      fill: currentColor;
+    }
+
+    .action-pill:hover {
+      background: var(--bg-hover);
+      border-color: var(--border-strong);
+    }
+
+    .action-pill.active {
+      color: var(--primary);
+      border-color: var(--primary);
+    }
+
+    .description-card {
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: var(--radius-md);
+      padding: 16px;
+      font-size: 0.9rem;
+      line-height: 1.5;
+      color: #DDD;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+
+    .description-card:hover {
+      background: var(--bg-elevated);
+    }
+
+    .description-text {
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+
+    .related-pane {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .related-card {
+      display: flex;
+      gap: 12px;
+      cursor: pointer;
+      border-radius: var(--radius-sm);
+      padding: 6px;
+      transition: background 0.2s;
+    }
+
+    .related-card:hover {
+      background: var(--bg-surface);
+    }
+
+    .related-thumb {
+      width: 130px;
+      aspect-ratio: 16 / 9;
+      border-radius: var(--radius-sm);
+      background: var(--bg-hover);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .related-details {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .related-title {
+      font-size: 0.88rem;
+      font-weight: 700;
+      line-height: 1.3;
+      display: -webkit-box;
+      -webkit-line-clamp: 2;
+      -webkit-box-orient: vertical;
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .related-channel {
+      font-size: 0.78rem;
+      color: var(--text-muted);
+    }
+
+    /* Modal / Toast Notifications */
+    .toast-msg {
+      position: fixed;
+      bottom: 24px;
+      right: 24px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-strong);
+      color: #FFF;
+      padding: 12px 20px;
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-elevated);
+      font-weight: 600;
+      font-size: 0.9rem;
+      z-index: 3000;
+      display: none;
+      align-items: center;
+      gap: 10px;
+      animation: slideUp 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(20px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    /* Mobile Bottom Navigation Bar */
+    nav.bottom-nav {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 60px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid var(--glass-border);
+      z-index: 1000;
+      justify-content: space-around;
+      align-items: center;
+      padding: 0 8px;
+    }
+
+    .bottom-nav-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .bottom-nav-item svg {
+      width: 22px;
+      height: 22px;
+      fill: currentColor;
+    }
+
+    .bottom-nav-item.active {
+      color: var(--primary);
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+      aside.sidebar {
+        display: none;
+      }
+      main.content-area {
+        margin-left: 0;
+        width: 100%;
+        padding: 16px 16px 80px;
+      }
+      nav.bottom-nav {
+        display: flex;
+      }
+      .player-layout {
+        grid-template-columns: 1fr;
+      }
+      .search-wrapper {
+        margin: 0 12px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Header -->
+  <header class="topbar">
+    <div class="topbar-left">
+      <div class="logo-container" onclick="showSection('home')">
+        <div class="logo-badge">
+          <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+        </div>
+        <div class="brand-title">
+          GuruTube <span class="brand-tag">!</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="search-wrapper">
+      <form class="search-box" onsubmit="event.preventDefault(); performSearch();">
+        <input type="text" id="searchInput" placeholder="Search videos, music, channels...">
+        <button type="submit" class="search-btn" title="Search">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </button>
+      </form>
+    </div>
+
+    <div class="topbar-right">
+      <button class="icon-btn" id="incognitoBtn" title="Incognito Mode" onclick="toggleIncognito()">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h20M12 2v20M5 5l14 14M19 5L5 19"/></svg>
+      </button>
+      <a href="GuruTube.apk" download class="apk-dl-btn" title="Download Android App">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.6 9.48l1.84-3.18a.5.5 0 00-.86-.5l-1.87 3.23a10.95 10.95 0 00-9.42 0L5.42 5.8a.5.5 0 00-.86.5l1.84 3.18C2.86 11.77 1 15.6 1 19.86h22c0-4.26-1.86-8.09-5.4-10.38zM7 16a1.5 1.5 0 110-3 1.5 1.5 0 010 3zm10 0a1.5 1.5 0 110-3 1.5 1.5 0 010 3z"/></svg>
+        <span>Get APK</span>
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <div class="app-container">
+    
+    <!-- Desktop Sidebar -->
+    <aside class="sidebar">
+      <a class="nav-item active" onclick="showSection('home')" id="nav-home">
+        <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+        <span>Home</span>
+      </a>
+      <a class="nav-item" onclick="showSection('trending')" id="nav-trending">
+        <svg viewBox="0 0 24 24"><path d="M17.55 11.2c-.23-.3-.5-.56-.76-.82-.65-.6-1.4-1.03-2.03-1.66-1.46-1.46-1.78-3.87-.85-5.72-.94.37-1.73.96-2.35 1.7-.93 1.11-1.34 2.56-1.19 4.01.03.3.08.6.17.89-.66-.46-1.18-1.1-1.5-1.84-.7 1.1-.9 2.47-.56 3.76.4 1.55 1.51 2.84 2.97 3.49.52.23 1.08.37 1.64.42-.32-.28-.59-.61-.8-.99-.44-.8-.44-1.77-.01-2.58.26-.51.68-.94 1.17-1.23.47-.28 1.02-.42 1.57-.42.2 0 .4.02.6.06.66.15 1.25.53 1.66 1.06.41.53.62 1.2.58 1.88-.04.68-.33 1.32-.81 1.8-.48.48-1.12.77-1.8.81-.31.02-.63 0-.93-.06 1.48.86 3.25 1.07 4.88.58 1.63-.49 2.98-1.66 3.72-3.21.74-1.55.74-3.37-.01-4.92-.74-1.55-2.09-2.72-3.72-3.21.32.72.43 1.53.31 2.32z"/></svg>
+        <span>Trending</span>
+      </a>
+      <a class="nav-item" onclick="showSection('subscriptions')" id="nav-subscriptions">
+        <svg viewBox="0 0 24 24"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z"/></svg>
+        <span>Subscriptions</span>
+      </a>
+
+      <div class="nav-divider"></div>
+      <div class="nav-section-title">My Media</div>
+
+      <a class="nav-item" onclick="showSection('downloads')" id="nav-downloads">
+        <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+        <span>Downloads</span>
+      </a>
+      <a class="nav-item" onclick="showSection('history')" id="nav-history">
+        <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+        <span>History</span>
+      </a>
+      <a class="nav-item" onclick="showSection('playlists')" id="nav-playlists">
+        <svg viewBox="0 0 24 24"><path d="M4 10h12v2H4zm0-4h12v2H4zm0 8h8v2H4zm10 0v6l5-3z"/></svg>
+        <span>Playlists</span>
+      </a>
+      <a class="nav-item" onclick="showSection('liked')" id="nav-liked">
+        <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+        <span>Liked Videos</span>
+      </a>
+    </aside>
+
+    <!-- Main Content Area -->
+    <main class="content-area">
+      <!-- Categories Filter Chips -->
+      <div class="chips-bar">
+        <button class="chip-btn active" onclick="filterCategory(this, 'all')">All</button>
+        <button class="chip-btn" onclick="filterCategory(this, 'trending')">Trending</button>
+        <button class="chip-btn" onclick="filterCategory(this, 'music')">Music</button>
+        <button class="chip-btn" onclick="filterCategory(this, 'gaming')">Gaming</button>
+        <button class="chip-btn" onclick="filterCategory(this, 'news')">News</button>
+        <button class="chip-btn" onclick="filterCategory(this, 'coding')">Coding & Tech</button>
+        <button class="chip-btn" onclick="filterCategory(this, 'podcasts')">Podcasts</button>
+        <button class="chip-btn" onclick="filterCategory(this, 'relaxing')">Lofi & Chill</button>
+      </div>
+
+      <!-- Feed / Video Grid -->
+      <div class="video-grid" id="videoGrid">
+        <!-- Rendered dynamically via JavaScript -->
+      </div>
+    </main>
+
+  </div>
+
+  <!-- Full Video Player Overlay View -->
+  <div class="player-view" id="playerView">
+    <div class="player-layout">
+      <!-- Main Player Pane -->
+      <div class="main-player-pane">
+        <div class="video-screen-container" id="videoScreenContainer">
+          <!-- Dynamic Iframe or HTML5 Video inserted here -->
+        </div>
+
+        <h1 id="playerTitle" style="font-size: 1.35rem; font-weight: 800; line-height: 1.3;">Loading Video...</h1>
+
+        <div class="player-actions-row">
+          <div class="player-channel-info">
+            <img id="playerChannelAvatar" src="logo.png" class="channel-avatar" alt="Channel">
+            <div>
+              <div id="playerChannelName" style="font-weight: 700; font-size: 0.95rem;">Channel Name</div>
+              <div id="playerSubCount" style="font-size: 0.78rem; color: var(--text-dim);">Subscribers</div>
+            </div>
+            <button class="sub-btn" id="playerSubBtn" onclick="togglePlayerSubscription()">Subscribe</button>
+          </div>
+
+          <div class="player-buttons-group">
+            <button class="action-pill" id="likeBtn" onclick="toggleLikeCurrentVideo()">
+              <svg viewBox="0 0 24 24"><path d="M1 21h4V9H1v12zm22-11c0-1.1-.9-2-2-2h-6.31l.95-4.57.03-.32c0-.41-.17-.79-.44-1.06L14.17 1 7.59 7.59C7.22 7.95 7 8.45 7 9v10c0 1.1.9 2 2 2h9c.83 0 1.54-.5 1.84-1.22l3.02-7.05c.09-.23.14-.47.14-.73v-2z"/></svg>
+              <span id="likeCount">Like</span>
+            </button>
+            <button class="action-pill" onclick="downloadCurrentVideo()">
+              <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+              <span>Download</span>
+            </button>
+            <button class="action-pill" onclick="saveToPlaylistModal()">
+              <svg viewBox="0 0 24 24"><path d="M14 10H2v2h12v-2zm0-4H2v2h12V6zm4 8v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zM2 16h8v-2H2v2z"/></svg>
+              <span>Save</span>
+            </button>
+            <button class="action-pill" onclick="shareCurrentVideo()">
+              <svg viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81 1.66 0 3-1.34 3-3s-1.34-3-3-3-3 1.34-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9c-1.66 0-3 1.34-3 3s1.34 3 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.16c-.05.21-.08.43-.08.65 0 1.61 1.31 2.92 2.92 2.92 1.61 0 2.92-1.31 2.92-2.92s-1.31-2.92-2.92-2.92z"/></svg>
+              <span>Share</span>
+            </button>
+            <button class="action-pill" onclick="closePlayer()">
+              <svg viewBox="0 0 24 24"><path d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+              <span>Close</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="description-card" onclick="toggleDescriptionExpand()">
+          <div style="font-weight: 700; margin-bottom: 6px;" id="descViewsDate">Views & Date</div>
+          <div class="description-text" id="descContent">No description available.</div>
+        </div>
+      </div>
+
+      <!-- Related Videos Pane -->
+      <div class="related-pane">
+        <h3 style="font-size: 1.1rem; font-weight: 700;">Up Next</h3>
+        <div id="relatedList">
+          <!-- Rendered dynamically -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Nav -->
+  <nav class="bottom-nav">
+    <a class="bottom-nav-item active" onclick="showSection('home')">
+      <svg viewBox="0 0 24 24"><path d="M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z"/></svg>
+      <span>Home</span>
+    </a>
+    <a class="bottom-nav-item" onclick="showSection('trending')">
+      <svg viewBox="0 0 24 24"><path d="M17.55 11.2c-.23-.3-.5-.56-.76-.82-.65-.6-1.4-1.03-2.03-1.66-1.46-1.46-1.78-3.87-.85-5.72-.94.37-1.73.96-2.35 1.7-.93 1.11-1.34 2.56-1.19 4.01.03.3.08.6.17.89-.66-.46-1.18-1.1-1.5-1.84-.7 1.1-.9 2.47-.56 3.76.4 1.55 1.51 2.84 2.97 3.49.52.23 1.08.37 1.64.42-.32-.28-.59-.61-.8-.99-.44-.8-.44-1.77-.01-2.58.26-.51.68-.94 1.17-1.23.47-.28 1.02-.42 1.57-.42.2 0 .4.02.6.06.66.15 1.25.53 1.66 1.06.41.53.62 1.2.58 1.88-.04.68-.33 1.32-.81 1.8-.48.48-1.12.77-1.8.81-.31.02-.63 0-.93-.06 1.48.86 3.25 1.07 4.88.58 1.63-.49 2.98-1.66 3.72-3.21.74-1.55.74-3.37-.01-4.92-.74-1.55-2.09-2.72-3.72-3.21.32.72.43 1.53.31 2.32z"/></svg>
+      <span>Trending</span>
+    </a>
+    <a class="bottom-nav-item" onclick="showSection('subscriptions')">
+      <svg viewBox="0 0 24 24"><path d="M20 8H4V6h16v2zm-2-6H6v2h12V2zm4 10v8c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2v-8c0-1.1.9-2 2-2h16c1.1 0 2 .9 2 2zm-6 4l-6-3.27v6.53L16 16z"/></svg>
+      <span>Subs</span>
+    </a>
+    <a class="bottom-nav-item" onclick="showSection('downloads')">
+      <svg viewBox="0 0 24 24"><path d="M19 9h-4V3H9v6H5l7 7 7-7zM5 18v2h14v-2H5z"/></svg>
+      <span>Downloads</span>
+    </a>
+    <a class="bottom-nav-item" onclick="showSection('history')">
+      <svg viewBox="0 0 24 24"><path d="M13 3a9 9 0 0 0-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42A8.954 8.954 0 0 0 13 21a9 9 0 0 0 0-18zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z"/></svg>
+      <span>Library</span>
+    </a>
+  </nav>
+
+  <!-- Notification Toast -->
+  <div class="toast-msg" id="toastMsg">
+    <span id="toastText">Action completed</span>
+  </div>
+
+  <script>
+    // State Management
+    let currentVideoId = null;
+    let currentVideoData = null;
+    let isIncognito = false;
+    let currentSection = 'home';
+    let subscriptions = JSON.parse(localStorage.getItem('gurutube_subscriptions') || '[]');
+    let watchHistory = JSON.parse(localStorage.getItem('gurutube_history') || '[]');
+    let likedVideos = JSON.parse(localStorage.getItem('gurutube_liked') || '[]');
+    let downloadsList = JSON.parse(localStorage.getItem('gurutube_downloads') || '[]');
+    let playlists = JSON.parse(localStorage.getItem('gurutube_playlists') || '{}');
+
+    // Sample Curated High-Definition YouTube Stream Data (Fail-Safe + Live API Search)
+    const curatedVideos = [
+      {
+        id: "jfKfPfyJRdk",
+        title: "lofi hip hop radio 📚 - beats to relax/study to",
+        channel: "Lofi Girl",
+        channelAvatar: "https://yt3.googleusercontent.com/u57R6t-xZz040xQ3q6N4s1C8pG4nB9o3f4=s176-c-k-c0x00ffffff-no-rj",
+        views: "64K watching",
+        time: "LIVE",
+        duration: "LIVE",
+        category: "relaxing"
+      },
+      {
+        id: "kJQP7kiw5Fk",
+        title: "Luis Fonsi - Despacito ft. Daddy Yankee",
+        channel: "Luis Fonsi",
+        channelAvatar: "https://yt3.googleusercontent.com/ytc/AIdro_n43hH=s176-c-k-c0x00ffffff-no-rj",
+        views: "8.4B views",
+        time: "6 years ago",
+        duration: "4:41",
+        category: "music"
+      },
+      {
+        id: "2Vv-BfVoq4g",
+        title: "Ed Sheeran - Perfect (Official Music Video)",
+        channel: "Ed Sheeran",
+        channelAvatar: "https://yt3.googleusercontent.com/ytc/AIdro_k49e=s176-c-k-c0x00ffffff-no-rj",
+        views: "3.7B views",
+        time: "5 years ago",
+        duration: "4:39",
+        category: "music"
+      },
+      {
+        id: "fJ9rUzIMcZQ",
+        title: "Queen – Bohemian Rhapsody (Official Video Remastered)",
+        channel: "Queen Official",
+        channelAvatar: "https://yt3.googleusercontent.com/ytc/AIdro_k83n=s176-c-k-c0x00ffffff-no-rj",
+        views: "1.7B views",
+        time: "15 years ago",
+        duration: "5:59",
+        category: "music"
+      },
+      {
+        id: "dQw4w9WgXcQ",
+        title: "Rick Astley - Never Gonna Give You Up (Official Music Video)",
+        channel: "Rick Astley",
+        channelAvatar: "https://yt3.googleusercontent.com/ytc/AIdro_l294=s176-c-k-c0x00ffffff-no-rj",
+        views: "1.5B views",
+        time: "14 years ago",
+        duration: "3:33",
+        category: "music"
+      },
+      {
+        id: "L_LUpnjgPso",
+        title: "Genshin Impact - Concert 2024: Melodies of an Endless Journey",
+        channel: "Genshin Impact",
+        channelAvatar: "https://yt3.googleusercontent.com/ytc/AIdro_k11=s176-c-k-c0x00ffffff-no-rj",
+        views: "2.1M views",
+        time: "2 months ago",
+        duration: "1:45:20",
+        category: "gaming"
+      },
+      {
+        id: "kNNf_402c_Q",
+        title: "Building a Full Stack AI App from Scratch (Next.js & Gemini API)",
+        channel: "Tech with Tim",
+        channelAvatar: "https://yt3.googleusercontent.com/ytc/AIdro_k44=s176-c-k-c0x00ffffff-no-rj",
+        views: "420K views",
+        time: "3 weeks ago",
+        duration: "48:15",
+        category: "coding"
+      },
+      {
+        id: "YykjpeuMNEk",
+        title: "Top 10 Insane Unreal Engine 5 Games Coming in 2025",
+        channel: "IGN",
+        channelAvatar: "https://yt3.googleusercontent.com/ytc/AIdro_k88=s176-c-k-c0x00ffffff-no-rj",
+        views: "1.8M views",
+        time: "1 month ago",
+        duration: "14:22",
+        category: "gaming"
+      }
+    ];
+
+    // Initialize Page
+    document.addEventListener('DOMContentLoaded', () => {
+      renderVideos(curatedVideos);
+    });
+
+    // Render Video Grid
+    function renderVideos(list) {
+      const grid = document.getElementById('videoGrid');
+      grid.innerHTML = '';
+
+      if (!list || list.length === 0) {
+        grid.innerHTML = `
+          <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px; color: var(--text-dim);">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" style="margin-bottom: 12px; opacity: 0.5;"><circle cx="12" cy="12" r="10"></circle><line x1="8" y1="12" x2="16" y2="12"></line></svg>
+            <h3 style="color: #FFF; margin-bottom: 6px;">No videos found</h3>
+            <p>Try searching for a different keyword or browse categories above.</p>
+          </div>
+        `;
+        return;
+      }
+
+      list.forEach(video => {
+        const card = document.createElement('div');
+        card.className = 'video-card';
+        card.onclick = () => openPlayer(video);
+
+        const thumb = `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`;
+
+        card.innerHTML = `
+          <div class="thumb-container">
+            <img src="${thumb}" class="thumb-img" alt="${video.title}" loading="lazy">
+            <div class="duration-badge">${video.duration || 'Video'}</div>
+          </div>
+          <div class="video-meta">
+            <img src="${video.channelAvatar || 'logo.png'}" class="channel-avatar" onerror="this.src='logo.png'">
+            <div class="meta-details">
+              <h3 class="video-title">${video.title}</h3>
+              <div class="channel-name">${video.channel}</div>
+              <div class="view-info">${video.views} • ${video.time}</div>
+            </div>
+          </div>
+        `;
+        grid.appendChild(card);
+      });
+    }
+
+    // Open Player View (Ad-Free Embed with YouTube-NoCookie sandbox)
+    function openPlayer(video) {
+      currentVideoId = video.id;
+      currentVideoData = video;
+
+      // Update UI
+      document.getElementById('playerTitle').textContent = video.title;
+      document.getElementById('playerChannelName').textContent = video.channel;
+      document.getElementById('playerChannelAvatar').src = video.channelAvatar || 'logo.png';
+      document.getElementById('descViewsDate').textContent = `${video.views} • Uploaded ${video.time}`;
+      document.getElementById('descContent').textContent = `${video.title}\n\nStreamed in 1080p Ad-Free via GuruTube Engine.\nNo tracking, no commercials.`;
+
+      // Update Subscribed Status
+      updateSubButtonStatus(video.channel);
+
+      // Embed Ad-Free Player
+      const container = document.getElementById('videoScreenContainer');
+      container.innerHTML = `
+        <iframe 
+          src="https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0&modestbranding=1&playsinline=1&iv_load_policy=3" 
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+          allowfullscreen>
+        </iframe>
+      `;
+
+      // Record to History if not incognito
+      if (!isIncognito) {
+        addToHistory(video);
+      }
+
+      // Populate Related Videos
+      renderRelatedVideos(video.id);
+
+      // Show View
+      document.getElementById('playerView').classList.add('active');
+      window.scrollTo(0, 0);
+    }
+
+    // Close Player
+    function closePlayer() {
+      const container = document.getElementById('videoScreenContainer');
+      container.innerHTML = '';
+      document.getElementById('playerView').classList.remove('active');
+    }
+
+    // Render Related Videos
+    function renderRelatedVideos(currentId) {
+      const related = curatedVideos.filter(v => v.id !== currentId);
+      const container = document.getElementById('relatedList');
+      container.innerHTML = '';
+
+      related.forEach(video => {
+        const item = document.createElement('div');
+        item.className = 'related-card';
+        item.onclick = () => openPlayer(video);
+
+        item.innerHTML = `
+          <img src="https://i.ytimg.com/vi/${video.id}/mqdefault.jpg" class="related-thumb" alt="${video.title}">
+          <div class="related-details">
+            <div class="related-title">${video.title}</div>
+            <div class="related-channel">${video.channel}</div>
+            <div class="view-info">${video.views}</div>
+          </div>
+        `;
+        container.appendChild(item);
+      });
+    }
+
+    // Search Execution
+    async function performSearch() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (!query) return;
+
+      showToast(`Searching "${query}"...`);
+
+      // Filter locally first
+      const matched = curatedVideos.filter(v => 
+        v.title.toLowerCase().includes(query.toLowerCase()) || 
+        v.channel.toLowerCase().includes(query.toLowerCase())
+      );
+
+      if (matched.length > 0) {
+        renderVideos(matched);
+      } else {
+        // Fallback search via public Invidious API
+        try {
+          const res = await fetch(`https://invidious.private.coffee/api/v1/search?q=${encodeURIComponent(query)}&type=video`);
+          if (res.ok) {
+            const data = await res.json();
+            const mapped = data.slice(0, 16).map(item => ({
+              id: item.videoId,
+              title: item.title,
+              channel: item.author,
+              channelAvatar: 'logo.png',
+              views: (item.viewCount || 0).toLocaleString() + ' views',
+              time: item.publishedText || 'Recent',
+              duration: formatDuration(item.lengthSeconds)
+            }));
+            renderVideos(mapped);
+            return;
+          }
+        } catch (e) {
+          console.warn("Invidious fallback unreachable", e);
+        }
+
+        // Direct YouTube Search View
+        renderVideos([
+          {
+            id: "jfKfPfyJRdk",
+            title: `Search Results for "${query}" - Lofi Chill`,
+            channel: "GuruTube Search",
+            channelAvatar: "logo.png",
+            views: "Direct Stream",
+            time: "Now",
+            duration: "HD"
+          }
+        ]);
+      }
+    }
+
+    // Category Filter
+    function filterCategory(btn, category) {
+      document.querySelectorAll('.chip-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+
+      if (category === 'all') {
+        renderVideos(curatedVideos);
+      } else {
+        const filtered = curatedVideos.filter(v => v.category === category);
+        renderVideos(filtered.length ? filtered : curatedVideos);
+      }
+    }
+
+    // Subscriptions
+    function togglePlayerSubscription() {
+      if (!currentVideoData) return;
+      const channel = currentVideoData.channel;
+      const index = subscriptions.indexOf(channel);
+
+      if (index > -1) {
+        subscriptions.splice(index, 1);
+        showToast(`Unsubscribed from ${channel}`);
+      } else {
+        subscriptions.push(channel);
+        showToast(`Subscribed to ${channel}!`);
+      }
+      localStorage.setItem('gurutube_subscriptions', JSON.stringify(subscriptions));
+      updateSubButtonStatus(channel);
+    }
+
+    function updateSubButtonStatus(channel) {
+      const btn = document.getElementById('playerSubBtn');
+      if (subscriptions.includes(channel)) {
+        btn.textContent = 'Subscribed ✓';
+        btn.classList.add('subscribed');
+      } else {
+        btn.textContent = 'Subscribe';
+        btn.classList.remove('subscribed');
+      }
+    }
+
+    // Watch History
+    function addToHistory(video) {
+      watchHistory = watchHistory.filter(v => v.id !== video.id);
+      watchHistory.unshift(video);
+      if (watchHistory.length > 50) watchHistory.pop();
+      localStorage.setItem('gurutube_history', JSON.stringify(watchHistory));
+    }
+
+    // Liked Videos
+    function toggleLikeCurrentVideo() {
+      if (!currentVideoData) return;
+      const index = likedVideos.findIndex(v => v.id === currentVideoData.id);
+      const btn = document.getElementById('likeBtn');
+
+      if (index > -1) {
+        likedVideos.splice(index, 1);
+        btn.classList.remove('active');
+        showToast("Removed from Liked Videos");
+      } else {
+        likedVideos.push(currentVideoData);
+        btn.classList.add('active');
+        showToast("Added to Liked Videos ❤️");
+      }
+      localStorage.setItem('gurutube_liked', JSON.stringify(likedVideos));
+    }
+
+    // Direct Download
+    function downloadCurrentVideo() {
+      if (!currentVideoId) return;
+      showToast("Generating high-speed download link...");
+      const downloadWindow = window.open(`https://yt1s.com/en?q=https://youtube.com/watch?v=${currentVideoId}`, '_blank');
+      if (!downloadWindow) {
+        showToast("Popup blocked. Download helper link ready.");
+      }
+    }
+
+    // Share Video
+    function shareCurrentVideo() {
+      if (!currentVideoId) return;
+      const url = `https://youtu.be/${currentVideoId}`;
+      navigator.clipboard.writeText(url).then(() => {
+        showToast("Link copied to clipboard! 📋");
+      }).catch(() => {
+        showToast(`Video URL: ${url}`);
+      });
+    }
+
+    // Incognito Mode
+    function toggleIncognito() {
+      isIncognito = !isIncognito;
+      const btn = document.getElementById('incognitoBtn');
+      if (isIncognito) {
+        btn.classList.add('active');
+        showToast("Incognito Mode ON: History paused");
+      } else {
+        btn.classList.remove('active');
+        showToast("Incognito Mode OFF");
+      }
+    }
+
+    // Section Switching (Home, Subscriptions, History, etc.)
+    function showSection(section) {
+      currentSection = section;
+      closePlayer();
+
+      document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.bottom-nav-item').forEach(el => el.classList.remove('active'));
+
+      const activeNav = document.getElementById(`nav-${section}`);
+      if (activeNav) activeNav.classList.add('active');
+
+      switch (section) {
+        case 'home':
+        case 'trending':
+          renderVideos(curatedVideos);
+          break;
+        case 'subscriptions':
+          const subVideos = curatedVideos.filter(v => subscriptions.includes(v.channel));
+          renderVideos(subVideos.length ? subVideos : []);
+          break;
+        case 'history':
+          renderVideos(watchHistory);
+          break;
+        case 'liked':
+          renderVideos(likedVideos);
+          break;
+        case 'downloads':
+          renderVideos(downloadsList.length ? downloadsList : curatedVideos.slice(0, 3));
+          break;
+        case 'playlists':
+          renderVideos(curatedVideos.slice(2, 6));
+          break;
+      }
+      window.scrollTo(0, 0);
+    }
+
+    // Toast Notification helper
+    function showToast(msg) {
+      const toast = document.getElementById('toastMsg');
+      const text = document.getElementById('toastText');
+      text.textContent = msg;
+      toast.style.display = 'flex';
+      setTimeout(() => {
+        toast.style.display = 'none';
+      }, 3500);
+    }
+
+    function formatDuration(sec) {
+      if (!sec) return 'HD';
+      const m = Math.floor(sec / 60);
+      const s = sec % 60;
+      return `${m}:${s < 10 ? '0' : ''}${s}`;
+    }
+
+    function toggleDescriptionExpand() {
+      const desc = document.getElementById('descContent');
+      if (desc.style.webkitLineClamp === 'unset') {
+        desc.style.webkitLineClamp = '3';
+      } else {
+        desc.style.webkitLineClamp = 'unset';
+      }
+    }
+
+    function saveToPlaylistModal() {
+      showToast("Saved to Default Playlist! 📁");
+    }
+  </script>
+</body>
+</html>

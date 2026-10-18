@@ -1,0 +1,99 @@
+name: Build & Release GuruTube APK
+
+on:
+  push:
+    branches:
+      - main
+    paths-ignore:
+      - '**.md'
+      - 'GuruTube.apk'
+      - 'version.json'
+      - '.gitignore'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Release APK & Publish Update
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up JDK 21
+        uses: actions/setup-java@v4
+        with:
+          java-version: '21'
+          distribution: 'temurin'
+          cache: gradle
+
+      - name: Grant Execute Permission to Gradlew
+        run: chmod +x gradlew
+
+      - name: Build Release APK
+        run: ./gradlew assembleRelease --no-daemon --stacktrace
+
+      - name: Prepare Release Artifacts
+        id: prep
+        run: |
+          APK_PATH="app/build/outputs/apk/release/app-release.apk"
+          if [ ! -f "$APK_PATH" ]; then
+            echo "Error: APK not found at $APK_PATH"
+            exit 1
+          fi
+
+          cp "$APK_PATH" GuruTube.apk
+          APK_SIZE=$(stat -c%s GuruTube.apk)
+          APK_SHA256=$(sha256sum GuruTube.apk | awk '{print $1}')
+          COMMIT_SHA=$(git rev-parse --short HEAD)
+          COMMIT_MSG=$(git log -1 --pretty=%B | head -n 1)
+
+          echo "apk_size=$APK_SIZE" >> $GITHUB_OUTPUT
+          echo "apk_sha256=$APK_SHA256" >> $GITHUB_OUTPUT
+          echo "commit_sha=$COMMIT_SHA" >> $GITHUB_OUTPUT
+          echo "commit_msg=$COMMIT_MSG" >> $GITHUB_OUTPUT
+
+      - name: Update version.json
+        run: |
+          node -e '
+            const fs = require("fs");
+            const v = JSON.parse(fs.readFileSync("version.json", "utf8"));
+            v.versionCode = (v.versionCode || 19) + 1;
+            v.commitSha = "${{ steps.prep.outputs.commit_sha }}";
+            v.apkSize = ${{ steps.prep.outputs.apk_size }};
+            v.sha256 = "${{ steps.prep.outputs.apk_sha256 }}";
+            v.releaseNotes = "• ${{ steps.prep.outputs.commit_msg }}\n• Auto-built from GitHub commit ${{ steps.prep.outputs.commit_sha }}";
+            fs.writeFileSync("version.json", JSON.stringify(v, null, 2) + "\n");
+          '
+
+      - name: Commit & Push Updated version.json and APK
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add GuruTube.apk version.json
+          git commit -m "chore(release): update GuruTube.apk and version.json for commit ${{ steps.prep.outputs.commit_sha }} [skip ci]" || echo "No changes to commit"
+          git push origin main
+
+      - name: Publish / Update GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          tag_name: "latest"
+          name: "GuruTube Latest Release"
+          body: |
+            ### 🚀 GuruTube Automatic Release
+            **Commit:** `${{ steps.prep.outputs.commit_sha }}`
+            **Changes:**
+            ${{ steps.prep.outputs.commit_msg }}
+
+            **Download:** [GuruTube.apk](https://github.com/${{ github.repository }}/releases/download/latest/GuruTube.apk)
+          draft: false
+          prerelease: false
+          files: GuruTube.apk
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

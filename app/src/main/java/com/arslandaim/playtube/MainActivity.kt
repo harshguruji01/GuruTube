@@ -25,10 +25,15 @@ import androidx.compose.animation.core.*
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
+import androidx.compose.runtime.saveable.rememberSaveable
+import androidx.compose.ui.draw.clip
+import com.arslandaim.playtube.ui.screens.settings.UpdateDownloadState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clipToBounds
@@ -470,6 +475,194 @@ class MainActivity : AppCompatActivity() {
                             }
                         )
                     }
+                }
+
+                // Global Update Prompt Dialog
+                val updateInfo by updateViewModel.updateInfo.collectAsStateWithLifecycle()
+                val downloadState by updateViewModel.downloadState.collectAsStateWithLifecycle()
+                val showInstallDialog by updateViewModel.showInstallDialog.collectAsStateWithLifecycle()
+                val isAutoUpdateEnabled by updateViewModel.isAutoUpdateEnabled.collectAsStateWithLifecycle()
+                val context = androidx.compose.ui.platform.LocalContext.current
+
+                var userDismissedUpdateDialog by rememberSaveable { mutableStateOf(false) }
+
+                LaunchedEffect(Unit) {
+                    if (isAutoUpdateEnabled) {
+                        updateViewModel.checkForUpdates()
+                    }
+                }
+
+                if (updateInfo.hasUpdate && (!userDismissedUpdateDialog || downloadState !is UpdateDownloadState.Idle || showInstallDialog)) {
+                    AlertDialog(
+                        onDismissRequest = {
+                            if (downloadState is UpdateDownloadState.Downloading) {
+                                updateViewModel.cancelDownload()
+                            }
+                            if (showInstallDialog) {
+                                updateViewModel.dismissInstallDialog()
+                            }
+                            userDismissedUpdateDialog = true
+                        },
+                        icon = {
+                            Icon(
+                                imageVector = Icons.Default.SystemUpdate,
+                                contentDescription = null,
+                                tint = MaterialTheme.colorScheme.primary,
+                                modifier = Modifier.size(32.dp)
+                            )
+                        },
+                        title = {
+                            Text(
+                                text = when {
+                                    showInstallDialog || downloadState is UpdateDownloadState.DownloadCompleted -> "Install Latest Update"
+                                    downloadState is UpdateDownloadState.Downloading -> "Downloading Update..."
+                                    downloadState is UpdateDownloadState.Error -> "Update Failed"
+                                    else -> "New GuruTube Update Available!"
+                                },
+                                fontWeight = FontWeight.Bold,
+                                textAlign = androidx.compose.ui.text.style.TextAlign.Center,
+                                modifier = Modifier.fillMaxWidth()
+                            )
+                        },
+                        text = {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                verticalArrangement = Arrangement.spacedBy(10.dp)
+                            ) {
+                                when {
+                                    showInstallDialog || downloadState is UpdateDownloadState.DownloadCompleted -> {
+                                        Text(
+                                            text = "GuruTube v${updateInfo.latestVersion} has been downloaded.\n\nDo you agree to install the latest update? The app will close to apply the update and automatically reopen once complete.",
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                    }
+                                    downloadState is UpdateDownloadState.Downloading -> {
+                                        val state = downloadState as UpdateDownloadState.Downloading
+                                        Text(
+                                            text = "Downloading latest version from GitHub...",
+                                            style = MaterialTheme.typography.bodySmall,
+                                            color = MaterialTheme.colorScheme.onSurfaceVariant
+                                        )
+                                        LinearProgressIndicator(
+                                            progress = { state.progress },
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(8.dp)
+                                                .clip(RoundedCornerShape(4.dp)),
+                                            color = MaterialTheme.colorScheme.primary,
+                                            trackColor = MaterialTheme.colorScheme.surfaceVariant
+                                        )
+                                        Row(
+                                            modifier = Modifier.fillMaxWidth(),
+                                            horizontalArrangement = Arrangement.SpaceBetween
+                                        ) {
+                                            Text(
+                                                text = state.speedText,
+                                                style = MaterialTheme.typography.labelSmall,
+                                                color = MaterialTheme.colorScheme.primary,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                            Text(
+                                                text = "${(state.progress * 100).toInt()}%",
+                                                style = MaterialTheme.typography.labelSmall,
+                                                fontWeight = FontWeight.Bold
+                                            )
+                                        }
+                                    }
+                                    downloadState is UpdateDownloadState.Error -> {
+                                        val state = downloadState as UpdateDownloadState.Error
+                                        Text(
+                                            text = "Failed to download update: ${state.message}",
+                                            style = MaterialTheme.typography.bodyMedium,
+                                            color = MaterialTheme.colorScheme.error
+                                        )
+                                    }
+                                    else -> {
+                                        Text(
+                                            text = "A new version of GuruTube (v${updateInfo.latestVersion}) is available on GitHub with new features and improvements.",
+                                            style = MaterialTheme.typography.bodyMedium
+                                        )
+                                        if (updateInfo.releaseNotes.isNotBlank()) {
+                                            Surface(
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .heightIn(max = 160.dp),
+                                                shape = RoundedCornerShape(12.dp),
+                                                color = MaterialTheme.colorScheme.surfaceVariant.copy(alpha = 0.5f)
+                                            ) {
+                                                Column(
+                                                    modifier = Modifier
+                                                        .padding(12.dp)
+                                                        .verticalScroll(rememberScrollState())
+                                                ) {
+                                                    Text(
+                                                        text = "What's New:",
+                                                        style = MaterialTheme.typography.labelMedium,
+                                                        fontWeight = FontWeight.Bold,
+                                                        color = MaterialTheme.colorScheme.primary
+                                                    )
+                                                    Spacer(modifier = Modifier.height(4.dp))
+                                                    Text(
+                                                        text = updateInfo.releaseNotes,
+                                                        style = MaterialTheme.typography.bodySmall,
+                                                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                                                    )
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        confirmButton = {
+                            when {
+                                showInstallDialog || downloadState is UpdateDownloadState.DownloadCompleted -> {
+                                    Button(
+                                        onClick = { updateViewModel.installDownloadedUpdate(context) },
+                                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                                    ) {
+                                        Text("Install Now", fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                                downloadState is UpdateDownloadState.Downloading -> {
+                                    // in progress
+                                }
+                                downloadState is UpdateDownloadState.Error -> {
+                                    Button(
+                                        onClick = { updateViewModel.startDownload(context) }
+                                    ) {
+                                        Text("Retry", fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                                else -> {
+                                    Button(
+                                        onClick = { updateViewModel.startDownload(context) },
+                                        colors = ButtonDefaults.buttonColors(containerColor = MaterialTheme.colorScheme.primary)
+                                    ) {
+                                        Icon(Icons.Default.Download, contentDescription = null, modifier = Modifier.size(16.dp))
+                                        Spacer(modifier = Modifier.width(6.dp))
+                                        Text("Update Now", fontWeight = FontWeight.Bold)
+                                    }
+                                }
+                            }
+                        },
+                        dismissButton = {
+                            if (downloadState is UpdateDownloadState.Downloading) {
+                                TextButton(onClick = { updateViewModel.cancelDownload() }) {
+                                    Text("Cancel")
+                                }
+                            } else {
+                                TextButton(
+                                    onClick = {
+                                        if (showInstallDialog) updateViewModel.dismissInstallDialog()
+                                        userDismissedUpdateDialog = true
+                                    }
+                                ) {
+                                    Text("Later")
+                                }
+                            }
+                        }
+                    )
                 }
             }
         }

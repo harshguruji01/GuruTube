@@ -21,7 +21,9 @@ data class VersionConfig(
     @SerialName("apkSize")
     val apkSize: Long = 0L,
     @SerialName("commitSha")
-    val commitSha: String = ""
+    val commitSha: String = "",
+    @SerialName("sha256")
+    val sha256: String = ""
 )
 
 @Serializable
