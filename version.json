@@ -1,9 +1,9 @@
 {
-  "versionCode": 20,
+  "versionCode": 21,
   "versionName": "1.0.1",
-  "commitSha": "d010f54",
-  "releaseNotes": "• Real-time automated GitHub CI/CD releases\n• Instant startup update check & interactive in-app dialog\n• Live download progress with speed indicator\n• Automatic app close & relaunch on update installation\n• Permanent AMOLED Dark UI across all screens\n• New direct Downloads tab in bottom navigation\n• Stable Subscriptions feed and GuruTube rebranding\n• Complete online Web Player (index.html) integration",
+  "commitSha": "baf38a0",
+  "releaseNotes": "• feat: real-time GitHub auto-update CI/CD, in-app update prompt, and web edition index.html\n• Auto-built from GitHub commit baf38a0",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342794,
-  "sha256": "76140BDD4DECC1BA2B1E2E4A022C32E859A83F7A020FBCD11A17A8E891B2D5DD"
+  "apkSize": 8342789,
+  "sha256": "35755c8351e8942b2be6d7c1d32b047dc9aee0a19c6551da152019811a9e63f2"
 }
