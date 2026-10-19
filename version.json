@@ -1,9 +1,9 @@
 {
-  "versionCode": 30,
+  "versionCode": 31,
   "versionName": "1.0.1",
-  "commitSha": "09a6f7b",
-  "releaseNotes": "• fix: update main site domain to https://webguruji.online across footer, index, robots, and sitemap\n• Auto-built from GitHub commit 09a6f7b",
+  "commitSha": "0fcc9db",
+  "releaseNotes": "• feat(ads): add Google AdSense ads.txt, account token, and auto-ads script\n• Auto-built from GitHub commit 0fcc9db",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342791,
-  "sha256": "40006c3c5e2f1b6bd6e5d847a5d54de0bf69853aef3f9fef12ea3d8658e6eed2"
+  "apkSize": 8342793,
+  "sha256": "3f1ec3b3fb872e7fa0aafa15f2bbfae1b8fe67b4c78b7e455f43426de4c5e20e"
 }
