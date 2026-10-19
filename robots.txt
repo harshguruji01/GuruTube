@@ -8,6 +8,7 @@
 User-agent: *
 Allow: /
 Allow: /index.html
+Allow: /ads.txt
 Allow: /GuruTube.apk
 Allow: /logo.png
 Allow: /harshlogo.png
@@ -69,6 +70,15 @@ Allow: /
 Allow: /*.png$
 Allow: /*.jpg$
 Allow: /*.webp$
+
+# ── Google AdSense & Mediapartners Crawler ───────────────────────────────────
+User-agent: Mediapartners-Google
+Allow: /
+Allow: /ads.txt
+
+User-agent: Google-Display-Ads-Bot
+Allow: /
+Allow: /ads.txt
 
 # ── Bingbot Group ─────────────────────────────────────────────────────────
 User-agent: Bingbot

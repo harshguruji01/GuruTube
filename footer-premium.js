@@ -1,5 +1,20 @@
 document.addEventListener('DOMContentLoaded', () => {
 
+  // Auto-Ensure Google AdSense Token & Script
+  if (!document.querySelector('meta[name="google-adsense-account"]')) {
+    const meta = document.createElement('meta');
+    meta.name = 'google-adsense-account';
+    meta.content = 'ca-pub-7706204118195419';
+    document.head.appendChild(meta);
+  }
+  if (!document.querySelector('script[src*="pagead2.googlesyndication.com"]')) {
+    const script = document.createElement('script');
+    script.async = true;
+    script.crossOrigin = 'anonymous';
+    script.src = 'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7706204118195419';
+    document.head.appendChild(script);
+  }
+
   const MAIN_SITE = 'https://webguruji.online';
 
   // Remove existing hardcoded footers
