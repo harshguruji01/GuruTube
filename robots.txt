@@ -79,4 +79,4 @@ Disallow: /build/
 
 # ── Sitemaps for Google Search Console ────────────────────────────────────
 Sitemap: https://tube.webguruji.online/sitemap.xml
-Sitemap: https://www.webguruji.online/sitemap.xml
+Sitemap: https://webguruji.online/sitemap.xml

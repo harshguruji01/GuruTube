@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
 
-  const MAIN_SITE = 'https://www.webguruji.online';
+  const MAIN_SITE = 'https://webguruji.online';
 
   // Remove existing hardcoded footers
   document.querySelectorAll('footer.footer, footer.hg-global-footer, footer.relative.z-20').forEach(el => el.remove());
