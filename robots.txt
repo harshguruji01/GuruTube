@@ -1,0 +1,81 @@
+# ═══════════════════════════════════════════════════════════════════════════
+# robots.txt — GuruTube by HarshGuruJi (tube.webguruji.online)
+# Full Google Search Console (GSC) & search crawler indexing directives
+# Next-Gen Private Streaming Client for Android
+# Last Updated: 2026-10-19
+# ═══════════════════════════════════════════════════════════════════════════
+
+User-agent: *
+Allow: /
+Allow: /index.html
+Allow: /GuruTube.apk
+Allow: /logo.png
+Allow: /harshlogo.png
+Allow: /webguruji-logo.png
+Allow: /version.json
+Allow: /footer-premium.css
+Allow: /footer-premium.js
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.jpeg$
+Allow: /*.webp$
+Allow: /*.svg$
+Allow: /*.ico$
+Allow: /*.mp4$
+Allow: /*.mp3$
+
+# Disallow internal build artifacts, source code, and version control
+Disallow: /.git/
+Disallow: /.github/
+Disallow: /.gradle/
+Disallow: /.kotlin/
+Disallow: /app/
+Disallow: /build/
+Disallow: /fastlane/
+Disallow: /gradle/
+Disallow: /*.kts$
+Disallow: /*.properties$
+Disallow: /*.bat$
+Disallow: /gradlew$
+
+# ── Googlebot Dedicated Directives ─────────────────────────────────────────
+User-agent: Googlebot
+Allow: /
+Allow: /index.html
+Allow: /GuruTube.apk
+Allow: /logo.png
+Allow: /harshlogo.png
+Allow: /webguruji-logo.png
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+
+# ── Google Search Console Live Inspection Tool ────────────────────────────
+User-agent: Google-InspectionTool
+Allow: /
+Allow: /index.html
+Allow: /logo.png
+Allow: /harshlogo.png
+Allow: /webguruji-logo.png
+Allow: /*.css$
+Allow: /*.js$
+Allow: /*.png$
+
+# ── Google Images Crawler ─────────────────────────────────────────────────
+User-agent: Googlebot-Image
+Allow: /
+Allow: /*.png$
+Allow: /*.jpg$
+Allow: /*.webp$
+
+# ── Bingbot Group ─────────────────────────────────────────────────────────
+User-agent: Bingbot
+Allow: /
+Disallow: /.git/
+Disallow: /app/
+Disallow: /build/
+
+# ── Sitemaps for Google Search Console ────────────────────────────────────
+Sitemap: https://tube.webguruji.online/sitemap.xml

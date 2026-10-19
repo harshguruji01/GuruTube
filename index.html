@@ -8,6 +8,10 @@
     <meta name="description"
         content="Download GuruTube for Android. 100% Free, Private, Ad-free client with background playback, high-res downloads, and picture-in-picture.">
     <link rel="icon" type="image/png" href="logo.png">
+    <link rel="canonical" href="https://tube.webguruji.online/">
+
+    <!-- Footer Stylesheet -->
+    <link rel="stylesheet" href="footer-premium.css">
 
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -1604,46 +1608,9 @@
     </main>
 
     <!-- ======================================================= -->
-    <!-- 9. FOOTER SECTION                                       -->
+    <!-- 9. GLOBAL PREMIUM FOOTER PLACEHOLDER                    -->
     <!-- ======================================================= -->
-    <footer class="relative z-20 border-t border-white/10 bg-[#020306] py-12 px-4 md:px-8">
-        <div class="max-w-7xl mx-auto">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-white/5 text-center md:text-left">
-                
-                <div class="flex items-center gap-3">
-                    <img src="logo.png" alt="Logo" class="w-8 h-8 object-contain">
-                    <div>
-                        <span class="text-base font-bold text-white tracking-wide">GuruTube</span>
-                        <p class="text-xs text-gray-500">Android Open Source Privacy Client</p>
-                    </div>
-                </div>
-
-                <!-- Admin Site URL Display (Strictly Required by User) -->
-                <div class="text-xs text-gray-400 font-mono">
-                    Official Admin & Platform Site: 
-                    <a href="https://webguruji.online" target="_blank" rel="noopener noreferrer"
-                        class="text-blue-400 hover:underline font-semibold ml-1">
-                        webguruji.online
-                    </a>
-                </div>
-
-                <!-- Quick Links -->
-                <div class="flex items-center gap-6 text-xs text-gray-400">
-                    <a href="https://github.com/harshguruji01/GuruTube/blob/main/LICENSE" target="_blank" class="hover:text-blue-400 transition-colors">GNU GPL-3.0 License</a>
-                    <a href="https://github.com/harshguruji01/GuruTube" target="_blank" class="hover:text-blue-400 transition-colors">GitHub Repository</a>
-                    <a href="#hero" class="hover:text-blue-400 transition-colors flex items-center gap-1">
-                        Back to Top <iconify-icon icon="solar:arrow-up-linear"></iconify-icon>
-                    </a>
-                </div>
-
-            </div>
-
-            <div class="pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-gray-500 gap-4 text-center sm:text-left">
-                <p>© 2026 GuruTube Project. All rights reserved. Designed with ❤️ by HarshGuruJi.</p>
-                <p class="font-mono text-[11px]">Domain: tube.webguruji.online</p>
-            </div>
-        </div>
-    </footer>
+    <div id="footer-placeholder"></div>
 
     <!-- ======================================================= -->
     <!-- 10. JAVASCRIPT CONTROLLERS (Canvas, Video & Tabs)        -->
@@ -1986,6 +1953,7 @@
             });
         }
     </script>
+    <script src="footer-premium.js"></script>
 </body>
 
 </html>
