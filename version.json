@@ -1,9 +1,9 @@
 {
-  "versionCode": 31,
+  "versionCode": 32,
   "versionName": "1.0.1",
-  "commitSha": "0fcc9db",
-  "releaseNotes": "• feat(ads): add Google AdSense ads.txt, account token, and auto-ads script\n• Auto-built from GitHub commit 0fcc9db",
+  "commitSha": "8053045",
+  "releaseNotes": "• feat(footer): update footer to red cosmic star theme for tube subdomain\n• Auto-built from GitHub commit 8053045",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
   "apkSize": 8342793,
-  "sha256": "3f1ec3b3fb872e7fa0aafa15f2bbfae1b8fe67b4c78b7e455f43426de4c5e20e"
+  "sha256": "ac907f8fb0de9cccb4ffe50f40e756caa7403b8fd2dacb2eafa52510155ee040"
 }
