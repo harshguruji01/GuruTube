@@ -324,7 +324,8 @@
                                             <!-- In-App Video Card Mockup -->
                                             <div class="p-3 flex-1 flex flex-col gap-3 overflow-hidden">
                                                 <div class="relative rounded-2xl overflow-hidden bg-white/5 border border-white/10 aspect-video flex items-center justify-center group cursor-pointer">
-                                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent z-10"></div>
+                                                    <img src="images/1.jpg" alt="GuruTube Stream Preview" class="absolute inset-0 w-full h-full object-cover object-top opacity-70">
+                                                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent z-10"></div>
                                                     <div class="w-12 h-12 rounded-full bg-blue-500/80 text-white flex items-center justify-center z-20 shadow-[0_0_20px_rgba(96,165,250,0.8)]">
                                                         <iconify-icon icon="solar:play-bold" class="text-xl ml-0.5"></iconify-icon>
                                                     </div>
@@ -1277,250 +1278,259 @@
         </section>
 
         <!-- ======================================================= -->
-        <!-- 6. FULL-PAGE SCROLL-SNAP FEATURE SHOWCASE (100vh each)  -->
+        <!-- 6. INTERACTIVE ONE-BY-ONE SCROLL SHOWCASE (GSAP & Scrub)-->
         <!-- ======================================================= -->
-        <div id="features" class="space-y-4">
-            
-            <!-- SLIDE 1: PURE AD-FREE STREAMING -->
-            <section class="scroll-section px-4 md:px-8">
-                <div class="max-w-6xl mx-auto w-full">
-                    <div class="glass-panel rounded-3xl p-8 md:p-14 border border-white/10 relative overflow-hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                            <div class="space-y-5">
-                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-blue-400 text-xs font-mono uppercase">
-                                    Feature Slide 01
+        <section id="features" class="relative bg-[#030509] border-t border-white/5">
+            <!-- 380vh scroll track to allow comfortable 1-by-1 user scrolling -->
+            <div id="scroll-showcase" class="relative h-[360vh] sm:h-[400vh]">
+                
+                <!-- Sticky Fullscreen Viewport -->
+                <div class="sticky top-0 h-screen w-full flex flex-col justify-between py-12 md:py-16 px-4 md:px-8 overflow-hidden">
+                    
+                    <!-- Ambient Glow backdrop changing with active step -->
+                    <div id="showcase-glow"
+                        class="absolute top-1/2 right-1/4 -translate-y-1/2 w-72 sm:w-96 h-72 sm:h-96 rounded-full blur-[110px] opacity-40 transition-all duration-700 pointer-events-none"
+                        style="background-color: rgba(59, 130, 246, 0.35);"></div>
+
+                    <!-- Top Showcase Header & Step Navigation Tabs -->
+                    <div class="max-w-6xl mx-auto w-full z-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 pb-4 border-b border-white/10">
+                        <div>
+                            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/20 text-blue-400 text-xs font-mono uppercase tracking-wider">
+                                <iconify-icon icon="solar:mouse-minimalistic-linear" class="animate-bounce text-sm"></iconify-icon>
+                                Interactive Tour • Scroll Down To Animate
+                            </div>
+                            <h2 class="text-2xl sm:text-3xl font-light text-white mt-1">
+                                GuruTube in <span class="font-serif italic text-blue-400">Action</span>
+                            </h2>
+                        </div>
+
+                        <!-- 4 Step Pill Tabs (Clickable to jump or scroll-synced) -->
+                        <div class="flex items-center gap-1.5 sm:gap-2 bg-white/5 p-1 rounded-full border border-white/10 text-xs font-mono">
+                            <button type="button" onclick="jumpToStep(0)" id="step-pill-0"
+                                class="step-pill px-3 py-1.5 rounded-full transition-all text-white bg-blue-500/20 border border-blue-400/40 shadow-sm flex items-center gap-1">
+                                <span>01</span><span class="hidden md:inline">• Stream Feed</span>
+                            </button>
+                            <button type="button" onclick="jumpToStep(1)" id="step-pill-1"
+                                class="step-pill px-3 py-1.5 rounded-full transition-all text-gray-400 hover:text-white border border-transparent flex items-center gap-1">
+                                <span>02</span><span class="hidden md:inline">• Library</span>
+                            </button>
+                            <button type="button" onclick="jumpToStep(2)" id="step-pill-2"
+                                class="step-pill px-3 py-1.5 rounded-full transition-all text-gray-400 hover:text-white border border-transparent flex items-center gap-1">
+                                <span>03</span><span class="hidden md:inline">• 4K Downloads</span>
+                            </button>
+                            <button type="button" onclick="jumpToStep(3)" id="step-pill-3"
+                                class="step-pill px-3 py-1.5 rounded-full transition-all text-gray-400 hover:text-white border border-transparent flex items-center gap-1">
+                                <span>04</span><span class="hidden md:inline">• Settings</span>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Main Showcase Content Area: Left Details + Right Device Mockup -->
+                    <div class="max-w-6xl mx-auto w-full z-10 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center min-h-0 py-4">
+                        
+                        <!-- Left Details Narrative (Changes smoothly 0 to 3) -->
+                        <div class="lg:col-span-7 flex flex-col justify-center order-2 lg:order-1 relative min-h-[220px] sm:min-h-[260px]">
+                            
+                            <!-- Slide 0 Narrative: Ad-Free Streaming -->
+                            <div id="narrative-0" class="narrative-card transition-all duration-500 space-y-4">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 border border-blue-400/30 text-blue-400 text-xs font-mono uppercase">
+                                    Screen 01 • Pure Video Feed
                                 </div>
-                                <h3 class="text-3xl sm:text-4xl md:text-5xl font-light text-white leading-tight">
+                                <h3 class="text-2xl sm:text-4xl font-light text-white leading-tight">
                                     Stream without <br>
                                     <span class="font-serif italic text-blue-400">interruptions</span> or ads.
                                 </h3>
-                                <p class="text-gray-400 text-base leading-relaxed">
-                                    Say goodbye to annoying 30-second unskippable pre-roll ads, sudden mid-roll sponsors, and banner clutter. GuruTube leverages direct stream extraction so you watch pure creator content without corporate ad interference.
+                                <p class="text-gray-400 text-sm sm:text-base leading-relaxed max-w-lg">
+                                    Say goodbye to unskippable pre-roll ads, sudden mid-roll sponsors, and banner clutter. GuruTube leverages direct stream extraction so you watch creator content with 100% clean visuals.
                                 </p>
-                                <ul class="space-y-2.5 text-sm text-gray-300 font-mono">
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-blue-400 text-lg"></iconify-icon>
-                                        Zero Video & Audio Advertisements
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-blue-400 text-lg"></iconify-icon>
-                                        Faster video load times without ad SDKs
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-blue-400 text-lg"></iconify-icon>
-                                        Up to 45% mobile data bandwidth saved
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="relative">
-                                <div class="glass-card rounded-2xl p-6 border border-white/10 space-y-4 shadow-2xl">
-                                    <div class="flex items-center justify-between pb-3 border-b border-white/10">
-                                        <div class="flex items-center gap-2">
-                                            <div class="w-3 h-3 rounded-full bg-red-400"></div>
-                                            <div class="w-3 h-3 rounded-full bg-amber-400"></div>
-                                            <div class="w-3 h-3 rounded-full bg-emerald-400"></div>
-                                        </div>
-                                        <span class="text-xs font-mono text-gray-400">AdBlock Shield Status</span>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 text-xs text-gray-300 font-mono">
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:shield-check-bold" class="text-blue-400 text-base"></iconify-icon>
+                                        Zero Video Advertisements
                                     </div>
-                                    <div class="text-center py-6 space-y-2">
-                                        <div class="text-5xl font-mono font-bold text-blue-400">100%</div>
-                                        <div class="text-sm font-medium text-white">Ads Successfully Eliminated</div>
-                                        <p class="text-xs text-gray-400">No popups, no tracking cookies, no sponsor cards</p>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:bolt-bold" class="text-cyan-400 text-base"></iconify-icon>
+                                        45% Less Mobile Data
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:user-block-bold" class="text-purple-400 text-base"></iconify-icon>
+                                        No Google Login Required
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:round-transfer-vertical-bold" class="text-emerald-400 text-base"></iconify-icon>
+                                        Direct Media3 Streaming
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- SLIDE 2: BACKGROUND AUDIO & PIP -->
-            <section class="scroll-section px-4 md:px-8">
-                <div class="max-w-6xl mx-auto w-full">
-                    <div class="glass-panel rounded-3xl p-8 md:p-14 border border-white/10 relative overflow-hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                            <div class="space-y-5 order-2 md:order-1">
-                                <div class="glass-card rounded-2xl p-6 border border-white/10 space-y-4 shadow-2xl">
-                                    <div class="flex items-center justify-between pb-3 border-b border-white/10">
-                                        <span class="text-xs font-mono text-cyan-400">Media3 Background Session</span>
-                                        <span class="text-xs font-mono text-emerald-400">Playing</span>
-                                    </div>
-                                    <div class="flex items-center gap-4 py-3">
-                                        <div class="w-16 h-16 rounded-xl bg-blue-500/20 border border-blue-400/30 flex items-center justify-center text-blue-400 text-3xl">
-                                            <iconify-icon icon="solar:music-note-2-bold"></iconify-icon>
-                                        </div>
-                                        <div class="space-y-1">
-                                            <div class="text-base font-semibold text-white">Lo-Fi Study Beats & Chill</div>
-                                            <div class="text-xs text-gray-400 font-mono">Stream Quality: 320kbps Audio</div>
-                                            <div class="w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
-                                                <div class="w-2/3 h-full bg-blue-400 rounded-full"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="flex justify-center gap-6 pt-2 text-2xl text-gray-300">
-                                        <iconify-icon icon="solar:skip-previous-bold" class="cursor-pointer hover:text-blue-400"></iconify-icon>
-                                        <iconify-icon icon="solar:pause-bold" class="cursor-pointer text-blue-400"></iconify-icon>
-                                        <iconify-icon icon="solar:skip-next-bold" class="cursor-pointer hover:text-blue-400"></iconify-icon>
-                                    </div>
+                            <!-- Slide 1 Narrative: Library & Subscriptions -->
+                            <div id="narrative-1" class="narrative-card hidden transition-all duration-500 space-y-4">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/30 text-cyan-400 text-xs font-mono uppercase">
+                                    Screen 02 • Local Library & History
                                 </div>
-                            </div>
-                            <div class="space-y-5 order-1 md:order-2">
-                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-cyan-500/10 border border-cyan-400/20 text-cyan-400 text-xs font-mono uppercase">
-                                    Feature Slide 02
-                                </div>
-                                <h3 class="text-3xl sm:text-4xl md:text-5xl font-light text-white leading-tight">
-                                    Multitask freely with <br>
-                                    <span class="font-serif italic text-cyan-400">Background Audio</span> & PiP.
+                                <h3 class="text-2xl sm:text-4xl font-light text-white leading-tight">
+                                    Your private library <br>
+                                    <span class="font-serif italic text-cyan-400">stored on-device</span>.
                                 </h3>
-                                <p class="text-gray-400 text-base leading-relaxed">
-                                    Lock your phone and put it in your pocket. The audio continues playing flawlessly with Android system notification media controls, headphone button support, and bluetooth car playback.
+                                <p class="text-gray-400 text-sm sm:text-base leading-relaxed max-w-lg">
+                                    Organize bookmarked playlists, watch history, and local channel subscriptions. All metadata is stored strictly in your phone's encrypted SQLite database—zero telemetry sent to third parties.
                                 </p>
-                                <ul class="space-y-2.5 text-sm text-gray-300 font-mono">
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-cyan-400 text-lg"></iconify-icon>
-                                        Full lockscreen media player controls
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-cyan-400 text-lg"></iconify-icon>
-                                        Floating Picture-in-Picture over any application
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-cyan-400 text-lg"></iconify-icon>
-                                        Hardware gesture volume & brightness control
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- SLIDE 3: HIGH-RES DOWNLOADS -->
-            <section class="scroll-section px-4 md:px-8">
-                <div class="max-w-6xl mx-auto w-full">
-                    <div class="glass-panel rounded-3xl p-8 md:p-14 border border-white/10 relative overflow-hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                            <div class="space-y-5">
-                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-400/20 text-purple-400 text-xs font-mono uppercase">
-                                    Feature Slide 03
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 text-xs text-gray-300 font-mono">
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:database-bold" class="text-cyan-400 text-base"></iconify-icon>
+                                        SQLite Local Storage
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:bell-bold" class="text-blue-400 text-base"></iconify-icon>
+                                        Private Channel Feed
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:history-bold" class="text-amber-400 text-base"></iconify-icon>
+                                        Offline Watch History
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:export-bold" class="text-emerald-400 text-base"></iconify-icon>
+                                        JSON Backup & Import
+                                    </div>
                                 </div>
-                                <h3 class="text-3xl sm:text-4xl md:text-5xl font-light text-white leading-tight">
+                            </div>
+
+                            <!-- Slide 2 Narrative: High-Res Downloads -->
+                            <div id="narrative-2" class="narrative-card hidden transition-all duration-500 space-y-4">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/10 border border-purple-400/30 text-purple-400 text-xs font-mono uppercase">
+                                    Screen 03 • 4K Video & MP3 Downloader
+                                </div>
+                                <h3 class="text-2xl sm:text-4xl font-light text-white leading-tight">
                                     Save media directly to <br>
-                                    <span class="font-serif italic text-purple-400">your device storage</span>.
+                                    <span class="font-serif italic text-purple-400">Android storage</span>.
                                 </h3>
-                                <p class="text-gray-400 text-base leading-relaxed">
-                                    Unlike the official app which restricts downloads inside an encrypted vault, GuruTube downloads pure standard MP4 and MP3 files straight to your Android Download directory. Transfer them anywhere.
+                                <p class="text-gray-400 text-sm sm:text-base leading-relaxed max-w-lg">
+                                    No encrypted app sandboxes. GuruTube downloads standard MP4 videos up to 4K Ultra-HD 60fps and pure 320kbps MP3/M4A audio files straight to your device Downloads folder.
                                 </p>
-                                <ul class="space-y-2.5 text-sm text-gray-300 font-mono">
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-purple-400 text-lg"></iconify-icon>
-                                        Up to 4K Ultra-HD 60fps video downloads
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-purple-400 text-lg"></iconify-icon>
-                                        High-bitrate audio-only extraction (M4A / MP3)
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-purple-400 text-lg"></iconify-icon>
-                                        Resumeable downloads powered by WorkManager
-                                    </li>
-                                </ul>
-                            </div>
-                            <div class="relative">
-                                <div class="glass-card rounded-2xl p-6 border border-white/10 space-y-4 shadow-2xl">
-                                    <div class="flex items-center justify-between pb-3 border-b border-white/10">
-                                        <span class="text-xs font-mono text-purple-400">Direct Download Manager</span>
-                                        <span class="text-xs font-mono text-gray-400">Multi-Thread</span>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 text-xs text-gray-300 font-mono">
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:videocamera-record-bold" class="text-purple-400 text-base"></iconify-icon>
+                                        Up to 4K 60fps Video
                                     </div>
-                                    <div class="space-y-3">
-                                        <div class="bg-white/5 p-3 rounded-xl flex items-center justify-between">
-                                            <div>
-                                                <div class="text-xs font-semibold text-white">Android_Jetpack_Compose_Masterclass.mp4</div>
-                                                <div class="text-[10px] text-gray-400 font-mono">1080p • 60fps • 420 MB</div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:music-note-2-bold" class="text-pink-400 text-base"></iconify-icon>
+                                        320kbps MP3 Audio
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:play-circle-bold" class="text-blue-400 text-base"></iconify-icon>
+                                        Pause & Resume Support
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:folder-with-files-bold" class="text-emerald-400 text-base"></iconify-icon>
+                                        Standard File Access
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Slide 3 Narrative: Privacy & Settings -->
+                            <div id="narrative-3" class="narrative-card hidden transition-all duration-500 space-y-4">
+                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-400 text-xs font-mono uppercase">
+                                    Screen 04 • Hardened Privacy & Settings
+                                </div>
+                                <h3 class="text-2xl sm:text-4xl font-light text-white leading-tight">
+                                    Total privacy with <br>
+                                    <span class="font-serif italic text-emerald-400">in-app auto updates</span>.
+                                </h3>
+                                <p class="text-gray-400 text-sm sm:text-base leading-relaxed max-w-lg">
+                                    Customize background audio, floating Picture-in-Picture window, pause watch/search history, and receive instant GitHub release update notifications directly inside the application.
+                                </p>
+                                <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-2 text-xs text-gray-300 font-mono">
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:pip-bold" class="text-emerald-400 text-base"></iconify-icon>
+                                        Picture-in-Picture
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:refresh-circle-bold" class="text-blue-400 text-base"></iconify-icon>
+                                        GitHub Auto-Updater
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:eye-closed-bold" class="text-purple-400 text-base"></iconify-icon>
+                                        Pause Search History
+                                    </div>
+                                    <div class="flex items-center gap-2 bg-white/5 p-2 rounded-lg border border-white/5">
+                                        <iconify-icon icon="solar:lock-keyhole-minimalistic-bold" class="text-cyan-400 text-base"></iconify-icon>
+                                        Zero Trackers / Ads
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Right Device Mockup: Realistic Smartphone Frame with 4 Screenshots -->
+                        <div class="lg:col-span-5 flex justify-center order-1 lg:order-2">
+                            <div class="relative w-full max-w-[240px] sm:max-w-[270px] md:max-w-[300px]">
+                                
+                                <!-- Realistic Phone Outer Chassis -->
+                                <div class="relative rounded-[44px] p-2 sm:p-2.5 bg-gradient-to-b from-slate-700 via-slate-900 to-black border-2 border-slate-700/60 shadow-[0_30px_90px_rgba(0,0,0,0.9),0_0_50px_rgba(59,130,246,0.3)]">
+                                    
+                                    <!-- Inner Screen Frame -->
+                                    <div class="relative rounded-[36px] overflow-hidden bg-black aspect-[1280/2800] border border-white/10 shadow-inner">
+                                        
+                                        <!-- Front Camera Punch-Hole & Speaker -->
+                                        <div class="absolute top-2 left-1/2 -translate-x-1/2 z-30 flex items-center justify-center">
+                                            <div class="w-3.5 h-3.5 rounded-full bg-black border border-white/20 flex items-center justify-center">
+                                                <div class="w-1.5 h-1.5 rounded-full bg-blue-950"></div>
                                             </div>
-                                            <span class="text-xs font-mono text-emerald-400">Complete</span>
                                         </div>
-                                        <div class="bg-white/5 p-3 rounded-xl flex items-center justify-between">
-                                            <div>
-                                                <div class="text-xs font-semibold text-white">Full_Synthwave_Album_2026.mp3</div>
-                                                <div class="text-[10px] text-gray-400 font-mono">320kbps Audio • 128 MB</div>
-                                            </div>
-                                            <span class="text-xs font-mono text-blue-400">Complete</span>
-                                        </div>
+
+                                        <!-- Glare Reflection -->
+                                        <div class="absolute inset-0 bg-gradient-to-tr from-transparent via-white/[0.03] to-white/[0.08] pointer-events-none z-20"></div>
+
+                                        <!-- Screenshot 1: Stream & Feed -->
+                                        <img id="showcase-img-0" src="images/1.jpg" alt="GuruTube Stream & Feed Screenshot"
+                                            class="showcase-img absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-out opacity-100 scale-100 z-10 select-none">
+
+                                        <!-- Screenshot 2: Library & Offline -->
+                                        <img id="showcase-img-1" src="images/2.jpg" alt="GuruTube Library Screenshot"
+                                            class="showcase-img absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-out opacity-0 scale-95 translate-y-6 z-0 select-none">
+
+                                        <!-- Screenshot 3: Downloads -->
+                                        <img id="showcase-img-2" src="images/3.jpg" alt="GuruTube Downloads Screenshot"
+                                            class="showcase-img absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-out opacity-0 scale-95 translate-y-6 z-0 select-none">
+
+                                        <!-- Screenshot 4: Settings & Privacy -->
+                                        <img id="showcase-img-3" src="images/4.jpg" alt="GuruTube Settings Screenshot"
+                                            class="showcase-img absolute inset-0 w-full h-full object-cover object-top transition-all duration-700 ease-out opacity-0 scale-95 translate-y-6 z-0 select-none">
+                                    </div>
+                                </div>
+
+                                <!-- Floating Active Badge -->
+                                <div id="showcase-float-badge"
+                                    class="absolute -bottom-3 -left-3 sm:-left-5 z-30 bg-[#0A0E17]/90 backdrop-blur-xl border border-blue-400/30 px-3.5 py-2 rounded-2xl shadow-[0_15px_35px_rgba(0,0,0,0.6)] flex items-center gap-2.5 transition-all duration-500">
+                                    <div class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-ping"></div>
+                                    <div class="text-[11px] font-mono">
+                                        <div id="float-badge-title" class="text-white font-bold">Screen 1 of 4</div>
+                                        <div id="float-badge-sub" class="text-blue-400">Stream Feed</div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </section>
 
-            <!-- SLIDE 4: SOVEREIGN SUBSCRIPTIONS & PRIVACY -->
-            <section class="scroll-section px-4 md:px-8">
-                <div class="max-w-6xl mx-auto w-full">
-                    <div class="glass-panel rounded-3xl p-8 md:p-14 border border-white/10 relative overflow-hidden">
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-10 items-center">
-                            <div class="space-y-5 order-2 md:order-1">
-                                <div class="glass-card rounded-2xl p-6 border border-white/10 space-y-4 shadow-2xl">
-                                    <div class="flex items-center justify-between pb-3 border-b border-white/10">
-                                        <span class="text-xs font-mono text-emerald-400">Decentralized Channel Feed</span>
-                                        <span class="text-xs font-mono text-gray-400">SQLite Encrypted</span>
-                                    </div>
-                                    <div class="space-y-2.5">
-                                        <div class="flex items-center gap-3 p-2 rounded-xl bg-white/5">
-                                            <div class="w-8 h-8 rounded-full bg-blue-500/30 flex items-center justify-center font-bold text-xs text-blue-400">WG</div>
-                                            <div class="flex-1">
-                                                <div class="text-xs font-semibold text-white">WebGuruJi Academy</div>
-                                                <div class="text-[10px] text-gray-400">Subscribed (Local Storage)</div>
-                                            </div>
-                                            <iconify-icon icon="solar:bell-bold" class="text-blue-400"></iconify-icon>
-                                        </div>
-                                        <div class="flex items-center gap-3 p-2 rounded-xl bg-white/5">
-                                            <div class="w-8 h-8 rounded-full bg-purple-500/30 flex items-center justify-center font-bold text-xs text-purple-400">KG</div>
-                                            <div class="flex-1">
-                                                <div class="text-xs font-semibold text-white">Kotlin & Android Tech</div>
-                                                <div class="text-[10px] text-gray-400">Subscribed (Local Storage)</div>
-                                            </div>
-                                            <iconify-icon icon="solar:bell-bold" class="text-purple-400"></iconify-icon>
-                                        </div>
-                                    </div>
-                                    <div class="text-center pt-2">
-                                        <span class="text-[11px] font-mono text-gray-400">Backup & Export anytime as JSON file</span>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="space-y-5 order-1 md:order-2">
-                                <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-400 text-xs font-mono uppercase">
-                                    Feature Slide 04
-                                </div>
-                                <h3 class="text-3xl sm:text-4xl md:text-5xl font-light text-white leading-tight">
-                                    Keep your data <br>
-                                    <span class="font-serif italic text-emerald-400">in your hands</span>.
-                                </h3>
-                                <p class="text-gray-400 text-base leading-relaxed">
-                                    No Google accounts required. You can subscribe to channels, create playlists, bookmark favorites, and browse comments without creating a profile or giving away personal data.
-                                </p>
-                                <ul class="space-y-2.5 text-sm text-gray-300 font-mono">
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 text-lg"></iconify-icon>
-                                        Private Subscriptions without login
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 text-lg"></iconify-icon>
-                                        Incognito Mode keeps your feed clean
-                                    </li>
-                                    <li class="flex items-center gap-2">
-                                        <iconify-icon icon="solar:check-circle-bold" class="text-emerald-400 text-lg"></iconify-icon>
-                                        Instant JSON subscription import from Google Takeout
-                                    </li>
-                                </ul>
+                    </div>
+
+                    <!-- Bottom Scroll Indicator & Progress Bar -->
+                    <div class="max-w-6xl mx-auto w-full z-10 pt-3 border-t border-white/10 flex items-center justify-between gap-4">
+                        <div class="flex items-center gap-3">
+                            <span id="showcase-step-num" class="text-lg font-mono font-bold text-blue-400">01</span>
+                            <span class="text-xs font-mono text-gray-500">/ 04</span>
+                            <div class="w-28 sm:w-48 h-1.5 bg-white/10 rounded-full overflow-hidden">
+                                <div id="showcase-progress-bar" class="h-full bg-gradient-to-r from-blue-500 via-cyan-400 to-emerald-400 rounded-full transition-all duration-300 w-1/4"></div>
                             </div>
                         </div>
+                        <div class="flex items-center gap-2 text-xs font-mono text-gray-400">
+                            <iconify-icon icon="solar:mouse-minimalistic-linear" class="text-base text-blue-400 animate-bounce"></iconify-icon>
+                            <span class="hidden sm:inline">Scroll smoothly down to animate screens</span>
+                        </div>
                     </div>
-                </div>
-            </section>
 
-        </div>
+                </div>
+            </div>
+        </section>
 
         <!-- ======================================================= -->
         <!-- 7. BOTTOM SECTION: ABOUT CREATOR (HarshGuruJi)         -->
@@ -2087,8 +2097,154 @@
                 }
             });
         }
+
+        // --- 4. Interactive One-By-One Scroll Showcase Controller ---
+        let currentShowcaseStep = 0;
+        const showcaseMeta = [
+            { title: 'Screen 1 of 4', sub: 'Stream Feed', glow: 'rgba(59, 130, 246, 0.35)', badgeColor: 'text-blue-400' },
+            { title: 'Screen 2 of 4', sub: 'Subscriptions & Library', glow: 'rgba(168, 85, 247, 0.35)', badgeColor: 'text-purple-400' },
+            { title: 'Screen 3 of 4', sub: 'Direct 4K Downloads', glow: 'rgba(6, 182, 212, 0.35)', badgeColor: 'text-cyan-400' },
+            { title: 'Screen 4 of 4', sub: 'Privacy & Settings', glow: 'rgba(16, 185, 129, 0.35)', badgeColor: 'text-emerald-400' }
+        ];
+
+        function setActiveShowcaseStep(stepIndex) {
+            if (stepIndex < 0 || stepIndex > 3) return;
+            currentShowcaseStep = stepIndex;
+
+            // 1. Crossfade & translate Phone Screenshots
+            for (let i = 0; i < 4; i++) {
+                const img = document.getElementById(`showcase-img-${i}`);
+                if (img) {
+                    if (i === stepIndex) {
+                        img.classList.remove('opacity-0', 'scale-95', 'translate-y-6', 'z-0');
+                        img.classList.add('opacity-100', 'scale-100', 'translate-y-0', 'z-10');
+                    } else {
+                        img.classList.remove('opacity-100', 'scale-100', 'translate-y-0', 'z-10');
+                        img.classList.add('opacity-0', 'scale-95', 'translate-y-6', 'z-0');
+                    }
+                }
+            }
+
+            // 2. Switch Narrative Cards with smooth fade
+            for (let i = 0; i < 4; i++) {
+                const narr = document.getElementById(`narrative-${i}`);
+                if (narr) {
+                    if (i === stepIndex) {
+                        narr.classList.remove('hidden');
+                    } else {
+                        narr.classList.add('hidden');
+                    }
+                }
+            }
+
+            // 3. Update Step Pill Tabs
+            for (let i = 0; i < 4; i++) {
+                const pill = document.getElementById(`step-pill-${i}`);
+                if (pill) {
+                    if (i === stepIndex) {
+                        pill.className = 'step-pill px-3 py-1.5 rounded-full transition-all text-white bg-blue-500/20 border border-blue-400/40 shadow-sm flex items-center gap-1';
+                    } else {
+                        pill.className = 'step-pill px-3 py-1.5 rounded-full transition-all text-gray-400 hover:text-white border border-transparent bg-transparent flex items-center gap-1';
+                    }
+                }
+            }
+
+            // 4. Update Ambient Glow & Floating Badge
+            const glowEl = document.getElementById('showcase-glow');
+            if (glowEl) glowEl.style.backgroundColor = showcaseMeta[stepIndex].glow;
+
+            const badgeTitle = document.getElementById('float-badge-title');
+            if (badgeTitle) badgeTitle.textContent = showcaseMeta[stepIndex].title;
+
+            const badgeSub = document.getElementById('float-badge-sub');
+            if (badgeSub) {
+                badgeSub.textContent = showcaseMeta[stepIndex].sub;
+                badgeSub.className = showcaseMeta[stepIndex].badgeColor;
+            }
+
+            // 5. Update Step Counter
+            const stepNum = document.getElementById('showcase-step-num');
+            if (stepNum) stepNum.textContent = `0${stepIndex + 1}`;
+        }
+
+        // Global jumpToStep for manual button clicks
+        window.jumpToStep = function(stepIndex) {
+            const showcase = document.getElementById('scroll-showcase');
+            if (!showcase) return;
+            const rect = showcase.getBoundingClientRect();
+            const showcaseTop = rect.top + window.pageYOffset;
+            const scrollableDistance = showcase.offsetHeight - window.innerHeight;
+            if (scrollableDistance > 0) {
+                const targetY = showcaseTop + (stepIndex / 3) * scrollableDistance;
+                window.scrollTo({ top: targetY, behavior: 'smooth' });
+            }
+            setActiveShowcaseStep(stepIndex);
+        };
+
+        // Initialize scroll listener & GSAP ScrollTrigger
+        (function initShowcaseScroller() {
+            let lastReportedStep = -1;
+
+            function updateShowcaseProgress(progress) {
+                const clamped = Math.max(0, Math.min(1, progress));
+                
+                // Segment into 4 distinct scroll stops
+                let activeStep = 0;
+                if (clamped < 0.28) activeStep = 0;
+                else if (clamped < 0.58) activeStep = 1;
+                else if (clamped < 0.88) activeStep = 2;
+                else activeStep = 3;
+
+                if (activeStep !== lastReportedStep) {
+                    lastReportedStep = activeStep;
+                    setActiveShowcaseStep(activeStep);
+                }
+
+                const progressBar = document.getElementById('showcase-progress-bar');
+                if (progressBar) {
+                    const pct = Math.max(15, Math.min(100, (clamped * 85) + 15));
+                    progressBar.style.width = `${pct}%`;
+                }
+            }
+
+            // Native scroll listener with requestAnimationFrame
+            let ticking = false;
+            window.addEventListener('scroll', () => {
+                if (!ticking) {
+                    window.requestAnimationFrame(() => {
+                        const showcase = document.getElementById('scroll-showcase');
+                        if (showcase) {
+                            const rect = showcase.getBoundingClientRect();
+                            const scrollable = showcase.offsetHeight - window.innerHeight;
+                            if (scrollable > 0) {
+                                const scrolled = -rect.top;
+                                const progress = scrolled / scrollable;
+                                if (progress >= -0.1 && progress <= 1.1) {
+                                    updateShowcaseProgress(progress);
+                                }
+                            }
+                        }
+                        ticking = false;
+                    });
+                    ticking = true;
+                }
+            }, { passive: true });
+
+            // GSAP ScrollTrigger integration
+            if (typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined') {
+                gsap.registerPlugin(ScrollTrigger);
+                ScrollTrigger.create({
+                    trigger: '#scroll-showcase',
+                    start: 'top top',
+                    end: 'bottom bottom',
+                    scrub: 0.3,
+                    onUpdate: (self) => {
+                        updateShowcaseProgress(self.progress);
+                    }
+                });
+            }
+        })();
     </script>
     <script src="footer-premium.js"></script>
 </body>
-
 </html>
