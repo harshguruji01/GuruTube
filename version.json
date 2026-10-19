@@ -1,9 +1,9 @@
 {
-  "versionCode": 29,
+  "versionCode": 30,
   "versionName": "1.0.1",
-  "commitSha": "ba64793",
-  "releaseNotes": "• feat: restore site footer layout with scroll reveal animation and massive auto-twinkling stars canvas\n• Auto-built from GitHub commit ba64793",
+  "commitSha": "09a6f7b",
+  "releaseNotes": "• fix: update main site domain to https://webguruji.online across footer, index, robots, and sitemap\n• Auto-built from GitHub commit 09a6f7b",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342792,
-  "sha256": "d4371e33ecdebb078dc7559db5bbb03ca02546b7b6073edf13502aec6c858c92"
+  "apkSize": 8342791,
+  "sha256": "40006c3c5e2f1b6bd6e5d847a5d54de0bf69853aef3f9fef12ea3d8658e6eed2"
 }
