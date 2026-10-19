@@ -1,9 +1,9 @@
 {
-  "versionCode": 28,
+  "versionCode": 29,
   "versionName": "1.0.1",
-  "commitSha": "f7f2052",
-  "releaseNotes": "• feat: update footer logo and non-clickable brand name, enhance catalog UI, and enable zero-click background audio auto-start\n• Auto-built from GitHub commit f7f2052",
+  "commitSha": "ba64793",
+  "releaseNotes": "• feat: restore site footer layout with scroll reveal animation and massive auto-twinkling stars canvas\n• Auto-built from GitHub commit ba64793",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342800,
-  "sha256": "0766f5863947774c08f3c823116f3ab629525616f77ed8569ffbe09d25bdcc24"
+  "apkSize": 8342792,
+  "sha256": "d4371e33ecdebb078dc7559db5bbb03ca02546b7b6073edf13502aec6c858c92"
 }
