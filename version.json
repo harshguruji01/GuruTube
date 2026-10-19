@@ -1,9 +1,9 @@
 {
-  "versionCode": 24,
+  "versionCode": 25,
   "versionName": "1.0.1",
-  "commitSha": "a49d078",
-  "releaseNotes": "• Add sitemap.xml, robots.txt, and HarshGuruJi premium ecosystem footer with updated links\n• Auto-built from GitHub commit a49d078",
+  "commitSha": "d5494cf",
+  "releaseNotes": "• feat: keep nature sound always on at 50% volume unmuted and expand sitemap to match full webguruji ecosystem\n• Auto-built from GitHub commit d5494cf",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342794,
-  "sha256": "b4dbabf8b9c4aa218d36bbabf7011710f31439699e0c6564ad461a8a12119bfb"
+  "apkSize": 8342783,
+  "sha256": "1630028f15f0d94d68ad03691f64a0a3e98e235b7e9270c39d5d7428e09a4d2e"
 }
