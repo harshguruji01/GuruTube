@@ -5,19 +5,21 @@ document.addEventListener('DOMContentLoaded', () => {
   // Remove existing hardcoded footers
   document.querySelectorAll('footer.footer, footer.hg-global-footer, footer.relative.z-20').forEach(el => el.remove());
   const oldFooterPlaceholder = document.getElementById('footer-placeholder');
+  if (oldFooterPlaceholder) oldFooterPlaceholder.remove();
 
   const currentYear = new Date().getFullYear();
 
   const footerHTML = `
     <footer class="hg-global-footer">
+      <!-- Massive Auto-Twinkling Stars Canvas -->
+      <canvas id="hg-footer-stars-canvas" class="hg-footer-stars-canvas" aria-hidden="true"></canvas>
+
       <div class="hg-footer-grid">
         <div class="hg-footer-brand">
-          <div class="hg-footer-brand-title">
-            <div class="hg-brand-avatar-wrap">
-              <img src="harshlogo.png" alt="HarshGuruJi Logo" class="hg-brand-logo" />
-            </div>
-            <span class="hg-brand-name-text">HarshGuruJi</span>
-          </div>
+          <a href="${MAIN_SITE}/index.html" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; margin-bottom: 1.5rem;">
+            <img src="webguruji-logo.png" alt="HarshGuruJi Logo" style="height: 36px; width: auto; max-width: 44px; border-radius: 8px; object-fit: contain;" />
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.5rem; background:linear-gradient(135deg,#3b82f6,#8b5cf6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi</span>
+          </a>
           <p>HarshGuruJi is a premium digital platform for learning, AI, tools, knowledge, games, and useful online resources. Learn • Create • Explore • Build.</p>
           
           <div class="hg-footer-search">
@@ -40,82 +42,57 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <nav class="hg-footer-navs" aria-label="Footer Navigation">
           <div class="hg-footer-col">
-            <h5>
-              <span class="hg-col-badge-icon">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
-              </span>
-              <span>Platform</span>
-            </h5>
+            <h5>Platform</h5>
             <ul>
-              <li><a href="${MAIN_SITE}/index.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>HarshGuruJi Home</span></a></li>
-              <li><a href="${MAIN_SITE}/ai-hub.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>AI Hub</span><span class="hg-pill-badge hg-pill-purple">AI</span></a></li>
-              <li><a href="${MAIN_SITE}/daily-special.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Daily Special</span></a></li>
-              <li><a href="${MAIN_SITE}/dashboard.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Dashboard</span></a></li>
-              <li><a href="${MAIN_SITE}/explore.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Explore</span></a></li>
+              <li><a href="${MAIN_SITE}/index.html" target="_blank" rel="noopener noreferrer">HarshGuruJi Home</a></li>
+              <li><a href="${MAIN_SITE}/ai-hub.html" target="_blank" rel="noopener noreferrer">AI Hub</a></li>
+              <li><a href="${MAIN_SITE}/daily-special.html" target="_blank" rel="noopener noreferrer">Daily Special</a></li>
+              <li><a href="${MAIN_SITE}/dashboard.html" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
+              <li><a href="${MAIN_SITE}/explore.html" target="_blank" rel="noopener noreferrer">Explore</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>
-              <span class="hg-col-badge-icon">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
-              </span>
-              <span>Tools</span>
-            </h5>
+            <h5>Tools</h5>
             <ul>
-              <li><a href="${MAIN_SITE}/free-tools.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>All Tools</span><span class="hg-pill-badge hg-pill-blue">50+</span></a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Text" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Text Tools</span></a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Calculator" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Calculators</span></a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Converter" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Converters</span></a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Developer" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Dev Tools</span></a></li>
+              <li><a href="${MAIN_SITE}/free-tools.html" target="_blank" rel="noopener noreferrer">All Tools</a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Text" target="_blank" rel="noopener noreferrer">Text Tools</a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Calculator" target="_blank" rel="noopener noreferrer">Calculators</a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Converter" target="_blank" rel="noopener noreferrer">Converters</a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Developer" target="_blank" rel="noopener noreferrer">Dev Tools</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>
-              <span class="hg-col-badge-icon">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
-              </span>
-              <span>Learning</span>
-            </h5>
+            <h5>Learning</h5>
             <ul>
-              <li><a href="${MAIN_SITE}/learning-hub.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Learning Hub</span></a></li>
-              <li><a href="https://books.webguruji.online" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>NCERT Books Library</span></a></li>
-              <li><a href="${MAIN_SITE}/education.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Education</span></a></li>
-              <li><a href="${MAIN_SITE}/learning/class-10-science.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Class 10</span></a></li>
-              <li><a href="${MAIN_SITE}/learning/class.html?class=9" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Class 9</span></a></li>
-              <li><a href="${MAIN_SITE}/learning/gk-quiz.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Quizzes</span></a></li>
+              <li><a href="${MAIN_SITE}/learning-hub.html" target="_blank" rel="noopener noreferrer">Learning Hub</a></li>
+              <li><a href="https://books.webguruji.online" target="_blank" rel="noopener noreferrer">NCERT Books Library</a></li>
+              <li><a href="${MAIN_SITE}/education.html" target="_blank" rel="noopener noreferrer">Education</a></li>
+              <li><a href="${MAIN_SITE}/learning/class-10-science.html" target="_blank" rel="noopener noreferrer">Class 10</a></li>
+              <li><a href="${MAIN_SITE}/learning/class.html?class=9" target="_blank" rel="noopener noreferrer">Class 9</a></li>
+              <li><a href="${MAIN_SITE}/learning/gk-quiz.html" target="_blank" rel="noopener noreferrer">Quizzes</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>
-              <span class="hg-col-badge-icon">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/></svg>
-              </span>
-              <span>Games & Apps</span>
-            </h5>
+            <h5>Games & Apps</h5>
             <ul>
-              <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>HarshGuruJi Store</span><span class="hg-pill-badge hg-pill-emerald">Store</span></a></li>
-              <li><a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Chat HarshGuruJi</span><span class="hg-pill-badge hg-pill-amber">GPT</span></a></li>
-              <li><a href="https://tube.webguruji.online/" class="hg-link-highlight"><span class="hg-nav-bullet"></span><span>GuruTube</span><span class="hg-pill-badge hg-pill-cyan">This App</span></a></li>
-              <li><a href="https://github.com/harshguruji01/GuruTube" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>GuruTube GitHub</span></a></li>
-              <li><a href="${MAIN_SITE}/gaming-hub.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Gaming Hub</span></a></li>
-              <li><a href="${MAIN_SITE}/Quiz India/index.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Quiz India</span></a></li>
+              <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer">HarshGuruJi Store</a></li>
+              <li><a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer">Chat HarshGuruJi</a></li>
+              <li><a href="https://tube.webguruji.online/" class="text-blue-400 font-semibold">GuruTube (This App)</a></li>
+              <li><a href="https://github.com/harshguruji01/GuruTube" target="_blank" rel="noopener noreferrer">GuruTube GitHub</a></li>
+              <li><a href="${MAIN_SITE}/gaming-hub.html" target="_blank" rel="noopener noreferrer">Gaming Hub</a></li>
+              <li><a href="${MAIN_SITE}/Quiz India/index.html" target="_blank" rel="noopener noreferrer">Quiz India</a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>
-              <span class="hg-col-badge-icon">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </span>
-              <span>Legal & Info</span>
-            </h5>
+            <h5>Company & Legal</h5>
             <ul>
-              <li><a href="${MAIN_SITE}/about.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>About Us</span></a></li>
-              <li><a href="${MAIN_SITE}/contact.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Contact Us</span></a></li>
-              <li><a href="${MAIN_SITE}/contributor.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Contributors</span></a></li>
-              <li><a href="${MAIN_SITE}/privacy-policy.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Privacy Policy</span></a></li>
-              <li><a href="${MAIN_SITE}/terms-and-conditions.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Terms</span></a></li>
-              <li><a href="https://github.com/harshguruji01/GuruTube/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>GNU GPL-3.0 License</span></a></li>
-              <li><a href="${MAIN_SITE}/cookie.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Cookies</span></a></li>
+              <li><a href="${MAIN_SITE}/about.html" target="_blank" rel="noopener noreferrer">About Us</a></li>
+              <li><a href="${MAIN_SITE}/contact.html" target="_blank" rel="noopener noreferrer">Contact Us</a></li>
+              <li><a href="${MAIN_SITE}/contributor.html" target="_blank" rel="noopener noreferrer">Contributors</a></li>
+              <li><a href="${MAIN_SITE}/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+              <li><a href="${MAIN_SITE}/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">Terms</a></li>
+              <li><a href="https://github.com/harshguruji01/GuruTube/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GNU GPL-3.0 License</a></li>
+              <li><a href="${MAIN_SITE}/cookie.html" target="_blank" rel="noopener noreferrer">Cookies</a></li>
             </ul>
           </div>
         </nav>
@@ -140,11 +117,7 @@ document.addEventListener('DOMContentLoaded', () => {
     </footer>
   `;
 
-  if (oldFooterPlaceholder) {
-    oldFooterPlaceholder.outerHTML = footerHTML;
-  } else {
-    document.body.insertAdjacentHTML('beforeend', footerHTML);
-  }
+  document.body.insertAdjacentHTML('beforeend', footerHTML);
 
   // Footer Search logic
   const searchBtn = document.getElementById('hg-footer-search-btn');
@@ -167,4 +140,226 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   }
+
+  // =========================================================================
+  // MASSIVE AUTO-TWINKLING STARS & SCROLL-TRIGGERED REVEAL ANIMATION SYSTEM
+  // =========================================================================
+  function initFooterStarsAndScrollAnimation() {
+    const footer = document.querySelector('.hg-global-footer');
+    const canvas = document.getElementById('hg-footer-stars-canvas');
+    if (!footer || !canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    let width = 0;
+    let height = 0;
+    let stars = [];
+    let shootingStars = [];
+    let mouse = { x: -1000, y: -1000, active: false };
+    let animationFrameId = null;
+    let isFooterVisible = false;
+
+    // High DPI Canvas Scaling & Massive Stars Initialization
+    function resizeCanvas() {
+      const rect = footer.getBoundingClientRect();
+      const dpr = Math.min(window.devicePixelRatio || 1, 2);
+      width = rect.width;
+      height = rect.height;
+      canvas.width = width * dpr;
+      canvas.height = height * dpr;
+      canvas.style.width = width + 'px';
+      canvas.style.height = height + 'px';
+      ctx.setTransform(1, 0, 0, 1, 0, 0);
+      ctx.scale(dpr, dpr);
+      createStars();
+    }
+
+    function createStars() {
+      stars = [];
+      // Massive density: 150 to 260 twinkling stars across the footer
+      const starCount = Math.max(140, Math.min(280, Math.floor((width * height) / 3000)));
+
+      const colors = [
+        { r: 255, g: 255, b: 255 }, // Diamond White
+        { r: 147, g: 197, b: 253 }, // Soft Celestial Blue (#93c5fd)
+        { r: 103, g: 232, b: 249 }, // Neon Cyan (#67e8f9)
+        { r: 192, g: 132, b: 252 }, // Cosmic Purple (#c084fc)
+        { r: 254, g: 240, b: 138 }  // Radiant Warm Starlight (#fef08a)
+      ];
+
+      for (let i = 0; i < starCount; i++) {
+        const color = colors[Math.floor(Math.random() * colors.length)];
+        const isBright = Math.random() < 0.18; // 18% are prominent stars with cross-twinkle flares
+        stars.push({
+          x: Math.random() * width,
+          y: Math.random() * height,
+          radius: isBright ? Math.random() * 1.4 + 1.2 : Math.random() * 0.9 + 0.45,
+          baseAlpha: Math.random() * 0.35 + 0.2,
+          twinkleSpeed: Math.random() * 0.045 + 0.015,
+          twinklePhase: Math.random() * Math.PI * 2,
+          twinkleRange: Math.random() * 0.55 + 0.35,
+          color: color,
+          isBright: isBright
+        });
+      }
+    }
+
+    // Dynamic Shooting Star / Meteor Spawner
+    function spawnShootingStar() {
+      if (shootingStars.length >= 2 || !isFooterVisible) return;
+      const startX = Math.random() * width * 0.85;
+      const startY = Math.random() * height * 0.45;
+      const length = Math.random() * 85 + 75;
+      const angle = (Math.PI / 4) + (Math.random() * 0.2 - 0.1); // ~45 deg diagonal
+      const speed = Math.random() * 6 + 5;
+
+      shootingStars.push({
+        x: startX,
+        y: startY,
+        dx: Math.cos(angle) * speed,
+        dy: Math.sin(angle) * speed,
+        length: length,
+        life: 0,
+        maxLife: Math.random() * 45 + 35,
+        opacity: 1
+      });
+    }
+
+    let meteorInterval = setInterval(() => {
+      if (isFooterVisible && Math.random() < 0.65) {
+        spawnShootingStar();
+      }
+    }, 4200);
+
+    // Continuous 60fps Star Drawing Engine
+    function drawStars() {
+      if (!isFooterVisible) return;
+      ctx.clearRect(0, 0, width, height);
+
+      const time = performance.now() * 0.001;
+
+      // 1. Draw Massive Field of Twinkling Stars
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+
+        // Harmonic twinkle oscillation
+        const pulse = Math.sin(time * s.twinkleSpeed * 60 + s.twinklePhase);
+        let alpha = s.baseAlpha + pulse * s.twinkleRange;
+        alpha = Math.max(0.08, Math.min(1, alpha));
+
+        // Interactive mouse glow near cursor
+        if (mouse.active) {
+          const dx = s.x - mouse.x;
+          const dy = s.y - mouse.y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < 130) {
+            alpha = Math.min(1, alpha + (1 - dist / 130) * 0.65);
+          }
+        }
+
+        // Star Core
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.radius, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${alpha})`;
+        ctx.shadowColor = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${alpha * 0.8})`;
+        ctx.shadowBlur = s.isBright ? 9 : 4;
+        ctx.fill();
+
+        // 4-Point Diamond Flare for Massive Twinkle
+        if (s.isBright && alpha > 0.6) {
+          const flareLen = s.radius * (2.8 + pulse * 1.5);
+          ctx.strokeStyle = `rgba(${s.color.r}, ${s.color.g}, ${s.color.b}, ${alpha * 0.75})`;
+          ctx.lineWidth = 0.75;
+          ctx.beginPath();
+          ctx.moveTo(s.x - flareLen, s.y);
+          ctx.lineTo(s.x + flareLen, s.y);
+          ctx.moveTo(s.x, s.y - flareLen);
+          ctx.lineTo(s.x, s.y + flareLen);
+          ctx.stroke();
+        }
+      }
+      ctx.shadowBlur = 0;
+
+      // 2. Draw Shooting Stars / Meteors
+      for (let j = shootingStars.length - 1; j >= 0; j--) {
+        const m = shootingStars[j];
+        m.x += m.dx;
+        m.y += m.dy;
+        m.life++;
+
+        const progress = m.life / m.maxLife;
+        m.opacity = progress < 0.2 ? progress / 0.2 : (1 - progress);
+
+        if (progress >= 1 || m.x > width + 100 || m.y > height + 100) {
+          shootingStars.splice(j, 1);
+          continue;
+        }
+
+        const tailX = m.x - (m.dx / Math.hypot(m.dx, m.dy)) * m.length;
+        const tailY = m.y - (m.dy / Math.hypot(m.dx, m.dy)) * m.length;
+
+        const grad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
+        grad.addColorStop(0, 'rgba(96, 165, 250, 0)');
+        grad.addColorStop(0.7, `rgba(168, 85, 247, ${m.opacity * 0.6})`);
+        grad.addColorStop(1, `rgba(255, 255, 255, ${m.opacity})`);
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.8;
+        ctx.lineCap = 'round';
+        ctx.beginPath();
+        ctx.moveTo(tailX, tailY);
+        ctx.lineTo(m.x, m.y);
+        ctx.stroke();
+
+        ctx.beginPath();
+        ctx.arc(m.x, m.y, 2.2, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(255, 255, 255, ${m.opacity})`;
+        ctx.shadowColor = 'rgba(96, 165, 250, 0.9)';
+        ctx.shadowBlur = 12;
+        ctx.fill();
+        ctx.shadowBlur = 0;
+      }
+
+      animationFrameId = requestAnimationFrame(drawStars);
+    }
+
+    // Cursor tracking
+    footer.addEventListener('mousemove', (e) => {
+      const rect = footer.getBoundingClientRect();
+      mouse.x = e.clientX - rect.left;
+      mouse.y = e.clientY - rect.top;
+      mouse.active = true;
+    });
+    footer.addEventListener('mouseleave', () => {
+      mouse.active = false;
+    });
+
+    // Window Resize Handler
+    window.addEventListener('resize', () => {
+      resizeCanvas();
+    });
+
+    // Scroll-Triggered Reveal Animation using IntersectionObserver
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          isFooterVisible = true;
+          footer.classList.add('hg-footer-visible');
+          if (!animationFrameId) {
+            animationFrameId = requestAnimationFrame(drawStars);
+          }
+        } else {
+          isFooterVisible = false;
+          if (animationFrameId) {
+            cancelAnimationFrame(animationFrameId);
+            animationFrameId = null;
+          }
+        }
+      });
+    }, { threshold: 0.05, rootMargin: '100px' });
+
+    observer.observe(footer);
+    resizeCanvas();
+  }
+
+  initFooterStarsAndScrollAnimation();
 });
