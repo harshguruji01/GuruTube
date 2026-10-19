@@ -207,7 +207,7 @@
     </header>
 
     <!-- Background Natural Audio (Forest Ambience with Birds & Soft Breeze) -->
-    <audio id="bg-natural-sound" src="nature.mp3" loop preload="auto"></audio>
+    <audio id="bg-natural-sound" src="nature.mp3" loop preload="auto" playsinline autoplay></audio>
 
     <!-- Main Content Flow Container -->
     <main class="relative z-20">
@@ -1755,59 +1755,195 @@
             const statusText = document.getElementById('video-status-text');
             const fullScreenBtn = document.getElementById('video-toggle-fullscreen');
 
+            let userManuallyPaused = false;
+            let audioUnlocked = false;
+
             function updateAmbientUI(isPlaying) {
                 if (!ambientIcon || !ambientText) return;
                 if (isPlaying) {
                     ambientIcon.setAttribute('icon', 'solar:soundwave-bold');
                     ambientIcon.classList.add('text-emerald-400', 'animate-pulse');
                     ambientIcon.classList.remove('text-gray-400');
-                    if (ambientBtn) ambientBtn.classList.replace('border-white/10', 'border-emerald-400/30');
+                    if (ambientBtn) {
+                        ambientBtn.classList.replace('border-white/10', 'border-emerald-400/30');
+                        ambientBtn.classList.add('bg-emerald-500/10');
+                    }
                     ambientText.textContent = 'Nature Sound (50%)';
                 } else {
-                    ambientIcon.setAttribute('icon', 'solar:volume-cross-bold');
-                    ambientIcon.classList.remove('text-emerald-400', 'animate-pulse');
-                    ambientIcon.classList.add('text-gray-400');
-                    if (ambientBtn) ambientBtn.classList.replace('border-emerald-400/30', 'border-white/10');
-                    ambientText.textContent = 'Sound Off';
+                    if (userManuallyPaused) {
+                        ambientIcon.setAttribute('icon', 'solar:volume-cross-bold');
+                        ambientIcon.classList.remove('text-emerald-400', 'animate-pulse');
+                        ambientIcon.classList.add('text-gray-400');
+                        if (ambientBtn) {
+                            ambientBtn.classList.replace('border-emerald-400/30', 'border-white/10');
+                            ambientBtn.classList.remove('bg-emerald-500/10');
+                        }
+                        ambientText.textContent = 'Sound Off';
+                    } else {
+                        // In auto-play waiting state, keep it inviting
+                        ambientIcon.setAttribute('icon', 'solar:soundwave-bold');
+                        ambientIcon.classList.add('text-emerald-400', 'animate-pulse');
+                        ambientIcon.classList.remove('text-gray-400');
+                        if (ambientBtn) {
+                            ambientBtn.classList.replace('border-white/10', 'border-emerald-400/30');
+                            ambientBtn.classList.add('bg-emerald-500/10');
+                        }
+                        ambientText.textContent = 'Nature Sound';
+                    }
                 }
+            }
+
+            // Floating prompt centered at bottom of viewport if autoplay blocked initially by browser
+            function getSoundPrompt() {
+                let el = document.getElementById('nature-sound-prompt');
+                if (!el) {
+                    el = document.createElement('div');
+                    el.id = 'nature-sound-prompt';
+                    el.className = 'fixed bottom-6 left-1/2 -translate-x-1/2 z-[99999] flex items-center gap-2.5 px-4 py-2.5 rounded-full bg-[#030509]/95 border border-emerald-400/50 shadow-[0_10px_35px_rgba(16,185,129,0.35)] backdrop-blur-2xl cursor-pointer text-xs sm:text-sm font-medium text-emerald-300 transition-all duration-300 hover:scale-105 hover:border-emerald-300 animate-bounce select-none';
+                    el.innerHTML = `
+                        <iconify-icon icon="solar:volume-loud-bold" class="text-base text-emerald-400 animate-pulse"></iconify-icon>
+                        <span>Tap anywhere to enable Nature Sound 🌿</span>
+                        <button type="button" aria-label="Close" class="ml-1 text-gray-400 hover:text-white text-sm font-bold leading-none">&times;</button>
+                    `;
+                    el.addEventListener('click', (e) => {
+                        e.stopPropagation();
+                        userManuallyPaused = false;
+                        unlockSound();
+                    });
+                    const closeBtn = el.querySelector('button');
+                    if (closeBtn) {
+                        closeBtn.addEventListener('click', (e) => {
+                            e.stopPropagation();
+                            hideSoundPrompt();
+                        });
+                    }
+                    document.body.appendChild(el);
+                }
+                return el;
+            }
+
+            function showSoundPrompt() {
+                if (userManuallyPaused || audioUnlocked) return;
+                const prompt = getSoundPrompt();
+                if (prompt) prompt.style.display = 'flex';
+            }
+
+            function hideSoundPrompt() {
+                const el = document.getElementById('nature-sound-prompt');
+                if (el) el.style.display = 'none';
+            }
+
+            let audioCtx = null;
+            function unlockAudioContext() {
+                try {
+                    const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+                    if (AudioContextClass) {
+                        if (!audioCtx) audioCtx = new AudioContextClass();
+                        if (audioCtx.state === 'suspended') {
+                            audioCtx.resume();
+                        }
+                    }
+                } catch (e) {}
             }
 
             // Always enforce 50% sound volume, unmuted and loop enabled
             function ensureNatureSoundPlaying() {
-                if (!bgAudio) return;
+                if (!bgAudio || userManuallyPaused) return;
                 bgAudio.volume = 0.5;
-                bgAudio.muted = false;
                 bgAudio.loop = true;
-                const p = bgAudio.play();
-                if (p !== undefined) {
-                    p.then(() => {
+
+                // Attempt unmuted playback directly
+                bgAudio.muted = false;
+                const playPromise = bgAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        audioUnlocked = true;
                         updateAmbientUI(true);
+                        hideSoundPrompt();
+                        removeInteractionListeners();
                     }).catch(() => {
-                        // Will trigger on user interaction listener below
+                        // Browser autoplay policy blocked unmuted playback without prior user gesture
+                        if (!audioUnlocked) {
+                            // Start muted stream so media is primed and buffered
+                            bgAudio.muted = true;
+                            bgAudio.play().catch(() => {});
+                            updateAmbientUI(false);
+                            showSoundPrompt();
+                        }
                     });
                 }
             }
 
+            function unlockSound() {
+                if (!bgAudio || userManuallyPaused) return;
+                unlockAudioContext();
+                bgAudio.muted = false;
+                bgAudio.volume = 0.5;
+                const playPromise = bgAudio.play();
+                if (playPromise !== undefined) {
+                    playPromise.then(() => {
+                        audioUnlocked = true;
+                        updateAmbientUI(true);
+                        hideSoundPrompt();
+                        removeInteractionListeners();
+                    }).catch(() => {});
+                }
+            }
+
+            // Master interaction handler to unlock audio on first touch/click/scroll/keypress anywhere
+            const interactionEvents = ['pointerdown', 'mousedown', 'touchstart', 'touchend', 'click', 'keydown', 'wheel', 'scroll'];
+            
+            function onAnyInteraction() {
+                if (!audioUnlocked && !userManuallyPaused) {
+                    unlockSound();
+                }
+            }
+
+            function addInteractionListeners() {
+                interactionEvents.forEach(evt => {
+                    document.addEventListener(evt, onAnyInteraction, { capture: true, passive: true });
+                    window.addEventListener(evt, onAnyInteraction, { capture: true, passive: true });
+                });
+            }
+
+            function removeInteractionListeners() {
+                interactionEvents.forEach(evt => {
+                    document.removeEventListener(evt, onAnyInteraction, { capture: true });
+                    window.removeEventListener(evt, onAnyInteraction, { capture: true });
+                });
+            }
+
             if (bgAudio) {
+                // 1. Immediate playback attempt as soon as visitor loads the site
                 ensureNatureSoundPlaying();
 
-                // Start on first user interaction if browser initially blocked autoplay
-                const onFirstInteraction = () => {
-                    ensureNatureSoundPlaying();
-                    window.removeEventListener('click', onFirstInteraction);
-                    window.removeEventListener('touchstart', onFirstInteraction);
-                    window.removeEventListener('scroll', onFirstInteraction);
-                    window.removeEventListener('keydown', onFirstInteraction);
-                };
-                window.addEventListener('click', onFirstInteraction, { passive: true });
-                window.addEventListener('touchstart', onFirstInteraction, { passive: true });
-                window.addEventListener('scroll', onFirstInteraction, { passive: true });
-                window.addEventListener('keydown', onFirstInteraction, { passive: true });
+                // 2. Playback attempts on DOM readiness and complete window load
+                if (document.readyState === 'loading') {
+                    document.addEventListener('DOMContentLoaded', () => ensureNatureSoundPlaying());
+                }
+                window.addEventListener('load', () => ensureNatureSoundPlaying());
 
-                // Loop listener guarantees it never stops
+                // 3. Multi-gesture listeners ensure ANY interaction on the page immediately starts sound
+                addInteractionListeners();
+
+                // 4. Tab visibility and focus handlers
+                document.addEventListener('visibilitychange', () => {
+                    if (document.visibilityState === 'visible' && !userManuallyPaused) {
+                        ensureNatureSoundPlaying();
+                    }
+                });
+                window.addEventListener('focus', () => {
+                    if (!userManuallyPaused) {
+                        ensureNatureSoundPlaying();
+                    }
+                });
+
+                // 5. Loop listener guarantees seamless continuity
                 bgAudio.addEventListener('ended', () => {
                     bgAudio.currentTime = 0;
-                    ensureNatureSoundPlaying();
+                    if (!userManuallyPaused) {
+                        ensureNatureSoundPlaying();
+                    }
                 });
             }
 
@@ -1815,11 +1951,14 @@
             if (ambientBtn && bgAudio) {
                 ambientBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    if (bgAudio.paused) {
-                        ensureNatureSoundPlaying();
+                    if (bgAudio.paused || bgAudio.muted) {
+                        userManuallyPaused = false;
+                        unlockSound();
                     } else {
+                        userManuallyPaused = true;
                         bgAudio.pause();
                         updateAmbientUI(false);
+                        hideSoundPrompt();
                     }
                 });
             }
