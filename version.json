@@ -1,9 +1,9 @@
 {
-  "versionCode": 23,
+  "versionCode": 24,
   "versionName": "1.0.1",
-  "commitSha": "4cb2253",
-  "releaseNotes": "• feat(web): make audit comparison responsive, add ambient nature sound, and enable unmuted video autoplay\n• Auto-built from GitHub commit 4cb2253",
+  "commitSha": "a49d078",
+  "releaseNotes": "• Add sitemap.xml, robots.txt, and HarshGuruJi premium ecosystem footer with updated links\n• Auto-built from GitHub commit a49d078",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342783,
-  "sha256": "4b83b744e48b0470b428441640796f9468ea9debfe4727529e5a8e6766174e9d"
+  "apkSize": 8342794,
+  "sha256": "b4dbabf8b9c4aa218d36bbabf7011710f31439699e0c6564ad461a8a12119bfb"
 }
