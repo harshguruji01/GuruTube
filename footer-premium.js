@@ -12,10 +12,12 @@ document.addEventListener('DOMContentLoaded', () => {
     <footer class="hg-global-footer">
       <div class="hg-footer-grid">
         <div class="hg-footer-brand">
-          <a href="${MAIN_SITE}/index.html" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; margin-bottom: 1.5rem;">
-            <img src="webguruji-logo.png" alt="HarshGuruJi Logo" style="height: 36px; width: auto; max-width: 44px; border-radius: 8px; object-fit: contain;" />
-            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.5rem; background:linear-gradient(135deg,#3b82f6,#8b5cf6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi</span>
-          </a>
+          <div class="hg-footer-brand-title">
+            <div class="hg-brand-avatar-wrap">
+              <img src="harshlogo.png" alt="HarshGuruJi Logo" class="hg-brand-logo" />
+            </div>
+            <span class="hg-brand-name-text">HarshGuruJi</span>
+          </div>
           <p>HarshGuruJi is a premium digital platform for learning, AI, tools, knowledge, games, and useful online resources. Learn • Create • Explore • Build.</p>
           
           <div class="hg-footer-search">
@@ -38,57 +40,82 @@ document.addEventListener('DOMContentLoaded', () => {
 
         <nav class="hg-footer-navs" aria-label="Footer Navigation">
           <div class="hg-footer-col">
-            <h5>Platform</h5>
+            <h5>
+              <span class="hg-col-badge-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 014 10 15.3 15.3 0 01-4 10 15.3 15.3 0 01-4-10 15.3 15.3 0 014-10z"/></svg>
+              </span>
+              <span>Platform</span>
+            </h5>
             <ul>
-              <li><a href="${MAIN_SITE}/index.html" target="_blank" rel="noopener noreferrer">HarshGuruJi Home</a></li>
-              <li><a href="${MAIN_SITE}/ai-hub.html" target="_blank" rel="noopener noreferrer">AI Hub</a></li>
-              <li><a href="${MAIN_SITE}/daily-special.html" target="_blank" rel="noopener noreferrer">Daily Special</a></li>
-              <li><a href="${MAIN_SITE}/dashboard.html" target="_blank" rel="noopener noreferrer">Dashboard</a></li>
-              <li><a href="${MAIN_SITE}/explore.html" target="_blank" rel="noopener noreferrer">Explore</a></li>
+              <li><a href="${MAIN_SITE}/index.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>HarshGuruJi Home</span></a></li>
+              <li><a href="${MAIN_SITE}/ai-hub.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>AI Hub</span><span class="hg-pill-badge hg-pill-purple">AI</span></a></li>
+              <li><a href="${MAIN_SITE}/daily-special.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Daily Special</span></a></li>
+              <li><a href="${MAIN_SITE}/dashboard.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Dashboard</span></a></li>
+              <li><a href="${MAIN_SITE}/explore.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Explore</span></a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>Tools</h5>
+            <h5>
+              <span class="hg-col-badge-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.7 6.3a1 1 0 000 1.4l1.6 1.6a1 1 0 001.4 0l3.77-3.77a6 6 0 01-7.94 7.94l-6.91 6.91a2.12 2.12 0 01-3-3l6.91-6.91a6 6 0 017.94-7.94l-3.76 3.76z"/></svg>
+              </span>
+              <span>Tools</span>
+            </h5>
             <ul>
-              <li><a href="${MAIN_SITE}/free-tools.html" target="_blank" rel="noopener noreferrer">All Tools</a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Text" target="_blank" rel="noopener noreferrer">Text Tools</a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Calculator" target="_blank" rel="noopener noreferrer">Calculators</a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Converter" target="_blank" rel="noopener noreferrer">Converters</a></li>
-              <li><a href="${MAIN_SITE}/explore.html?search=Developer" target="_blank" rel="noopener noreferrer">Dev Tools</a></li>
+              <li><a href="${MAIN_SITE}/free-tools.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>All Tools</span><span class="hg-pill-badge hg-pill-blue">50+</span></a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Text" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Text Tools</span></a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Calculator" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Calculators</span></a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Converter" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Converters</span></a></li>
+              <li><a href="${MAIN_SITE}/explore.html?search=Developer" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Dev Tools</span></a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>Learning</h5>
+            <h5>
+              <span class="hg-col-badge-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 19.5A2.5 2.5 0 016.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/></svg>
+              </span>
+              <span>Learning</span>
+            </h5>
             <ul>
-              <li><a href="${MAIN_SITE}/learning-hub.html" target="_blank" rel="noopener noreferrer">Learning Hub</a></li>
-              <li><a href="https://books.webguruji.online" target="_blank" rel="noopener noreferrer">NCERT Books Library</a></li>
-              <li><a href="${MAIN_SITE}/education.html" target="_blank" rel="noopener noreferrer">Education</a></li>
-              <li><a href="${MAIN_SITE}/learning/class-10-science.html" target="_blank" rel="noopener noreferrer">Class 10</a></li>
-              <li><a href="${MAIN_SITE}/learning/class.html?class=9" target="_blank" rel="noopener noreferrer">Class 9</a></li>
-              <li><a href="${MAIN_SITE}/learning/gk-quiz.html" target="_blank" rel="noopener noreferrer">Quizzes</a></li>
+              <li><a href="${MAIN_SITE}/learning-hub.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Learning Hub</span></a></li>
+              <li><a href="https://books.webguruji.online" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>NCERT Books Library</span></a></li>
+              <li><a href="${MAIN_SITE}/education.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Education</span></a></li>
+              <li><a href="${MAIN_SITE}/learning/class-10-science.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Class 10</span></a></li>
+              <li><a href="${MAIN_SITE}/learning/class.html?class=9" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Class 9</span></a></li>
+              <li><a href="${MAIN_SITE}/learning/gk-quiz.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Quizzes</span></a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>Games & Apps</h5>
+            <h5>
+              <span class="hg-col-badge-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="6" width="20" height="12" rx="2"/><path d="M6 12h4M8 10v4M15 11h.01M18 13h.01"/></svg>
+              </span>
+              <span>Games & Apps</span>
+            </h5>
             <ul>
-              <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer">HarshGuruJi Store</a></li>
-              <li><a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer">Chat HarshGuruJi</a></li>
-              <li><a href="https://tube.webguruji.online/" class="text-blue-400 font-semibold">GuruTube (This App)</a></li>
-              <li><a href="https://github.com/harshguruji01/GuruTube" target="_blank" rel="noopener noreferrer">GuruTube GitHub</a></li>
-              <li><a href="${MAIN_SITE}/gaming-hub.html" target="_blank" rel="noopener noreferrer">Gaming Hub</a></li>
-              <li><a href="${MAIN_SITE}/Quiz India/index.html" target="_blank" rel="noopener noreferrer">Quiz India</a></li>
+              <li><a href="https://store.webguruji.online" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>HarshGuruJi Store</span><span class="hg-pill-badge hg-pill-emerald">Store</span></a></li>
+              <li><a href="https://chat.webguruji.online" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Chat HarshGuruJi</span><span class="hg-pill-badge hg-pill-amber">GPT</span></a></li>
+              <li><a href="https://tube.webguruji.online/" class="hg-link-highlight"><span class="hg-nav-bullet"></span><span>GuruTube</span><span class="hg-pill-badge hg-pill-cyan">This App</span></a></li>
+              <li><a href="https://github.com/harshguruji01/GuruTube" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>GuruTube GitHub</span></a></li>
+              <li><a href="${MAIN_SITE}/gaming-hub.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Gaming Hub</span></a></li>
+              <li><a href="${MAIN_SITE}/Quiz India/index.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Quiz India</span></a></li>
             </ul>
           </div>
           <div class="hg-footer-col">
-            <h5>Company & Legal</h5>
+            <h5>
+              <span class="hg-col-badge-icon">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+              </span>
+              <span>Legal & Info</span>
+            </h5>
             <ul>
-              <li><a href="${MAIN_SITE}/about.html" target="_blank" rel="noopener noreferrer">About Us</a></li>
-              <li><a href="${MAIN_SITE}/contact.html" target="_blank" rel="noopener noreferrer">Contact Us</a></li>
-              <li><a href="${MAIN_SITE}/contributor.html" target="_blank" rel="noopener noreferrer">Contributors</a></li>
-              <li><a href="${MAIN_SITE}/privacy-policy.html" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
-              <li><a href="${MAIN_SITE}/terms-and-conditions.html" target="_blank" rel="noopener noreferrer">Terms</a></li>
-              <li><a href="https://github.com/harshguruji01/GuruTube/blob/main/LICENSE" target="_blank" rel="noopener noreferrer">GNU GPL-3.0 License</a></li>
-              <li><a href="${MAIN_SITE}/cookie.html" target="_blank" rel="noopener noreferrer">Cookies</a></li>
+              <li><a href="${MAIN_SITE}/about.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>About Us</span></a></li>
+              <li><a href="${MAIN_SITE}/contact.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Contact Us</span></a></li>
+              <li><a href="${MAIN_SITE}/contributor.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Contributors</span></a></li>
+              <li><a href="${MAIN_SITE}/privacy-policy.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Privacy Policy</span></a></li>
+              <li><a href="${MAIN_SITE}/terms-and-conditions.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Terms</span></a></li>
+              <li><a href="https://github.com/harshguruji01/GuruTube/blob/main/LICENSE" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>GNU GPL-3.0 License</span></a></li>
+              <li><a href="${MAIN_SITE}/cookie.html" target="_blank" rel="noopener noreferrer"><span class="hg-nav-bullet"></span><span>Cookies</span></a></li>
             </ul>
           </div>
         </nav>
