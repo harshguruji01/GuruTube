@@ -33,7 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
         <div class="hg-footer-brand">
           <a href="${MAIN_SITE}/index.html" target="_blank" rel="noopener noreferrer" style="display:flex; align-items:center; gap:0.75rem; text-decoration:none; margin-bottom: 1.5rem;">
             <img src="webguruji-logo.png" alt="HarshGuruJi Logo" style="height: 36px; width: auto; max-width: 44px; border-radius: 8px; object-fit: contain;" />
-            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.5rem; background:linear-gradient(135deg,#3b82f6,#8b5cf6); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi</span>
+            <span style="font-family:'Space Grotesk',sans-serif; font-weight:800; font-size:1.5rem; background:linear-gradient(135deg,#f87171,#f43f5e); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text;">HarshGuruJi</span>
           </a>
           <p>HarshGuruJi is a premium digital platform for learning, AI, tools, knowledge, games, and useful online resources. Learn • Create • Explore • Build.</p>
           
@@ -195,10 +195,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
       const colors = [
         { r: 255, g: 255, b: 255 }, // Diamond White
-        { r: 147, g: 197, b: 253 }, // Soft Celestial Blue (#93c5fd)
-        { r: 103, g: 232, b: 249 }, // Neon Cyan (#67e8f9)
-        { r: 192, g: 132, b: 252 }, // Cosmic Purple (#c084fc)
-        { r: 254, g: 240, b: 138 }  // Radiant Warm Starlight (#fef08a)
+        { r: 254, g: 202, b: 202 }, // Soft Crimson Mist (#fecaca)
+        { r: 248, g: 113, b: 113 }, // Vivid Red Starlight (#f87171)
+        { r: 251, g: 113, b: 133 }, // Cosmic Rose (#fb7185)
+        { r: 254, g: 240, b: 138 }  // Radiant Warm Gold (#fef08a)
       ];
 
       for (let i = 0; i < starCount; i++) {
@@ -313,8 +313,8 @@ document.addEventListener('DOMContentLoaded', () => {
         const tailY = m.y - (m.dy / Math.hypot(m.dx, m.dy)) * m.length;
 
         const grad = ctx.createLinearGradient(tailX, tailY, m.x, m.y);
-        grad.addColorStop(0, 'rgba(96, 165, 250, 0)');
-        grad.addColorStop(0.7, `rgba(168, 85, 247, ${m.opacity * 0.6})`);
+        grad.addColorStop(0, 'rgba(239, 68, 68, 0)');
+        grad.addColorStop(0.7, `rgba(244, 63, 94, ${m.opacity * 0.6})`);
         grad.addColorStop(1, `rgba(255, 255, 255, ${m.opacity})`);
 
         ctx.strokeStyle = grad;
@@ -328,7 +328,7 @@ document.addEventListener('DOMContentLoaded', () => {
         ctx.beginPath();
         ctx.arc(m.x, m.y, 2.2, 0, Math.PI * 2);
         ctx.fillStyle = `rgba(255, 255, 255, ${m.opacity})`;
-        ctx.shadowColor = 'rgba(96, 165, 250, 0.9)';
+        ctx.shadowColor = 'rgba(239, 68, 68, 0.9)';
         ctx.shadowBlur = 12;
         ctx.fill();
         ctx.shadowBlur = 0;
