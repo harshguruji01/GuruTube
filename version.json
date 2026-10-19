@@ -1,9 +1,9 @@
 {
-  "versionCode": 25,
+  "versionCode": 26,
   "versionName": "1.0.1",
-  "commitSha": "d5494cf",
-  "releaseNotes": "• feat: keep nature sound always on at 50% volume unmuted and expand sitemap to match full webguruji ecosystem\n• Auto-built from GitHub commit d5494cf",
+  "commitSha": "8f3a4de",
+  "releaseNotes": "• Fix: Auto-play nature sound on visit with full-screen gesture unlock and UI state sync\n• Auto-built from GitHub commit 8f3a4de",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342783,
-  "sha256": "1630028f15f0d94d68ad03691f64a0a3e98e235b7e9270c39d5d7428e09a4d2e"
+  "apkSize": 8342781,
+  "sha256": "766a9c26d4591aa81b6fe442644f29a45d134f3fe5f8c7966d3b472d7ffe13fc"
 }
