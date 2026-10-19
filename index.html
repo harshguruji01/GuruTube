@@ -1755,15 +1755,6 @@
             const statusText = document.getElementById('video-status-text');
             const fullScreenBtn = document.getElementById('video-toggle-fullscreen');
 
-            let bgAudioManualPaused = false;
-            let userHasInteracted = false;
-            let isVideoInView = false;
-
-            // Set natural ambient sound initial volume (soothing, gentle background)
-            if (bgAudio) {
-                bgAudio.volume = 0.25;
-            }
-
             function updateAmbientUI(isPlaying) {
                 if (!ambientIcon || !ambientText) return;
                 if (isPlaying) {
@@ -1771,7 +1762,7 @@
                     ambientIcon.classList.add('text-emerald-400', 'animate-pulse');
                     ambientIcon.classList.remove('text-gray-400');
                     if (ambientBtn) ambientBtn.classList.replace('border-white/10', 'border-emerald-400/30');
-                    ambientText.textContent = 'Nature Sound';
+                    ambientText.textContent = 'Nature Sound (50%)';
                 } else {
                     ambientIcon.setAttribute('icon', 'solar:volume-cross-bold');
                     ambientIcon.classList.remove('text-emerald-400', 'animate-pulse');
@@ -1781,42 +1772,52 @@
                 }
             }
 
-            function playNaturalSound() {
-                if (!bgAudio || bgAudioManualPaused || isVideoInView) return;
-                bgAudio.play().then(() => {
-                    updateAmbientUI(true);
-                }).catch(() => {
-                    // Handled on first user interaction
+            // Always enforce 50% sound volume, unmuted and loop enabled
+            function ensureNatureSoundPlaying() {
+                if (!bgAudio) return;
+                bgAudio.volume = 0.5;
+                bgAudio.muted = false;
+                bgAudio.loop = true;
+                const p = bgAudio.play();
+                if (p !== undefined) {
+                    p.then(() => {
+                        updateAmbientUI(true);
+                    }).catch(() => {
+                        // Will trigger on user interaction listener below
+                    });
+                }
+            }
+
+            if (bgAudio) {
+                ensureNatureSoundPlaying();
+
+                // Start on first user interaction if browser initially blocked autoplay
+                const onFirstInteraction = () => {
+                    ensureNatureSoundPlaying();
+                    window.removeEventListener('click', onFirstInteraction);
+                    window.removeEventListener('touchstart', onFirstInteraction);
+                    window.removeEventListener('scroll', onFirstInteraction);
+                    window.removeEventListener('keydown', onFirstInteraction);
+                };
+                window.addEventListener('click', onFirstInteraction, { passive: true });
+                window.addEventListener('touchstart', onFirstInteraction, { passive: true });
+                window.addEventListener('scroll', onFirstInteraction, { passive: true });
+                window.addEventListener('keydown', onFirstInteraction, { passive: true });
+
+                // Loop listener guarantees it never stops
+                bgAudio.addEventListener('ended', () => {
+                    bgAudio.currentTime = 0;
+                    ensureNatureSoundPlaying();
                 });
             }
 
-            // Start natural ambient sound on first user gesture (scroll, click, touch, key)
-            function onFirstUserGesture() {
-                if (userHasInteracted) return;
-                userHasInteracted = true;
-                if (!isVideoInView && !bgAudioManualPaused) {
-                    playNaturalSound();
-                }
-                window.removeEventListener('scroll', onFirstUserGesture);
-                window.removeEventListener('click', onFirstUserGesture);
-                window.removeEventListener('touchstart', onFirstUserGesture);
-                window.removeEventListener('keydown', onFirstUserGesture);
-            }
-            window.addEventListener('scroll', onFirstUserGesture, { passive: true });
-            window.addEventListener('click', onFirstUserGesture, { passive: true });
-            window.addEventListener('touchstart', onFirstUserGesture, { passive: true });
-            window.addEventListener('keydown', onFirstUserGesture, { passive: true });
-
-            // Ambient sound manual toggle button
+            // Ambient sound button listener (keeps 50% sound volume on toggle)
             if (ambientBtn && bgAudio) {
                 ambientBtn.addEventListener('click', (e) => {
                     e.stopPropagation();
-                    userHasInteracted = true;
                     if (bgAudio.paused) {
-                        bgAudioManualPaused = false;
-                        bgAudio.play().then(() => updateAmbientUI(true)).catch(()=>{});
+                        ensureNatureSoundPlaying();
                     } else {
-                        bgAudioManualPaused = true;
                         bgAudio.pause();
                         updateAmbientUI(false);
                     }
@@ -1834,16 +1835,12 @@
             const observer = new IntersectionObserver((entries) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
-                        isVideoInView = true;
-
-                        // Temporarily pause background natural sound so video audio plays clearly
-                        if (bgAudio && !bgAudio.paused) {
-                            bgAudio.pause();
-                        }
-
-                        // Play video with 50% volume and unmuted
+                        // Play video with 50% volume while nature sound remains ON at 50% volume simultaneously
                         video.muted = false;
                         video.volume = 0.5;
+
+                        // Guarantee nature sound continues playing at 50%
+                        ensureNatureSoundPlaying();
 
                         video.play().then(() => {
                             if (playIcon) playIcon.setAttribute('icon', 'solar:pause-bold');
@@ -1852,7 +1849,6 @@
                         }).catch(err => {
                             // If browser blocks unmuted autoplay without prior direct user interaction,
                             // start playing and immediately unmute on the next user interaction:
-                            console.log('Unmuted autoplay deferred, attempting fallback:', err);
                             video.muted = true;
                             video.play().then(() => {
                                 if (playIcon) playIcon.setAttribute('icon', 'solar:pause-bold');
@@ -1862,6 +1858,7 @@
                             const unmuteOnInteraction = () => {
                                 video.muted = false;
                                 video.volume = 0.5;
+                                ensureNatureSoundPlaying();
                                 if (muteIcon) muteIcon.setAttribute('icon', 'solar:volume-loud-bold');
                                 if (statusText) statusText.textContent = '● Playing with audio (50%)';
                                 window.removeEventListener('click', unmuteOnInteraction);
@@ -1873,16 +1870,13 @@
                             window.addEventListener('scroll', unmuteOnInteraction, { once: true });
                         });
                     } else {
-                        isVideoInView = false;
                         // User scrolled away -> pause video to save battery and performance
                         video.pause();
                         if (playIcon) playIcon.setAttribute('icon', 'solar:play-bold');
                         if (statusText) statusText.textContent = '○ Paused (Out of view)';
 
-                        // Resume background natural sound smoothly if it was active
-                        if (bgAudio && !bgAudioManualPaused && userHasInteracted) {
-                            bgAudio.play().then(() => updateAmbientUI(true)).catch(()=>{});
-                        }
+                        // Guarantee nature sound remains playing at 50%
+                        ensureNatureSoundPlaying();
                     }
                 });
             }, {
@@ -1903,6 +1897,7 @@
                         if (playIcon) playIcon.setAttribute('icon', 'solar:play-bold');
                         if (statusText) statusText.textContent = '○ Paused';
                     }
+                    ensureNatureSoundPlaying();
                 });
             }
 
@@ -1920,6 +1915,7 @@
                         muteIcon.classList.replace('text-gray-400', 'text-emerald-400');
                         if (statusText) statusText.textContent = '● Sound 50%';
                     }
+                    ensureNatureSoundPlaying();
                 });
             }
 
