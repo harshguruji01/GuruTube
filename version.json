@@ -1,9 +1,9 @@
 {
-  "versionCode": 32,
+  "versionCode": 33,
   "versionName": "1.0.1",
-  "commitSha": "8053045",
-  "releaseNotes": "• feat(footer): update footer to red cosmic star theme for tube subdomain\n• Auto-built from GitHub commit 8053045",
+  "commitSha": "19fc439",
+  "releaseNotes": "• feat(seo): implement Google Images SEO, WebP previews, schema, and sitemaps\n• Auto-built from GitHub commit 19fc439",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342793,
-  "sha256": "ac907f8fb0de9cccb4ffe50f40e756caa7403b8fd2dacb2eafa52510155ee040"
+  "apkSize": 8342785,
+  "sha256": "923d556da50e8fd4fbfba314ef1cd1be44589c8cf33c722dde774cb59c87bfad"
 }
