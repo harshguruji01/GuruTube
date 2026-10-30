@@ -1,9 +1,9 @@
 {
-  "versionCode": 33,
+  "versionCode": 34,
   "versionName": "1.0.1",
-  "commitSha": "19fc439",
-  "releaseNotes": "• feat(seo): implement Google Images SEO, WebP previews, schema, and sitemaps\n• Auto-built from GitHub commit 19fc439",
+  "commitSha": "14a5013",
+  "releaseNotes": "• feat: update UI to interactive Doodle Crew sketchbook footer across all pages\n• Auto-built from GitHub commit 14a5013",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342785,
-  "sha256": "923d556da50e8fd4fbfba314ef1cd1be44589c8cf33c722dde774cb59c87bfad"
+  "apkSize": 8342789,
+  "sha256": "1b5c0999fe9a1994686dc8d5bf4e97d95c5e65eeacf195cca32d9939a9792af9"
 }
