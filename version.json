@@ -1,9 +1,9 @@
 {
-  "versionCode": 34,
+  "versionCode": 35,
   "versionName": "1.0.1",
-  "commitSha": "14a5013",
-  "releaseNotes": "• feat: update UI to interactive Doodle Crew sketchbook footer across all pages\n• Auto-built from GitHub commit 14a5013",
+  "commitSha": "915dc20",
+  "releaseNotes": "• feat: add universal loading-lines animation and contact components\n• Auto-built from GitHub commit 915dc20",
   "downloadUrl": "https://raw.githubusercontent.com/harshguruji01/GuruTube/main/GuruTube.apk",
-  "apkSize": 8342789,
-  "sha256": "1b5c0999fe9a1994686dc8d5bf4e97d95c5e65eeacf195cca32d9939a9792af9"
+  "apkSize": 8342790,
+  "sha256": "7a954e63e70a007dc51db85ba81a5471ad62194490a23ec09b64b0b5283a43b0"
 }
